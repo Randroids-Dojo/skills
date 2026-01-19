@@ -1,4 +1,4 @@
-# randroid-skills
+# skills
 
 A collection of Claude Code skills by Randroids Dojo.
 
@@ -56,7 +56,7 @@ See [skills/randroid-loop/SKILL.md](skills/randroid-loop/SKILL.md) for full docu
 ### Option 1: Plugin Marketplace (Recommended)
 
 ```bash
-/plugin marketplace add Randroids-Dojo/randroid-skills
+/plugin marketplace add Randroids-Dojo/skills
 /plugin install randroid-loop
 ```
 
@@ -65,9 +65,9 @@ See [skills/randroid-loop/SKILL.md](skills/randroid-loop/SKILL.md) for full docu
 Add to your project so all team members get it via git:
 
 ```bash
-git clone https://github.com/Randroids-Dojo/randroid-skills.git
+git clone https://github.com/Randroids-Dojo/skills.git
 mkdir -p your-project/.claude/skills
-cp -r randroid-skills/skills/randroid-loop your-project/.claude/skills/
+cp -r skills/skills/randroid-loop your-project/.claude/skills/
 cd your-project
 git add .claude/skills
 git commit -m "Add randroid-loop skill"
@@ -78,9 +78,9 @@ git commit -m "Add randroid-loop skill"
 Install for all your projects (just for you):
 
 ```bash
-git clone https://github.com/Randroids-Dojo/randroid-skills.git
+git clone https://github.com/Randroids-Dojo/skills.git
 mkdir -p ~/.claude/skills
-cp -r randroid-skills/skills/randroid-loop ~/.claude/skills/
+cp -r skills/skills/randroid-loop ~/.claude/skills/
 ```
 
 ## Symlink Structure
