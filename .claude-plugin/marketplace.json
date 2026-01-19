@@ -3,12 +3,11 @@
   "owner": {
     "name": "Randroids Dojo"
   },
-  "metadata": {
-    "description": "A collection of Claude Code skills by Randroids Dojo.",
-    "version": "1.0.0"
-  },
-  "plugins": [],
-  "skills": [
-    "./skills/randroid-loop"
+  "plugins": [
+    {
+      "name": "randroid-loop",
+      "source": "./skills/randroid-loop",
+      "description": "Autonomous development loop with research and implementation modes. Self-sustaining agentic workflow that uses a dots system for task tracking, supports multiple git workflows, and can run infinitely or until completion."
+    }
   ]
 }
