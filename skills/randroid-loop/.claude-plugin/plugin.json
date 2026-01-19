@@ -1,0 +1,8 @@
+{
+  "name": "randroid-loop",
+  "version": "1.0.0",
+  "description": "Autonomous development loop with research and implementation modes. Self-sustaining agentic workflow that uses a dots system for task tracking, supports multiple git workflows, and can run infinitely or until completion.",
+  "author": {
+    "name": "Randroids Dojo"
+  }
+}
