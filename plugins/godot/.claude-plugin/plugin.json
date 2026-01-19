@@ -1,0 +1,5 @@
+{
+  "name": "godot",
+  "description": "Develop, test, build, and deploy Godot 4.x games. Includes GdUnit4 testing, PlayGodot automation, web/desktop exports, CI/CD pipelines, and deployment.",
+  "version": "1.2.0"
+}

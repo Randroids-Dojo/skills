@@ -1,98 +1,101 @@
 # skills
 
-A collection of Claude Code skills by Randroids Dojo.
-
-## What are Skills?
-
-Skills are folders of instructions, scripts, and resources that Claude loads dynamically to improve performance on specialized tasks. Each skill contains a `SKILL.md` file with YAML frontmatter and markdown instructions.
+A collection of Claude Code plugins by Randroids Dojo.
 
 ## Repository Structure
 
 ```
 .
 ├── .claude/
-│   ├── settings.json          # Claude Code settings
-│   └── skills -> ../skills    # Symlink to skills directory
+│   ├── settings.json
+│   └── skills -> ../.skills
+├── .codex/
+│   └── skills -> ../.skills
+├── .skills -> plugins              # Shared symlink for both Claude and Codex
 ├── .claude-plugin/
-│   ├── plugin.json            # Plugin metadata for marketplace
-│   └── marketplace.json       # Marketplace registry info
-├── skills/
-│   └── randroid-loop/         # Autonomous development loop skill
-│       ├── SKILL.md
-│       ├── hooks/
+│   └── marketplace.json            # Marketplace registry
+├── plugins/
+│   ├── randroid-loop/              # Autonomous development loop
+│   │   ├── .claude-plugin/
+│   │   │   └── plugin.json
+│   │   ├── commands/
+│   │   │   ├── randroid-loop.md
+│   │   │   └── randroid.md
+│   │   ├── hooks/
+│   │   ├── scripts/
+│   │   └── SKILL.md
+│   └── godot/                      # Godot game development
+│       ├── .claude-plugin/
+│       │   └── plugin.json
+│       ├── commands/
+│       │   └── godot.md
+│       ├── references/
 │       ├── scripts/
-│       └── state/
-├── LICENSE                    # MIT License
+│       └── SKILL.md
+├── LICENSE
 └── README.md
 ```
 
-## Available Skills
+## Available Plugins
 
 ### randroid-loop
 
 Autonomous development loop with two modes: **Researcher** and **Implementor**.
 
-- **Research mode** - Explore, investigate, and plan. Creates specs for implementation.
-- **Implement mode** - Execute on specs. Write code, tests, and documentation.
+- **Research mode** - Explore, investigate, and plan
+- **Implement mode** - Execute on specs, write code and tests
 
-Features:
-- Self-sustaining agentic workflow
-- Dots system for task tracking
-- Multiple git workflows (commit, push, PR, PR+merge)
-- Fresh or persistent context modes
-- Configurable iteration limits (N iterations, infinite, or until complete)
+Features: dots system for task tracking, multiple git workflows, configurable iterations.
 
-Usage:
 ```
-/randroid              # Interactive mode
-/randroid research     # Research mode
-/randroid implement    # Implement mode
+/randroid-loop
 ```
 
-See [skills/randroid-loop/SKILL.md](skills/randroid-loop/SKILL.md) for full documentation.
+### godot
 
-## Installing Skills
+Develop, test, build, and deploy Godot 4.x games.
 
-### Option 1: Plugin Marketplace (Recommended)
+- **GdUnit4** - Unit testing framework for GDScript
+- **PlayGodot** - Game automation (like Playwright for games)
+- **Exports** - Web/desktop builds
+- **CI/CD** - GitHub Actions workflows
+- **Deployment** - Vercel, GitHub Pages, itch.io
+
+```
+/godot
+```
+
+## Installation
+
+### From Marketplace
 
 ```bash
 /plugin marketplace add Randroids-Dojo/skills
 /plugin install randroid-loop
+/plugin install godot
 ```
 
-### Option 2: Project-Level
-
-Add to your project so all team members get it via git:
+### Project-Level
 
 ```bash
 git clone https://github.com/Randroids-Dojo/skills.git
-mkdir -p your-project/.claude/skills
-cp -r skills/skills/randroid-loop your-project/.claude/skills/
-cd your-project
-git add .claude/skills
-git commit -m "Add randroid-loop skill"
+cp -r skills/plugins/randroid-loop your-project/.claude/skills/
 ```
 
-### Option 3: Personal Installation
-
-Install for all your projects (just for you):
+### Personal Installation
 
 ```bash
 git clone https://github.com/Randroids-Dojo/skills.git
-mkdir -p ~/.claude/skills
-cp -r skills/skills/randroid-loop ~/.claude/skills/
+cp -r skills/plugins/randroid-loop ~/.claude/skills/
 ```
 
 ## Symlink Structure
 
-This repo uses symlinks so that `.claude/skills` points to the top-level `skills/` directory. This allows:
-- Clean separation of skills from Claude-specific config
-- Easy maintenance of multiple skills
-- Compatibility with both Claude Code and Codex workflows
+This repo uses a shared `.skills` directory that both `.claude/skills` and `.codex/skills` symlink to. This allows the same plugins to work with both Claude Code and Codex.
 
 ## Resources
 
-- [Claude Code Skills Documentation](https://docs.anthropic.com/en/docs/claude-code/skills)
+- [Claude Code Plugin Marketplaces](https://code.claude.com/docs/en/plugin-marketplaces)
 - [Randroids Dojo GitHub](https://github.com/Randroids-Dojo)
 
 ## License
