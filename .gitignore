@@ -1,0 +1,12 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+*.swp
+*.swo
+*~
+
+# State files (skill-specific)
+skills/*/state/*
+!skills/*/state/.gitignore
