@@ -6,7 +6,7 @@
   "plugins": [
     {
       "name": "randroid-loop",
-      "source": "./skills/randroid-loop",
+      "source": "./plugins/randroid-loop",
       "description": "Autonomous development loop with research and implementation modes. Self-sustaining agentic workflow that uses a dots system for task tracking, supports multiple git workflows, and can run infinitely or until completion."
     }
   ]
