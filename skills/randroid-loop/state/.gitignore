@@ -1,0 +1,2 @@
+# Loop state files are local and should not be committed
+*.local.md

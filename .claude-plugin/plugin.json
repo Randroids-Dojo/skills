@@ -1,0 +1,18 @@
+{
+  "name": "randroid-skills",
+  "version": "1.0.0",
+  "description": "A collection of Claude Code skills by Randroids Dojo. Includes autonomous development loops, specialized workflows, and productivity tools.",
+  "author": "Randroids Dojo",
+  "homepage": "https://github.com/Randroids-Dojo/randroid-skills",
+  "repository": "https://github.com/Randroids-Dojo/randroid-skills",
+  "license": "MIT",
+  "keywords": [
+    "claude-code",
+    "skills",
+    "automation",
+    "development-loop",
+    "agentic",
+    "workflow"
+  ],
+  "category": "development"
+}
