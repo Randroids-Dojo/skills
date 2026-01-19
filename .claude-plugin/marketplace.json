@@ -8,6 +8,11 @@
       "name": "randroid-loop",
       "source": "./plugins/randroid-loop",
       "description": "Autonomous development loop with research and implementation modes. Self-sustaining agentic workflow that uses a dots system for task tracking, supports multiple git workflows, and can run infinitely or until completion."
+    },
+    {
+      "name": "godot",
+      "source": "./plugins/godot",
+      "description": "Develop, test, build, and deploy Godot 4.x games. Includes GdUnit4 testing, PlayGodot automation, web/desktop exports, CI/CD pipelines, and deployment to Vercel/GitHub Pages/itch.io."
     }
   ]
 }
