@@ -1,28 +1,19 @@
 # skills
 
-A Claude Code plugin marketplace by Randroids Dojo.
+A Claude Code plugin marketplace by Randroids Dojo. Also works directly with Codex CLI.
 
 ## Available Plugins
 
-### randroid
-
-Autonomous development loop with two modes: **Researcher** and **Implementor**.
-
-```
-/randroid:loop
-```
-
-### godot
-
-Develop, test, build, and deploy Godot 4.x games.
-
-```
-/godot:godot
-```
+| Plugin | Command | Description |
+|--------|---------|-------------|
+| **randroid** | `/randroid:loop` | Autonomous development loop with research and implementation modes |
+| **godot** | `/godot:godot` | Develop, test, build, and deploy Godot 4.x games |
 
 ## Installation
 
-### Claude Code (Marketplace)
+### Claude Code
+
+Install from the marketplace:
 
 ```bash
 /plugin marketplace add Randroids-Dojo/skills
@@ -32,12 +23,12 @@ Develop, test, build, and deploy Godot 4.x games.
 
 ### Codex CLI
 
-Clone and run directly - skills are already symlinked:
+Clone and run - the `.codex/skills` symlink is already configured:
 
 ```bash
 git clone https://github.com/Randroids-Dojo/skills.git
 cd skills
-codex  # .codex/skills -> plugins/
+codex
 ```
 
 ## Repository Structure
@@ -45,16 +36,15 @@ codex  # .codex/skills -> plugins/
 ```
 .
 ├── .claude-plugin/
-│   └── marketplace.json     # Marketplace registry
+│   └── marketplace.json     # Claude Code marketplace manifest
 ├── .codex/
 │   └── skills -> ../plugins # Symlink for Codex CLI
 ├── plugins/
 │   ├── randroid/            # Autonomous dev loop
 │   └── godot/               # Godot game development
-├── LICENSE
 └── README.md
 ```
 
 ## License
 
-MIT License - see [LICENSE](LICENSE) for details.
+MIT
