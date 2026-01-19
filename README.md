@@ -30,21 +30,14 @@ Develop, test, build, and deploy Godot 4.x games.
 /plugin install godot
 ```
 
-### Codex CLI (Manual)
+### Codex CLI
 
-Clone and copy to your project's skills directory:
+Clone and run directly - skills are already symlinked:
 
 ```bash
 git clone https://github.com/Randroids-Dojo/skills.git
-cp -r skills/plugins/randroid your-project/skills/
-```
-
-Then symlink for both Claude and Codex:
-
-```bash
-mkdir -p .claude .codex
-ln -s ../skills .claude/skills
-ln -s ../skills .codex/skills
+cd skills
+codex  # .codex/skills -> plugins/
 ```
 
 ## Repository Structure
@@ -53,6 +46,8 @@ ln -s ../skills .codex/skills
 .
 ├── .claude-plugin/
 │   └── marketplace.json     # Marketplace registry
+├── .codex/
+│   └── skills -> ../plugins # Symlink for Codex CLI
 ├── plugins/
 │   ├── randroid/            # Autonomous dev loop
 │   └── godot/               # Godot game development
