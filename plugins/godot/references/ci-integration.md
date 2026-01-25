@@ -326,8 +326,12 @@ jobs:
         run: |
           mkdir -p godot-automation
           cd godot-automation
+          # Linux x86_64:
           curl -L -o godot.zip \
             "https://github.com/Randroids-Dojo/godot/releases/download/automation-latest/godot-automation-linux-x86_64.zip"
+          # macOS (universal - Intel + Apple Silicon):
+          # curl -L -o godot.zip \
+          #   "https://github.com/Randroids-Dojo/godot/releases/download/automation-latest/godot-automation-macos-universal.zip"
           unzip godot.zip
           chmod +x godot.linuxbsd.editor.x86_64
 

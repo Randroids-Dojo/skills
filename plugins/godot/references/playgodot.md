@@ -16,7 +16,12 @@ python -m venv .venv
 source .venv/bin/activate  # Windows: .venv\Scripts\activate
 pip install playgodot
 
-# Build custom Godot fork
+# Option 1: Download pre-built binary (recommended)
+# See releases: https://github.com/Randroids-Dojo/godot/releases/tag/automation-latest
+# - godot-automation-linux-x86_64.zip
+# - godot-automation-macos-universal.zip (Intel + Apple Silicon)
+
+# Option 2: Build custom Godot fork from source
 git clone https://github.com/Randroids-Dojo/godot.git
 cd godot && git checkout automation
 scons platform=macos arch=arm64 target=editor -j8  # macOS Apple Silicon
