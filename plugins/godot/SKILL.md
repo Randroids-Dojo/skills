@@ -1,7 +1,6 @@
 ---
 name: godot
-version: 1.2.0
-description: Develop, test, build, and deploy Godot 4.x games. Includes GdUnit4 for GDScript unit tests and PlayGodot for game automation and E2E testing. Supports web/desktop exports, CI/CD pipelines, and deployment to Vercel/GitHub Pages/itch.io.
+description: Develop, test, build, and deploy Godot 4.x games. Use when working with Godot Engine, GDScript, GdUnit4 testing, PlayGodot automation, or exporting games to web/desktop. Covers CI/CD pipelines and deployment to Vercel/GitHub Pages/itch.io.
 ---
 
 # Godot Skill
