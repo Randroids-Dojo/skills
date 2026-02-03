@@ -1,11 +1,13 @@
 ---
 name: unreal
-description: Develop, test, and automate Unreal Engine 5.x projects. Covers PlayUnreal automation, Remote Control API, Automation Driver, and CI-friendly E2E flows.
+description: Develop, test, and automate Unreal Engine 5.x projects (WIP). Covers PlayUnreal automation, Remote Control API, Automation Driver, and CI-friendly E2E flows.
 ---
 
 # Unreal Skill
 
 Automate Unreal Engine 5.x with PlayUnreal style external control.
+
+Status: WIP. PlayUnreal repo: https://github.com/Randroids-Dojo/PlayUnreal
 
 ## Quick Reference
 
@@ -62,3 +64,4 @@ async with Unreal.launch(
 - `references/remote-control.md`
 - `references/automation-driver.md`
 - `references/umg-automation.md`
+- `references/playunreal.md`

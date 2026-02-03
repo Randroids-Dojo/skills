@@ -22,7 +22,7 @@
     {
       "name": "unreal",
       "source": "./plugins/unreal",
-      "description": "Develop, test, and automate Unreal Engine 5.x projects. Covers PlayUnreal automation, Remote Control API, Automation Driver, and CI-friendly E2E workflows."
+      "description": "Develop, test, and automate Unreal Engine 5.x projects (WIP). Covers PlayUnreal automation, Remote Control API, Automation Driver, and CI-friendly E2E workflows. PlayUnreal: https://github.com/Randroids-Dojo/PlayUnreal"
     }
   ]
 }
