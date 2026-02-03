@@ -9,7 +9,7 @@ A dual-format skills repository for **Claude Code**, **Codex CLI**, and **OpenCo
 | **loop** | Autonomous development loop with research and implementation modes |
 | **task-tracking-dots** | Task management with Dots using the dot CLI for tracking work items |
 | **godot** | Develop, test, build, and deploy Godot 4.x games |
-| **unreal** | Develop, test, and automate Unreal Engine 5.x projects |
+| **unreal** | Develop, test, and automate Unreal Engine 5.x projects (WIP). PlayUnreal: https://github.com/Randroids-Dojo/PlayUnreal |
 
 ## Installation
 
