@@ -18,6 +18,11 @@
       "name": "godot",
       "source": "./plugins/godot",
       "description": "Develop, test, build, and deploy Godot 4.x games. Includes GdUnit4 testing, PlayGodot automation, web/desktop exports, CI/CD pipelines, and deployment to Vercel/GitHub Pages/itch.io."
+    },
+    {
+      "name": "unreal",
+      "source": "./plugins/unreal",
+      "description": "Develop, test, and automate Unreal Engine 5.x projects. Covers PlayUnreal automation, Remote Control API, Automation Driver, and CI-friendly E2E workflows."
     }
   ]
 }
