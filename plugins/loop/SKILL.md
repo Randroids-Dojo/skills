@@ -1,13 +1,9 @@
 ---
 name: loop
-description: Autonomous development loop with research and implementation modes. Supports research mode (explore, investigate, plan) and implement mode (write code, tests, docs). Uses a dots-based task system with git workflow automation.
-triggers:
-  - /loop
-  - /randroid
-  - /randroid-loop
-hooks:
-  - event: Stop
-    script: hooks/stop-hook.sh
+description: Runs an autonomous development loop with research and implementation modes. Use when orchestrating iterative research and implementation cycles with dots-based task tracking and git workflow automation.
+metadata:
+  claude_triggers: "/loop, /randroid, /randroid-loop"
+  claude_hooks: "Stop: hooks/stop-hook.sh"
 ---
 
 # Loop
