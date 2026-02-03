@@ -1,7 +1,8 @@
 ---
-name: randroid
+name: loop
 description: Autonomous development loop with research and implementation modes. Supports research mode (explore, investigate, plan) and implement mode (write code, tests, docs). Uses a dots-based task system with git workflow automation.
 triggers:
+  - /loop
   - /randroid
   - /randroid-loop
 hooks:
