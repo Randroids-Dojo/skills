@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Randroid Loop - External wrapper for Codex
+# Loop - External wrapper for Codex
 #
 # Usage:
 #   ./randroid-loop.sh                                  # Interactive prompts
@@ -51,7 +51,7 @@ GIT_WORKFLOW="${3:-}"
 if [[ -z "$MODE" ]]; then
     echo ""
     echo "========================================"
-    echo "  Randroid Loop"
+    echo "  Loop"
     echo "========================================"
     echo ""
     echo "Which mode would you like to run?"
@@ -232,7 +232,7 @@ show_summary() {
 # Header
 echo ""
 echo "========================================"
-echo "  Randroid Loop: $MODE_DISPLAY Mode"
+echo "  Loop: $MODE_DISPLAY Mode"
 echo "========================================"
 if [[ $ITERATIONS -eq -1 ]]; then
     echo "Iterations: INFINITE (Ctrl+C to stop)"

@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Randroid Loop - Setup Script for Claude Code
+# Loop - Setup Script for Claude Code
 #
 # Initializes the loop state file for the stop hook to use.
 #
@@ -134,7 +134,7 @@ $DIRECTIONS
 EOF
 fi
 
-echo "Randroid loop initialized:"
+echo "Loop initialized:"
 echo "  Mode: $MODE"
 if [[ $ITERATIONS -eq -1 ]]; then
     echo "  Iterations: INFINITE (Ctrl+C to stop)"
