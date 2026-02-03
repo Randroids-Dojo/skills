@@ -9,6 +9,7 @@ A dual-format skills repository for **Claude Code**, **Codex CLI**, and **OpenCo
 | **loop** | Autonomous development loop with research and implementation modes |
 | **task-tracking-dots** | Task management with Dots using the dot CLI for tracking work items |
 | **godot** | Develop, test, build, and deploy Godot 4.x games |
+| **unreal** | Develop, test, and automate Unreal Engine 5.x projects |
 
 ## Installation
 
@@ -34,6 +35,12 @@ To install the Godot skill:
 npx skills add https://github.com/Randroids-Dojo/skills --skill godot
 ```
 
+To install the Unreal skill:
+
+```bash
+npx skills add https://github.com/Randroids-Dojo/skills --skill unreal
+```
+
 ### Manual installs
 
 #### Codex CLI
@@ -44,6 +51,7 @@ Install individual skills using the built-in skill installer:
 $skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/loop
 $skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/task-tracking-dots
 $skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/godot
+$skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/unreal
 ```
 
 Or clone for all skills at once:
@@ -58,6 +66,7 @@ Then symlink individual skills you want:
 ln -s ~/.codex/skills/randroids-dojo/plugins/loop ~/.codex/skills/loop
 ln -s ~/.codex/skills/randroids-dojo/plugins/task-tracking-dots ~/.codex/skills/task-tracking-dots
 ln -s ~/.codex/skills/randroids-dojo/plugins/godot ~/.codex/skills/godot
+ln -s ~/.codex/skills/randroids-dojo/plugins/unreal ~/.codex/skills/unreal
 ```
 
 #### Claude Code
@@ -69,6 +78,7 @@ Install from the marketplace:
 /plugin install loop
 /plugin install task-tracking-dots
 /plugin install godot
+/plugin install unreal
 ```
 
 ### Install locations (Skills CLI)
@@ -119,9 +129,13 @@ $godot              # Invoke godot skill
 │   ├── task-tracking-dots/
 │   │   ├── SKILL.md         # Skill definition (Codex + Claude)
 │   │   └── commands/        # Claude Code slash commands
-│   └── godot/
+│   ├── godot/
+│   │   ├── SKILL.md         # Skill definition (Codex + Claude)
+│   │   ├── commands/        # Claude Code slash commands
+│   │   ├── scripts/         # Helper scripts
+│   │   └── references/      # Documentation
+│   └── unreal/
 │       ├── SKILL.md         # Skill definition (Codex + Claude)
-│       ├── commands/        # Claude Code slash commands
 │       ├── scripts/         # Helper scripts
 │       └── references/      # Documentation
 └── README.md
