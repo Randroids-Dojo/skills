@@ -101,6 +101,7 @@ Skills are triggered automatically based on context, or explicitly:
 $loop               # Invoke loop skill
 $task-tracking-dots # Task management with Dots
 $godot              # Invoke godot skill
+$unreal             # Invoke unreal skill
 ```
 
 ### Claude Code
@@ -109,6 +110,7 @@ $godot              # Invoke godot skill
 /loop               # Interactive mode selection
 /task-tracking-dots # Task management with Dots
 /godot:godot        # Godot development assistance
+/unreal:unreal      # Unreal development assistance
 ```
 
 ## Repository Structure
@@ -136,6 +138,7 @@ $godot              # Invoke godot skill
 │   │   └── references/      # Documentation
 │   └── unreal/
 │       ├── SKILL.md         # Skill definition (Codex + Claude)
+│       ├── commands/        # Claude Code slash commands
 │       ├── scripts/         # Helper scripts
 │       └── references/      # Documentation
 └── README.md
