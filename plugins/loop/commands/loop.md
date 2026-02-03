@@ -1,4 +1,4 @@
-# Randroid Loop
+# Loop
 
 A self-sustaining development loop with two modes: **Researcher** and **Implementor**.
 

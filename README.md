@@ -6,17 +6,35 @@ A dual-format skills repository for **Claude Code** and **Codex CLI** by Randroi
 
 | Skill | Description |
 |-------|-------------|
-| **randroid** | Autonomous development loop with research and implementation modes |
+| **loop** | Autonomous development loop with research and implementation modes |
 | **godot** | Develop, test, build, and deploy Godot 4.x games |
 
 ## Installation
 
-### Codex CLI
+### Recommended (all agents)
+
+Install the loop skill via the Skills CLI:
+
+```bash
+npx skills add https://github.com/Randroids-Dojo/skills --skill loop
+```
+
+Works with Codex CLI, Claude Code, OpenCode, Gemini CLI, and other Agent Skills-compatible tools.
+
+To install the Godot skill:
+
+```bash
+npx skills add https://github.com/Randroids-Dojo/skills --skill godot
+```
+
+### Manual installs
+
+#### Codex CLI
 
 Install individual skills using the built-in skill installer:
 
 ```
-$skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/randroid
+$skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/loop
 $skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/godot
 ```
 
@@ -29,17 +47,17 @@ git clone https://github.com/Randroids-Dojo/skills.git ~/.codex/skills/randroids
 Then symlink individual skills you want:
 
 ```bash
-ln -s ~/.codex/skills/randroids-dojo/plugins/randroid ~/.codex/skills/randroid
+ln -s ~/.codex/skills/randroids-dojo/plugins/loop ~/.codex/skills/loop
 ln -s ~/.codex/skills/randroids-dojo/plugins/godot ~/.codex/skills/godot
 ```
 
-### Claude Code
+#### Claude Code
 
 Install from the marketplace:
 
 ```bash
 /plugin marketplace add Randroids-Dojo/skills
-/plugin install randroid
+/plugin install loop
 /plugin install godot
 ```
 
@@ -50,15 +68,14 @@ Install from the marketplace:
 Skills are triggered automatically based on context, or explicitly:
 
 ```
-$randroid-loop    # Invoke randroid skill
+$loop             # Invoke loop skill
 $godot            # Invoke godot skill
 ```
 
 ### Claude Code
 
 ```
-/randroid         # Interactive mode selection
-/randroid:loop    # Direct loop invocation
+/loop             # Interactive mode selection
 /godot:godot      # Godot development assistance
 ```
 
@@ -72,7 +89,7 @@ $godot            # Invoke godot skill
 ├── .codex/
 │   └── skills -> ../plugins # Symlink for local Codex development
 ├── plugins/
-│   ├── randroid/
+│   ├── loop/
 │   │   ├── SKILL.md         # Skill definition (Codex + Claude)
 │   │   ├── commands/        # Claude Code slash commands
 │   │   ├── scripts/         # Automation scripts

@@ -23,18 +23,18 @@ You may be running in a continuous loop with fresh context each iteration. Only 
 - Modified files and git history
 - `.dots/` task state
 - Your artifacts (research docs, implementation code, etc.)
-- Loop state in `skills/randroid-loop/state/loop.local.md`
+- Loop state in `state/loop.local.md` (relative to the skill root; use `$CLAUDE_PLUGIN_ROOT/state/loop.local.md` in Claude Code)
 
 Start by checking `dot ready` and `dot tree` to see the current state.
 
 Check loop state for git workflow configuration:
 ```bash
-cat skills/randroid-loop/state/loop.local.md  # Check git_workflow and mode settings
+cat state/loop.local.md  # Check git_workflow and mode settings (from skill root)
 ```
 
 ## Git Workflow
 
-Check the `git_workflow` setting in `skills/randroid-loop/state/loop.local.md`.
+Check the `git_workflow` setting in `state/loop.local.md`.
 
 **IMPORTANT:** Only stage files YOU modified this iteration. Ignore unrelated changes.
 ```bash

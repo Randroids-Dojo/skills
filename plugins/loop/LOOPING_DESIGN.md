@@ -1,4 +1,4 @@
-# Randroid Loop: Continuous Iteration Design
+# Loop: Continuous Iteration Design
 
 ## Problem
 
@@ -20,7 +20,7 @@ The current skill runs once and outputs `<promise>RANDROID_LOOP_COMPLETE</promis
 Based on the [Ralph Wiggum plugin](https://github.com/anthropics/claude-code/tree/main/plugins/ralph-wiggum).
 
 **How it works:**
-1. User runs `/randroid research --loop` (or `--iterations N`)
+1. User runs `/loop research --loop` (or `--iterations N`)
 2. Skill sets up state file with iteration count, completion promise
 3. Stop hook intercepts session exit
 4. If completion promise not found AND iterations remain, feed same prompt back
@@ -29,7 +29,7 @@ Based on the [Ralph Wiggum plugin](https://github.com/anthropics/claude-code/tre
 **Implementation:**
 
 ```
-skills/randroid-loop/
+loop/
 ├── hooks/
 │   └── stop-hook.sh          # Intercepts exit, manages loop
 ├── scripts/
@@ -105,7 +105,7 @@ Codex doesn't have hooks, so we use an **external wrapper script**.
 **Implementation:**
 
 ```
-skills/randroid-loop/
+loop/
 ├── scripts/
 │   └── randroid-loop.sh      # External loop wrapper for Codex
 └── ...
@@ -120,15 +120,18 @@ MODE="${1:-research}"
 MAX_ITERATIONS="${2:-0}"  # 0 = unlimited
 COMPLETION_PROMISE="RANDROID_LOOP_COMPLETE"
 
-MODE_FILE="skills/randroid-loop/${MODE}-loop.md"
-SHARED_FILE="skills/randroid-loop/loop-shared.md"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SKILL_DIR="$(dirname "$SCRIPT_DIR")"
+
+MODE_FILE="${SKILL_DIR}/${MODE}-loop.md"
+SHARED_FILE="${SKILL_DIR}/loop-shared.md"
 OUTPUT_FILE="/tmp/randroid-output-$$.txt"
 
 iteration=0
 
 while true; do
     iteration=$((iteration + 1))
-    echo "=== Randroid $MODE iteration $iteration ==="
+    echo "=== Loop $MODE iteration $iteration ==="
 
     # Build prompt (mode-specific + shared)
     PROMPT="$(cat "$MODE_FILE")
@@ -162,10 +165,10 @@ rm -f "$OUTPUT_FILE"
 **Usage:**
 ```bash
 # Unlimited iterations until completion
-./skills/randroid-loop/scripts/randroid-loop.sh research
+./scripts/randroid-loop.sh research
 
 # Limited to 10 iterations
-./skills/randroid-loop/scripts/randroid-loop.sh implement 10
+./scripts/randroid-loop.sh implement 10
 ```
 
 ---
@@ -198,20 +201,20 @@ Both approaches achieve **fresh context on every loop**:
 
 ```bash
 # Interactive mode selection (current behavior)
-/randroid
+/loop
 
 # Single iteration (current behavior)
-/randroid research
+/loop research
 
 # Loop mode
-/randroid research --loop                 # Loop until complete
-/randroid implement --iterations 20       # Max 20 iterations
+/loop research --loop                 # Loop until complete
+/loop implement --iterations 20       # Max 20 iterations
 
 # Git workflow options
-/randroid implement --commit-only         # Local commits only
-/randroid implement --open-pr             # Open PR, wait for CI
-/randroid implement --pr-and-merge        # Open PR, wait for CI, merge
-/randroid implement --git-workflow pr     # Explicit workflow
+/loop implement --commit-only         # Local commits only
+/loop implement --open-pr             # Open PR, wait for CI
+/loop implement --pr-and-merge        # Open PR, wait for CI, merge
+/loop implement --git-workflow pr     # Explicit workflow
 ```
 
 ### Codex
@@ -226,8 +229,8 @@ Both approaches achieve **fresh context on every loop**:
 ./scripts/randroid-loop.sh
 
 # Or with make/npm scripts
-make randroid-research
-make randroid-implement ITERATIONS=20
+make loop-research
+make loop-implement ITERATIONS=20
 ```
 
 ---

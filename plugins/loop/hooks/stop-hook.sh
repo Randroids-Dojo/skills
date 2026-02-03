@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Randroid Loop - Stop Hook for Claude Code
+# Loop - Stop Hook for Claude Code
 #
 # This hook intercepts session exit and feeds the prompt back
 # to create a self-sustaining loop with fresh context each iteration.
@@ -10,7 +10,7 @@
 #    0 = Until complete (stop when completion promise found)
 #   >0 = Exact count (ignore completion promise, run exactly N times)
 #
-# State is tracked in: skills/randroid-loop/state/loop.local.md
+# State is tracked in: state/loop.local.md
 #
 
 set -e
@@ -156,7 +156,7 @@ EOF
 
 echo ""
 echo "========================================"
-echo "  RANDROID LOOP - Iteration $NEW_ITERATION"
+echo "  LOOP - Iteration $NEW_ITERATION"
 echo "========================================"
 echo "Mode: $MODE"
 if [[ $ITERATIONS -eq -1 ]]; then

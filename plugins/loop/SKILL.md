@@ -10,7 +10,7 @@ hooks:
     script: hooks/stop-hook.sh
 ---
 
-# Randroid Loop
+# Loop
 
 A self-sustaining development loop with two modes: **Researcher** and **Implementor**.
 
@@ -152,21 +152,23 @@ Run the loop directly in the current conversation. The stop hook will intercept 
 
 ### Interactive (Recommended)
 ```
-/randroid
+/loop
 ```
 Prompts for mode, iterations, and optional directions.
 
+Aliases: `/randroid`, `/randroid-loop`
+
 ### Direct (Skip Questions)
-- `/randroid research` - Research mode, prompts for iterations
-- `/randroid implement` - Implement mode, prompts for iterations
-- `/randroid research --loop` - Research mode, infinite (ignores completion)
-- `/randroid research --until-complete` - Research mode, stops on completion
-- `/randroid implement --iterations 5` - Implement mode, exactly 5 iterations
-- `/randroid implement --open-pr` - Open PR workflow
-- `/randroid implement --pr-and-merge` - PR with auto-merge workflow
-- `/randroid implement --commit-only` - Local commits only
-- `/randroid implement --keep-context` - Keep conversation context (no fresh start)
-- `/randroid implement --iterations 5 --open-pr` - Combine options
+- `/loop research` - Research mode, prompts for iterations
+- `/loop implement` - Implement mode, prompts for iterations
+- `/loop research --loop` - Research mode, infinite (ignores completion)
+- `/loop research --until-complete` - Research mode, stops on completion
+- `/loop implement --iterations 5` - Implement mode, exactly 5 iterations
+- `/loop implement --open-pr` - Open PR workflow
+- `/loop implement --pr-and-merge` - PR with auto-merge workflow
+- `/loop implement --commit-only` - Local commits only
+- `/loop implement --keep-context` - Keep conversation context (no fresh start)
+- `/loop implement --iterations 5 --open-pr` - Combine options
 
 ### With Directions
 You can provide guidance for the agent. When prompted for directions:
@@ -185,16 +187,16 @@ Directions can include:
 ### Codex (External Script)
 ```bash
 # From terminal (outside Codex)
-./skills/randroid-loop/scripts/randroid-loop.sh
+./scripts/randroid-loop.sh
 # Interactive prompts for mode, iterations, and git workflow
 # Note: Wrapper always uses fresh context (each iteration is a new codex exec)
 
 # Direct invocation:
-./skills/randroid-loop/scripts/randroid-loop.sh research -1           # infinite
-./skills/randroid-loop/scripts/randroid-loop.sh research 0            # until complete
-./skills/randroid-loop/scripts/randroid-loop.sh implement 5           # exactly 5 iterations
-./skills/randroid-loop/scripts/randroid-loop.sh implement 5 pr        # 5 iterations, open PR
-./skills/randroid-loop/scripts/randroid-loop.sh implement 0 pr-merge  # until complete, PR + merge
+./scripts/randroid-loop.sh research -1           # infinite
+./scripts/randroid-loop.sh research 0            # until complete
+./scripts/randroid-loop.sh implement 5           # exactly 5 iterations
+./scripts/randroid-loop.sh implement 5 pr        # 5 iterations, open PR
+./scripts/randroid-loop.sh implement 0 pr-merge  # until complete, PR + merge
 ```
 
 ## Modes
@@ -246,7 +248,7 @@ The loop also stops when `--iterations N` limit is reached.
 ## Architecture
 
 ```
-skills/randroid-loop/
+loop/
 ├── SKILL.md              # This file
 ├── research-loop.md      # Research mode prompt
 ├── implement-loop.md     # Implementor mode prompt
