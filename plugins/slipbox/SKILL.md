@@ -18,9 +18,12 @@ echo "SLIPBOX_URL: ${SLIPBOX_URL:-(MISSING)}"
 echo "SLIPBOX_PRIVATEBOX_REPO: ${SLIPBOX_PRIVATEBOX_REPO:-(MISSING)}"
 ```
 
-If any show `(MISSING)`, stop and tell the user. They need to add the missing vars to `~/.zshrc` (or `~/.zprofile`) and re-source their shell.
+If any show `(MISSING)`:
 
-Do not proceed until all three are set.
+- **STOP IMMEDIATELY. Do not attempt any further action.**
+- Do not guess values, use defaults, search for shell config files, or attempt fallbacks of any kind.
+- Tell the user exactly which variables are missing and that they must set them in `~/.zshrc` (or `~/.zprofile`) and re-source their shell before trying again.
+- End your response there and wait for the user to fix the issue.
 
 Once env vars are confirmed, verify the service is reachable:
 
