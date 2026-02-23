@@ -17,8 +17,11 @@ If you edit `~/.claude/skills/slipbox/SKILL.md` instead of `plugins/slipbox/SKIL
 ## Workflow for Skill Changes
 
 1. Edit files under `plugins/<skill>/`
-2. Commit and push to `main`
-3. Reinstall on each machine: `npx skills add https://github.com/Randroids-Dojo/skills --skill <name>`
+2. Bump the version in `.claude-plugin/plugin.json` — **required** for `npx skills update` to detect the change
+3. Commit and push to `main`
+4. Update on each machine: `npx skills update`
+
+> If you skip step 2, `npx skills update` will report "All skills are up to date" even though changes were pushed.
 
 ## Repository Structure
 
@@ -49,4 +52,5 @@ Each skill has:
    ```
 2. Optionally add `commands/<skill-name>.md` for a slash command entry point
 3. Update `README.md` skills table
-4. Commit and push
+4. Bump version in `.claude-plugin/plugin.json`
+5. Commit and push
