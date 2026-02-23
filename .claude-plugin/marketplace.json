@@ -23,6 +23,11 @@
       "name": "unreal",
       "source": "./plugins/unreal",
       "description": "Develop, test, and automate Unreal Engine 5.x projects (WIP). Covers PlayUnreal automation, Remote Control API, Automation Driver, and CI-friendly E2E workflows. PlayUnreal: https://github.com/Randroids-Dojo/PlayUnreal"
+    },
+    {
+      "name": "slipbox",
+      "source": "./plugins/slipbox",
+      "description": "Interact with the SlipBox semantic knowledge engine and read notes from PrivateBox. Capture atomic ideas, browse the knowledge graph, and run semantic analysis passes (link, cluster, tension). Service: /Users/randroid/Documents/Dev/SlipBox. Notes: https://github.com/Randroids-Dojo/PrivateBox"
     }
   ]
 }

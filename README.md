@@ -10,6 +10,7 @@ A dual-format skills repository for **Claude Code**, **Codex CLI**, and **OpenCo
 | **task-tracking-dots** | Task management with Dots using the dot CLI for tracking work items |
 | **godot** | Develop, test, build, and deploy Godot 4.x games |
 | **unreal** | Develop, test, and automate Unreal Engine 5.x projects (WIP). PlayUnreal: https://github.com/Randroids-Dojo/PlayUnreal |
+| **slipbox** | Interact with the SlipBox semantic knowledge engine and read notes from PrivateBox |
 
 ## Installation
 
@@ -41,6 +42,12 @@ To install the Unreal skill:
 npx skills add https://github.com/Randroids-Dojo/skills --skill unreal
 ```
 
+To install the SlipBox skill:
+
+```bash
+npx skills add https://github.com/Randroids-Dojo/skills --skill slipbox
+```
+
 ### Manual installs
 
 #### Codex CLI
@@ -52,6 +59,7 @@ $skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/loop
 $skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/task-tracking-dots
 $skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/godot
 $skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/unreal
+$skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/slipbox
 ```
 
 Or clone for all skills at once:
@@ -67,6 +75,7 @@ ln -s ~/.codex/skills/randroids-dojo/plugins/loop ~/.codex/skills/loop
 ln -s ~/.codex/skills/randroids-dojo/plugins/task-tracking-dots ~/.codex/skills/task-tracking-dots
 ln -s ~/.codex/skills/randroids-dojo/plugins/godot ~/.codex/skills/godot
 ln -s ~/.codex/skills/randroids-dojo/plugins/unreal ~/.codex/skills/unreal
+ln -s ~/.codex/skills/randroids-dojo/plugins/slipbox ~/.codex/skills/slipbox
 ```
 
 #### Claude Code
@@ -79,6 +88,7 @@ Install from the marketplace:
 /plugin install task-tracking-dots
 /plugin install godot
 /plugin install unreal
+/plugin install slipbox
 ```
 
 ### Install locations (Skills CLI)
@@ -102,6 +112,7 @@ $loop               # Invoke loop skill
 $task-tracking-dots # Task management with Dots
 $godot              # Invoke godot skill
 $unreal             # Invoke unreal skill
+$slipbox            # Invoke slipbox skill
 ```
 
 ### Claude Code
@@ -111,6 +122,7 @@ $unreal             # Invoke unreal skill
 /task-tracking-dots # Task management with Dots
 /godot:godot        # Godot development assistance
 /unreal:unreal      # Unreal development assistance
+/slipbox:slipbox    # SlipBox knowledge engine
 ```
 
 ## Repository Structure
@@ -136,11 +148,14 @@ $unreal             # Invoke unreal skill
 │   │   ├── commands/        # Claude Code slash commands
 │   │   ├── scripts/         # Helper scripts
 │   │   └── references/      # Documentation
-│   └── unreal/
+│   ├── unreal/
+│   │   ├── SKILL.md         # Skill definition (Codex + Claude)
+│   │   ├── commands/        # Claude Code slash commands
+│   │   ├── scripts/         # Helper scripts
+│   │   └── references/      # Documentation
+│   └── slipbox/
 │       ├── SKILL.md         # Skill definition (Codex + Claude)
-│       ├── commands/        # Claude Code slash commands
-│       ├── scripts/         # Helper scripts
-│       └── references/      # Documentation
+│       └── commands/        # Claude Code slash commands
 └── README.md
 ```
 
