@@ -18,9 +18,9 @@ If you edit `~/.claude/skills/slipbox/SKILL.md` instead of `plugins/slipbox/SKIL
 
 1. Edit files under `plugins/<skill>/`
 2. Commit and push to `main`
-3. Reinstall on each machine:
+3. Reinstall on each machine (always use `-g` for global install):
    ```bash
-   npx skills add https://github.com/Randroids-Dojo/skills --skill <name>
+   npx skills add randroids-dojo/skills --skill <name> -y -g
    ```
 
 > **Do not rely on `npx skills update`** — the installed skills have an empty `skillFolderHash` in `~/.agents/.skill-lock.json`, so the CLI cannot detect changes and will always report "All skills are up to date". Always use `npx skills add` to pull the latest.
