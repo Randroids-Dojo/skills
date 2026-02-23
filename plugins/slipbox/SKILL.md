@@ -23,11 +23,36 @@ PRIVATEBOX_OWNER=Randroids-Dojo       # GitHub owner
 PRIVATEBOX_REPO=PrivateBox            # Repository name
 ```
 
-Confirm the service is running before making API calls:
+## Setup Check
+
+**Always run this check at the start of any SlipBox session.** Before making any API calls, verify the environment is configured:
+
+```bash
+# Check required env vars
+echo "SLIPBOX_API_KEY: ${SLIPBOX_API_KEY:-(MISSING)}"
+echo "GITHUB_TOKEN:    ${GITHUB_TOKEN:-(MISSING)}"
+echo "OPENAI_API_KEY:  ${OPENAI_API_KEY:-(MISSING)}"
+```
+
+If any variable shows `(MISSING)`, **stop and tell the user** which variables are unset and how to fix it:
+
+- Add them to `~/.zshrc` (or `~/.zprofile`) and re-source, or
+- Add them to `.env.local` in the SlipBox project directory
+
+Do not attempt any API calls until `SLIPBOX_API_KEY` is set.
+
+Once env vars are confirmed, check the service is reachable:
 
 ```bash
 curl -s http://localhost:3000/api/health
 # {"status":"ok"}
+```
+
+If the health check fails, remind the user to start the service:
+
+```bash
+cd <slipbox-project-dir>
+npm run dev
 ```
 
 ---

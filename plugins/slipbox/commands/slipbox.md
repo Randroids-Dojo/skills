@@ -6,6 +6,18 @@ Interact with the SlipBox semantic knowledge engine and read notes from PrivateB
 **Notes repo**: https://github.com/Randroids-Dojo/PrivateBox
 **Auth**: `Authorization: Bearer $SLIPBOX_API_KEY`
 
+## Setup Check
+
+Before any API calls, verify env vars are set:
+
+```bash
+echo "SLIPBOX_API_KEY: ${SLIPBOX_API_KEY:-(MISSING)}"
+echo "GITHUB_TOKEN:    ${GITHUB_TOKEN:-(MISSING)}"
+echo "OPENAI_API_KEY:  ${OPENAI_API_KEY:-(MISSING)}"
+```
+
+If any show `(MISSING)`, stop and tell the user. Add missing vars to `~/.zshrc` or `.env.local` in the SlipBox project. Do not proceed until `SLIPBOX_API_KEY` is set.
+
 ## Quick Reference
 
 ```bash
