@@ -13,7 +13,7 @@ compatibility: Requires SLIPBOX_API_KEY, SLIPBOX_URL, and SLIPBOX_PRIVATEBOX_REP
 Run this command immediately upon skill invocation:
 
 ```bash
-echo "SLIPBOX_API_KEY: ${SLIPBOX_API_KEY:-(MISSING)}"
+echo "SLIPBOX_API_KEY: ${SLIPBOX_API_KEY:+${SLIPBOX_API_KEY:0:6}…(set)}" | sed 's/^SLIPBOX_API_KEY: $/SLIPBOX_API_KEY: (MISSING)/'
 echo "SLIPBOX_URL: ${SLIPBOX_URL:-(MISSING)}"
 echo "SLIPBOX_PRIVATEBOX_REPO: ${SLIPBOX_PRIVATEBOX_REPO:-(MISSING)}"
 ```
