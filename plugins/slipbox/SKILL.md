@@ -1,7 +1,7 @@
 ---
 name: slipbox
 description: "Interact with the SlipBox semantic knowledge engine and read notes from PrivateBox. Use when capturing ideas, searching notes, browsing your knowledge graph, or running semantic analysis passes (link, cluster, tension)."
-compatibility: Requires SLIPBOX_API_KEY env var. Reading PrivateBox notes requires GITHUB_TOKEN or the gh CLI.
+compatibility: Requires SLIPBOX_API_KEY, SLIPBOX_URL, and SLIPBOX_PRIVATEBOX_REPO env vars. Reading PrivateBox notes requires GITHUB_TOKEN or the gh CLI.
 ---
 
 # SlipBox Skill
@@ -14,25 +14,22 @@ Run this command immediately upon skill invocation:
 
 ```bash
 echo "SLIPBOX_API_KEY: ${SLIPBOX_API_KEY:-(MISSING)}"
+echo "SLIPBOX_URL: ${SLIPBOX_URL:-(MISSING)}"
+echo "SLIPBOX_PRIVATEBOX_REPO: ${SLIPBOX_PRIVATEBOX_REPO:-(MISSING)}"
 ```
 
-If it shows `(MISSING)`, stop and tell the user. They need to add it to `~/.zshrc` (or `~/.zprofile`) and re-source their shell.
+If any show `(MISSING)`, stop and tell the user. They need to add the missing vars to `~/.zshrc` (or `~/.zprofile`) and re-source their shell.
 
-Do not proceed until `SLIPBOX_API_KEY` is set.
+Do not proceed until all three are set.
 
 Once env vars are confirmed, verify the service is reachable:
 
 ```bash
-curl -s http://localhost:3000/api/health
+curl -s "$SLIPBOX_URL/api/health"
 # {"status":"ok"}
 ```
 
-If the health check fails, the service is not running:
-
-```bash
-cd <slipbox-project-dir>
-npm run dev
-```
+If the health check fails, the service may be unavailable. Check `$SLIPBOX_URL`.
 
 ---
 
@@ -40,15 +37,17 @@ npm run dev
 
 Interact with the SlipBox semantic knowledge engine and browse your PrivateBox notes.
 
-**SlipBox service**: local Next.js project (or deployed Vercel URL)
-**PrivateBox repo**: https://github.com/Randroids-Dojo/PrivateBox
+**SlipBox service**: `$SLIPBOX_URL`
+**PrivateBox repo**: `$SLIPBOX_PRIVATEBOX_REPO`
 
 ## Configuration
 
-Required environment variable (set in shell):
+Required environment variables (set in shell):
 
 ```env
-SLIPBOX_API_KEY=<shared-secret>   # Bearer token for API auth
+SLIPBOX_API_KEY=<shared-secret>          # Bearer token for API auth
+SLIPBOX_URL=https://slip-box-rho.vercel.app  # SlipBox service base URL
+SLIPBOX_PRIVATEBOX_REPO=Randroids-Dojo/PrivateBox   # GitHub repo for notes (owner/repo)
 ```
 
 All other configuration (OpenAI, GitHub, PrivateBox) lives on the deployed Vercel service.
@@ -61,26 +60,26 @@ All API calls require: `Authorization: Bearer $SLIPBOX_API_KEY`
 
 ```bash
 # Health check
-curl -s http://localhost:3000/api/health
+curl -s "$SLIPBOX_URL/api/health"
 
 # Add a note
-curl -s -X POST http://localhost:3000/api/add-note \
+curl -s -X POST "$SLIPBOX_URL/api/add-note" \
   -H "Authorization: Bearer $SLIPBOX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{"content": "Atomic idea goes here."}'
 
 # Re-link all notes (recompute similarity links)
-curl -s -X POST http://localhost:3000/api/link-pass \
+curl -s -X POST "$SLIPBOX_URL/api/link-pass" \
   -H "Authorization: Bearer $SLIPBOX_API_KEY"
 
 # Cluster notes into thematic groups
-curl -s -X POST http://localhost:3000/api/cluster-pass \
+curl -s -X POST "$SLIPBOX_URL/api/cluster-pass" \
   -H "Authorization: Bearer $SLIPBOX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{"k": 5}'
 
 # Detect conceptual tensions (contradictions within clusters)
-curl -s -X POST http://localhost:3000/api/tension-pass \
+curl -s -X POST "$SLIPBOX_URL/api/tension-pass" \
   -H "Authorization: Bearer $SLIPBOX_API_KEY"
 ```
 
@@ -93,7 +92,7 @@ curl -s -X POST http://localhost:3000/api/tension-pass \
 Capture an atomic idea. SlipBox embeds it, links it to similar notes, and commits it to PrivateBox.
 
 ```bash
-curl -s -X POST http://localhost:3000/api/add-note \
+curl -s -X POST "$SLIPBOX_URL/api/add-note" \
   -H "Authorization: Bearer $SLIPBOX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -117,7 +116,7 @@ Response:
 Recompute semantic similarity links across all notes. Run after adding many notes in bulk.
 
 ```bash
-curl -s -X POST http://localhost:3000/api/link-pass \
+curl -s -X POST "$SLIPBOX_URL/api/link-pass" \
   -H "Authorization: Bearer $SLIPBOX_API_KEY"
 ```
 
@@ -131,7 +130,7 @@ Response:
 Run k-means clustering on note embeddings. Omit `k` to auto-select cluster count.
 
 ```bash
-curl -s -X POST http://localhost:3000/api/cluster-pass \
+curl -s -X POST "$SLIPBOX_URL/api/cluster-pass" \
   -H "Authorization: Bearer $SLIPBOX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{"k": 5}'
@@ -152,7 +151,7 @@ Response:
 Detect conceptual tensions — notes with contradictory content that cluster near each other.
 
 ```bash
-curl -s -X POST http://localhost:3000/api/tension-pass \
+curl -s -X POST "$SLIPBOX_URL/api/tension-pass" \
   -H "Authorization: Bearer $SLIPBOX_API_KEY"
 ```
 
@@ -207,23 +206,23 @@ Use the `gh` CLI to read notes without needing direct GitHub API calls.
 
 ```bash
 # List all notes
-gh api repos/Randroids-Dojo/PrivateBox/contents/notes \
+gh api "repos/$SLIPBOX_PRIVATEBOX_REPO/contents/notes" \
   --jq '.[].name'
 
 # Read a specific note by ID
-gh api repos/Randroids-Dojo/PrivateBox/contents/notes/20260222T153045-a1b2c3d4.md \
+gh api "repos/$SLIPBOX_PRIVATEBOX_REPO/contents/notes/20260222T153045-a1b2c3d4.md" \
   --jq '.content' | base64 -d
 
 # Read the backlinks index
-gh api repos/Randroids-Dojo/PrivateBox/contents/index/backlinks.json \
+gh api "repos/$SLIPBOX_PRIVATEBOX_REPO/contents/index/backlinks.json" \
   --jq '.content' | base64 -d | jq '.'
 
 # Read the clusters index
-gh api repos/Randroids-Dojo/PrivateBox/contents/index/clusters.json \
+gh api "repos/$SLIPBOX_PRIVATEBOX_REPO/contents/index/clusters.json" \
   --jq '.content' | base64 -d | jq '.'
 
 # Read the tensions index
-gh api repos/Randroids-Dojo/PrivateBox/contents/index/tensions.json \
+gh api "repos/$SLIPBOX_PRIVATEBOX_REPO/contents/index/tensions.json" \
   --jq '.content' | base64 -d | jq '.'
 ```
 
@@ -231,18 +230,18 @@ gh api repos/Randroids-Dojo/PrivateBox/contents/index/tensions.json \
 
 ```bash
 # Search PrivateBox notes for a keyword (uses GitHub code search)
-gh api "search/code?q=<keyword>+repo:Randroids-Dojo/PrivateBox+path:notes" \
+gh api "search/code?q=<keyword>+repo:$SLIPBOX_PRIVATEBOX_REPO+path:notes" \
   --jq '.items[].path'
 
 # Or clone locally for fast full-text search
-gh repo clone Randroids-Dojo/PrivateBox /tmp/privatebox
+gh repo clone "$SLIPBOX_PRIVATEBOX_REPO" /tmp/privatebox
 grep -r "keyword" /tmp/privatebox/notes/ --include="*.md" -l
 ```
 
 ### Find notes by tag
 
 ```bash
-gh api "search/code?q=tags+keyword+repo:Randroids-Dojo/PrivateBox+path:notes" \
+gh api "search/code?q=tags+keyword+repo:$SLIPBOX_PRIVATEBOX_REPO+path:notes" \
   --jq '.items[].path'
 ```
 
@@ -259,7 +258,7 @@ gh api "search/code?q=tags+keyword+repo:Randroids-Dojo/PrivateBox+path:notes" \
 
 ### Browse and explore
 
-1. List notes with `gh api repos/Randroids-Dojo/PrivateBox/contents/notes`.
+1. List notes with `gh api "repos/$SLIPBOX_PRIVATEBOX_REPO/contents/notes"`.
 2. Read individual notes by ID.
 3. Follow `links` in frontmatter to explore connected ideas.
 4. Use the clusters index to browse thematic groups.
@@ -271,22 +270,14 @@ After adding a batch of notes or to refresh the graph:
 
 ```bash
 # Step 1: Recompute links
-curl -s -X POST http://localhost:3000/api/link-pass \
+curl -s -X POST "$SLIPBOX_URL/api/link-pass" \
   -H "Authorization: Bearer $SLIPBOX_API_KEY"
 
 # Step 2: Recluster
-curl -s -X POST http://localhost:3000/api/cluster-pass \
+curl -s -X POST "$SLIPBOX_URL/api/cluster-pass" \
   -H "Authorization: Bearer $SLIPBOX_API_KEY"
 
 # Step 3: Detect tensions
-curl -s -X POST http://localhost:3000/api/tension-pass \
+curl -s -X POST "$SLIPBOX_URL/api/tension-pass" \
   -H "Authorization: Bearer $SLIPBOX_API_KEY"
-```
-
-### Start the local service
-
-```bash
-cd <slipbox-project-dir>
-npm run dev
-# Service available at http://localhost:3000
 ```
