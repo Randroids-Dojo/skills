@@ -32,7 +32,20 @@ curl -s "$SLIPBOX_URL/api/health"
 # {"status":"ok"}
 ```
 
-If the health check fails, the service may be unavailable. Check `$SLIPBOX_URL`.
+If the health check fails or returns anything other than `{"status":"ok"}`:
+
+- **STOP IMMEDIATELY. Do not attempt any further action.**
+- Report the response to the user and tell them the service is unavailable.
+- End your response there and wait for the user.
+
+## API Error Handling
+
+If any API call returns an error response (any JSON with an `"error"` field, or a non-2xx HTTP status):
+
+- **STOP IMMEDIATELY. Do not attempt any further action.**
+- Do not try to write notes directly to PrivateBox or any other fallback.
+- Do not retry with different parameters or modified requests.
+- Report the exact error response to the user and wait for them to resolve it.
 
 ---
 
