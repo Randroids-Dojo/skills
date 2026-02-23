@@ -84,6 +84,12 @@ curl -sL -X POST "$SLIPBOX_URL/api/add-note" \
   -H "Content-Type: application/json" \
   -d '{"content": "Atomic idea goes here."}'
 
+# Add a typed note (type: "meta" or "hypothesis")
+curl -sL -X POST "$SLIPBOX_URL/api/add-note" \
+  -H "Authorization: Bearer $SLIPBOX_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"content": "## Cluster: ...", "type": "meta"}'
+
 # Re-link all notes (recompute similarity links)
 curl -sL -X POST "$SLIPBOX_URL/api/link-pass" \
   -H "Authorization: Bearer $SLIPBOX_API_KEY"
@@ -97,6 +103,10 @@ curl -sL -X POST "$SLIPBOX_URL/api/cluster-pass" \
 # Detect conceptual tensions (contradictions within clusters)
 curl -sL -X POST "$SLIPBOX_URL/api/tension-pass" \
   -H "Authorization: Bearer $SLIPBOX_API_KEY"
+
+# Fetch theme data (clusters + note content + tensions) for agent synthesis
+curl -sL "$SLIPBOX_URL/api/theme-data" \
+  -H "Authorization: Bearer $SLIPBOX_API_KEY"
 ```
 
 ---
@@ -107,12 +117,24 @@ curl -sL -X POST "$SLIPBOX_URL/api/tension-pass" \
 
 Capture an atomic idea. SlipBox embeds it, links it to similar notes, and commits it to PrivateBox.
 
+Optional `type` field sets a semantic type in the note's frontmatter. Valid values: `"meta"` (AI-generated cluster summary) or `"hypothesis"` (AI-generated research hypothesis). Omit for regular atomic notes.
+
 ```bash
+# Regular note
 curl -sL -X POST "$SLIPBOX_URL/api/add-note" \
   -H "Authorization: Bearer $SLIPBOX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "content": "The Zettelkasten method treats each note as a discrete, reusable idea."
+  }'
+
+# Meta-note (cluster synthesis)
+curl -sL -X POST "$SLIPBOX_URL/api/add-note" \
+  -H "Authorization: Bearer $SLIPBOX_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "content": "## Cluster: Agentic Systems\n\nNotes in this cluster explore...",
+    "type": "meta"
   }'
 ```
 
@@ -120,12 +142,15 @@ Response:
 ```json
 {
   "noteId": "20260222T153045-a1b2c3d4",
+  "type": "meta",
   "linkedNotes": [
     {"noteId": "20260110T091200-b2c3d4e5", "similarity": 0.91},
     {"noteId": "20260115T143000-c3d4e5f6", "similarity": 0.85}
   ]
 }
 ```
+
+`type` is `null` in the response for regular notes.
 
 ### POST /api/link-pass
 
@@ -158,7 +183,7 @@ Response:
   "message": "Cluster pass complete",
   "noteCount": 42,
   "clusterCount": 5,
-  "clusters": [{"id": 0, "notes": ["20260222T153045-a1b2c3d4", ...]}, ...]
+  "clusters": [{"id": "cluster-0", "size": 9, "noteIds": ["20260222T153045-a1b2c3d4", ...]}, ...]
 }
 ```
 
@@ -178,9 +203,45 @@ Response:
   "noteCount": 42,
   "clusterCount": 5,
   "tensionCount": 8,
-  "tensions": [{"noteA": "...", "noteB": "...", "similarity": 0.68}, ...]
+  "tensions": [{"id": "tension-0", "noteA": "...", "noteB": "...", "similarity": 0.68, "clusterId": "cluster-0"}, ...]
 }
 ```
+
+### GET /api/theme-data
+
+Returns clusters with full note content and tensions for local LLM agent synthesis. No embeddings — only human-readable data. Use this to read your knowledge graph and synthesize meta-notes per cluster, then POST them back via `/api/add-note`.
+
+Requires a current clusters index (run `cluster-pass` first).
+
+```bash
+curl -sL "$SLIPBOX_URL/api/theme-data" \
+  -H "Authorization: Bearer $SLIPBOX_API_KEY"
+```
+
+Response:
+```json
+{
+  "clusters": [
+    {
+      "id": "cluster-0",
+      "noteIds": ["20260222T153045-a1b2c3d4", "20260110T091200-b2c3d4e5"],
+      "notes": {
+        "20260222T153045-a1b2c3d4": {"title": "Optional title", "body": "Atomic idea content."},
+        "20260110T091200-b2c3d4e5": {"body": "Another idea."}
+      }
+    }
+  ],
+  "tensions": [
+    {"id": "tension-0", "noteA": "20260222T153045-a1b2c3d4", "noteB": "20260110T091200-b2c3d4e5", "similarity": 0.65, "clusterId": "cluster-0"}
+  ],
+  "clusterCount": 1,
+  "noteCount": 2,
+  "tensionCount": 1,
+  "computedAt": "2026-02-23T01:33:00.000Z"
+}
+```
+
+If no clusters exist yet, returns `{ "message": "No clusters found. Run cluster-pass first.", "clusters": [], ... }`.
 
 ---
 
@@ -192,6 +253,7 @@ Notes in PrivateBox are Markdown files with YAML frontmatter:
 ---
 id: 20260222T153045-a1b2c3d4
 title: "Optional title"
+type: meta
 tags: ["tag1", "tag2"]
 source: "URL or origin"
 created: 2026-02-22T15:30:45.000Z
@@ -205,6 +267,8 @@ links:
 
 Atomic idea content in Markdown.
 ```
+
+`type` is omitted for regular notes. Valid values: `meta`, `hypothesis`.
 
 **Note ID format**: `YYYYMMDDTHHMMSS-<8hex>` (timestamp + content hash)
 
@@ -279,6 +343,27 @@ gh api "search/code?q=tags+keyword+repo:$SLIPBOX_PRIVATEBOX_REPO+path:notes" \
 3. Follow `links` in frontmatter to explore connected ideas.
 4. Use the clusters index to browse thematic groups.
 5. Use the tensions index to identify areas of conceptual conflict worth investigating.
+
+### Synthesize theme meta-notes
+
+After running a full analysis cycle, use `GET /api/theme-data` to read every cluster with its note contents, then write one atomic synthesis note per cluster and POST each back via `/api/add-note`.
+
+```bash
+# 1. Fetch theme data
+curl -sL "$SLIPBOX_URL/api/theme-data" \
+  -H "Authorization: Bearer $SLIPBOX_API_KEY"
+
+# 2. For each cluster, synthesize a meta-note and POST it back with type "meta"
+curl -sL -X POST "$SLIPBOX_URL/api/add-note" \
+  -H "Authorization: Bearer $SLIPBOX_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "content": "## Cluster: Agentic Systems\n\nNotes in this cluster explore...",
+    "type": "meta"
+  }'
+```
+
+The `type: meta` field is written to the note's frontmatter and can be used by future passes to filter AI-generated notes from atomic notes.
 
 ### Run a full analysis cycle
 
