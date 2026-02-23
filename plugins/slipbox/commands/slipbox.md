@@ -8,15 +8,13 @@ Interact with the SlipBox semantic knowledge engine and read notes from PrivateB
 
 ## Setup Check
 
-Before any API calls, verify env vars are set:
+Before any API calls, verify the auth key is set:
 
 ```bash
 echo "SLIPBOX_API_KEY: ${SLIPBOX_API_KEY:-(MISSING)}"
-echo "GITHUB_TOKEN:    ${GITHUB_TOKEN:-(MISSING)}"
-echo "OPENAI_API_KEY:  ${OPENAI_API_KEY:-(MISSING)}"
 ```
 
-If any show `(MISSING)`, stop and tell the user. Add missing vars to `~/.zshrc` or `.env.local` in the SlipBox project. Do not proceed until `SLIPBOX_API_KEY` is set.
+If it shows `(MISSING)`, stop and tell the user to add it to `~/.zshrc` and re-source. Do not proceed until it is set.
 
 ## Quick Reference
 

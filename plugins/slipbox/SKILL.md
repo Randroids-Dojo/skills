@@ -10,18 +10,13 @@ compatibility: Requires SLIPBOX_API_KEY env var. Reading PrivateBox notes requir
 
 ## Setup Check
 
-Run these commands immediately upon skill invocation:
+Run this command immediately upon skill invocation:
 
 ```bash
 echo "SLIPBOX_API_KEY: ${SLIPBOX_API_KEY:-(MISSING)}"
-echo "GITHUB_TOKEN:    ${GITHUB_TOKEN:-(MISSING)}"
-echo "OPENAI_API_KEY:  ${OPENAI_API_KEY:-(MISSING)}"
 ```
 
-If any variable shows `(MISSING)`, stop and tell the user which are unset and how to fix it:
-
-- Add to `~/.zshrc` (or `~/.zprofile`) and re-source, or
-- Add to `.env.local` in the SlipBox project directory
+If it shows `(MISSING)`, stop and tell the user. They need to add it to `~/.zshrc` (or `~/.zprofile`) and re-source their shell.
 
 Do not proceed until `SLIPBOX_API_KEY` is set.
 
@@ -50,15 +45,13 @@ Interact with the SlipBox semantic knowledge engine and browse your PrivateBox n
 
 ## Configuration
 
-Required environment variables (set in shell or `.env.local` in the SlipBox project):
+Required environment variable (set in shell):
 
 ```env
-SLIPBOX_API_KEY=<shared-secret>       # Bearer token for API auth
-OPENAI_API_KEY=<openai-key>           # Required by the service for embeddings
-GITHUB_TOKEN=<fine-grained-pat>       # Read/write PrivateBox
-PRIVATEBOX_OWNER=Randroids-Dojo       # GitHub owner
-PRIVATEBOX_REPO=PrivateBox            # Repository name
+SLIPBOX_API_KEY=<shared-secret>   # Bearer token for API auth
 ```
+
+All other configuration (OpenAI, GitHub, PrivateBox) lives on the deployed Vercel service.
 
 ---
 
