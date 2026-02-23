@@ -28,7 +28,7 @@ If any show `(MISSING)`:
 Once env vars are confirmed, verify the service is reachable:
 
 ```bash
-curl -s "$SLIPBOX_URL/api/health"
+curl -sL "$SLIPBOX_URL/api/health"
 # {"status":"ok"}
 ```
 
@@ -76,26 +76,26 @@ All API calls require: `Authorization: Bearer $SLIPBOX_API_KEY`
 
 ```bash
 # Health check
-curl -s "$SLIPBOX_URL/api/health"
+curl -sL "$SLIPBOX_URL/api/health"
 
 # Add a note
-curl -s -X POST "$SLIPBOX_URL/api/add-note" \
+curl -sL -X POST "$SLIPBOX_URL/api/add-note" \
   -H "Authorization: Bearer $SLIPBOX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{"content": "Atomic idea goes here."}'
 
 # Re-link all notes (recompute similarity links)
-curl -s -X POST "$SLIPBOX_URL/api/link-pass" \
+curl -sL -X POST "$SLIPBOX_URL/api/link-pass" \
   -H "Authorization: Bearer $SLIPBOX_API_KEY"
 
 # Cluster notes into thematic groups
-curl -s -X POST "$SLIPBOX_URL/api/cluster-pass" \
+curl -sL -X POST "$SLIPBOX_URL/api/cluster-pass" \
   -H "Authorization: Bearer $SLIPBOX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{"k": 5}'
 
 # Detect conceptual tensions (contradictions within clusters)
-curl -s -X POST "$SLIPBOX_URL/api/tension-pass" \
+curl -sL -X POST "$SLIPBOX_URL/api/tension-pass" \
   -H "Authorization: Bearer $SLIPBOX_API_KEY"
 ```
 
@@ -108,7 +108,7 @@ curl -s -X POST "$SLIPBOX_URL/api/tension-pass" \
 Capture an atomic idea. SlipBox embeds it, links it to similar notes, and commits it to PrivateBox.
 
 ```bash
-curl -s -X POST "$SLIPBOX_URL/api/add-note" \
+curl -sL -X POST "$SLIPBOX_URL/api/add-note" \
   -H "Authorization: Bearer $SLIPBOX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -132,7 +132,7 @@ Response:
 Recompute semantic similarity links across all notes. Run after adding many notes in bulk.
 
 ```bash
-curl -s -X POST "$SLIPBOX_URL/api/link-pass" \
+curl -sL -X POST "$SLIPBOX_URL/api/link-pass" \
   -H "Authorization: Bearer $SLIPBOX_API_KEY"
 ```
 
@@ -146,7 +146,7 @@ Response:
 Run k-means clustering on note embeddings. Omit `k` to auto-select cluster count.
 
 ```bash
-curl -s -X POST "$SLIPBOX_URL/api/cluster-pass" \
+curl -sL -X POST "$SLIPBOX_URL/api/cluster-pass" \
   -H "Authorization: Bearer $SLIPBOX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{"k": 5}'
@@ -167,7 +167,7 @@ Response:
 Detect conceptual tensions — notes with contradictory content that cluster near each other.
 
 ```bash
-curl -s -X POST "$SLIPBOX_URL/api/tension-pass" \
+curl -sL -X POST "$SLIPBOX_URL/api/tension-pass" \
   -H "Authorization: Bearer $SLIPBOX_API_KEY"
 ```
 
@@ -286,14 +286,14 @@ After adding a batch of notes or to refresh the graph:
 
 ```bash
 # Step 1: Recompute links
-curl -s -X POST "$SLIPBOX_URL/api/link-pass" \
+curl -sL -X POST "$SLIPBOX_URL/api/link-pass" \
   -H "Authorization: Bearer $SLIPBOX_API_KEY"
 
 # Step 2: Recluster
-curl -s -X POST "$SLIPBOX_URL/api/cluster-pass" \
+curl -sL -X POST "$SLIPBOX_URL/api/cluster-pass" \
   -H "Authorization: Bearer $SLIPBOX_API_KEY"
 
 # Step 3: Detect tensions
-curl -s -X POST "$SLIPBOX_URL/api/tension-pass" \
+curl -sL -X POST "$SLIPBOX_URL/api/tension-pass" \
   -H "Authorization: Bearer $SLIPBOX_API_KEY"
 ```
