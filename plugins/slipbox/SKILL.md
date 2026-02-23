@@ -6,6 +6,43 @@ compatibility: Requires SLIPBOX_API_KEY env var. Reading PrivateBox notes requir
 
 # SlipBox Skill
 
+> **IMPORTANT: Before doing anything else, run the setup check below. Do not skip this step.**
+
+## Setup Check
+
+Run these commands immediately upon skill invocation:
+
+```bash
+echo "SLIPBOX_API_KEY: ${SLIPBOX_API_KEY:-(MISSING)}"
+echo "GITHUB_TOKEN:    ${GITHUB_TOKEN:-(MISSING)}"
+echo "OPENAI_API_KEY:  ${OPENAI_API_KEY:-(MISSING)}"
+```
+
+If any variable shows `(MISSING)`, stop and tell the user which are unset and how to fix it:
+
+- Add to `~/.zshrc` (or `~/.zprofile`) and re-source, or
+- Add to `.env.local` in the SlipBox project directory
+
+Do not proceed until `SLIPBOX_API_KEY` is set.
+
+Once env vars are confirmed, verify the service is reachable:
+
+```bash
+curl -s http://localhost:3000/api/health
+# {"status":"ok"}
+```
+
+If the health check fails, the service is not running:
+
+```bash
+cd <slipbox-project-dir>
+npm run dev
+```
+
+---
+
+## About
+
 Interact with the SlipBox semantic knowledge engine and browse your PrivateBox notes.
 
 **SlipBox service**: local Next.js project (or deployed Vercel URL)
@@ -21,38 +58,6 @@ OPENAI_API_KEY=<openai-key>           # Required by the service for embeddings
 GITHUB_TOKEN=<fine-grained-pat>       # Read/write PrivateBox
 PRIVATEBOX_OWNER=Randroids-Dojo       # GitHub owner
 PRIVATEBOX_REPO=PrivateBox            # Repository name
-```
-
-## Setup Check
-
-**Always run this check at the start of any SlipBox session.** Before making any API calls, verify the environment is configured:
-
-```bash
-# Check required env vars
-echo "SLIPBOX_API_KEY: ${SLIPBOX_API_KEY:-(MISSING)}"
-echo "GITHUB_TOKEN:    ${GITHUB_TOKEN:-(MISSING)}"
-echo "OPENAI_API_KEY:  ${OPENAI_API_KEY:-(MISSING)}"
-```
-
-If any variable shows `(MISSING)`, **stop and tell the user** which variables are unset and how to fix it:
-
-- Add them to `~/.zshrc` (or `~/.zprofile`) and re-source, or
-- Add them to `.env.local` in the SlipBox project directory
-
-Do not attempt any API calls until `SLIPBOX_API_KEY` is set.
-
-Once env vars are confirmed, check the service is reachable:
-
-```bash
-curl -s http://localhost:3000/api/health
-# {"status":"ok"}
-```
-
-If the health check fails, remind the user to start the service:
-
-```bash
-cd <slipbox-project-dir>
-npm run dev
 ```
 
 ---
