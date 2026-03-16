@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hello, World — Flow Graph</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@700;800&display=swap');
+
+    :root {
+      --bg:        #0a0c10;
+      --surface:   #111318;
+      --border:    #1e2330;
+      --accent:    #00e5c0;
+      --accent2:   #7b61ff;
+      --accent3:   #ff6b6b;
+      --text:      #e8ecf5;
+      --muted:     #5a6180;
+      --node-root: #00e5c0;
+      --node-cat:  #7b61ff;
+      --node-leaf: #1e2a3a;
+      --link:      #1e2330;
+    }
+
+    html, body { height: 100%; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Space Mono', monospace;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Background grid */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 40px 40px;
+      opacity: 0.4;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    header {
+      position: relative;
+      z-index: 10;
+      padding: 28px 40px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: baseline;
+      gap: 20px;
+      background: linear-gradient(180deg, rgba(10,12,16,0.98) 0%, rgba(10,12,16,0.0) 100%);
+    }
+
+    header h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
+
+    header h1 span {
+      color: var(--accent);
+    }
+
+    header p {
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .hint {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      font-size: 0.65rem;
+      color: var(--muted);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: rgba(10,12,16,0.85);
+      padding: 8px 18px;
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      backdrop-filter: blur(6px);
+    }
+
+    #graph {
+      flex: 1;
+      min-height: 0;
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      cursor: grab;
+    }
+
+    #graph:active { cursor: grabbing; }
+
+    /* SVG elements */
+    .link {
+      fill: none;
+      stroke: var(--link);
+      stroke-width: 1.5px;
+    }
+
+    .node-group { cursor: pointer; }
+
+    .node-rect {
+      transition: filter 0.15s;
+    }
+    .node-group:hover .node-rect {
+      filter: brightness(1.35) !important;
+    }
+
+    .node-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      fill: var(--text);
+      pointer-events: none;
+    }
+
+    .node-label.root-label {
+      font-family: 'Syne', sans-serif;
+      font-size: 12px;
+      font-weight: 800;
+      fill: var(--bg);
+    }
+
+    .node-label.cat-label {
+      font-size: 10px;
+      font-weight: 700;
+      fill: #fff;
+    }
+
+    .node-badge {
+      font-family: 'Space Mono', monospace;
+      font-size: 8px;
+      fill: var(--accent);
+      pointer-events: none;
+    }
+
+    .tooltip {
+      position: fixed;
+      z-index: 100;
+      padding: 10px 14px;
+      background: var(--surface);
+      border: 1px solid var(--accent);
+      border-radius: 6px;
+      font-size: 0.7rem;
+      color: var(--text);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.15s;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+
+    .error {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 12px;
+      color: var(--accent3);
+      font-size: 0.85rem;
+    }
+
+    .error code {
+      font-size: 0.7rem;
+      color: var(--muted);
+      background: var(--surface);
+      padding: 4px 10px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Customer <span>Support</span></h1>
+  <p>// chat app decision tree</p>
+</header>
+
+<div id="graph"></div>
+<div class="tooltip" id="tooltip"></div>
+<div class="hint">scroll to zoom &nbsp;·&nbsp; drag to pan &nbsp;·&nbsp; click to expand / collapse</div>
+
+<script>
+  const W = () => document.getElementById('graph').clientWidth;
+  const H = () => document.getElementById('graph').clientHeight;
+
+  // ─── Tree data (edit this or replace with your own JSON) ───────────────────
+  const TREE_DATA = {
+    "id": "root", "label": "Customer Support", "type": "root",
+    "children": [
+      {
+        "id": "billing", "label": "Billing", "type": "category",
+        "children": [
+          { "id": "charge", "label": "Unexpected Charge", "type": "leaf", "children": [
+            { "id": "charge-refund",    "label": "Issue Refund",      "type": "leaf", "children": [] },
+            { "id": "charge-explain",   "label": "Explain Charge",    "type": "leaf", "children": [] },
+            { "id": "charge-escalate",  "label": "Escalate to Agent", "type": "leaf", "children": [] }
+          ]},
+          { "id": "cancel", "label": "Cancel Subscription", "type": "leaf", "children": [
+            { "id": "cancel-confirm",   "label": "Confirm Cancellation", "type": "leaf", "children": [] },
+            { "id": "cancel-retain",    "label": "Offer Discount",       "type": "leaf", "children": [] }
+          ]},
+          { "id": "upgrade", "label": "Upgrade Plan", "type": "leaf", "children": [
+            { "id": "upgrade-plans",    "label": "Show Plans",   "type": "leaf", "children": [] },
+            { "id": "upgrade-promo",    "label": "Apply Promo",  "type": "leaf", "children": [] }
+          ]}
+        ]
+      },
+      {
+        "id": "account", "label": "Account", "type": "category",
+        "children": [
+          { "id": "login", "label": "Can't Log In", "type": "leaf", "children": [
+            { "id": "login-reset",      "label": "Reset Password", "type": "leaf", "children": [] },
+            { "id": "login-2fa",        "label": "2FA Issue",      "type": "leaf", "children": [] },
+            { "id": "login-locked",     "label": "Acct Locked",    "type": "leaf", "children": [] }
+          ]},
+          { "id": "profile", "label": "Update Profile", "type": "leaf", "children": [
+            { "id": "profile-email",    "label": "Change Email",   "type": "leaf", "children": [] },
+            { "id": "profile-name",     "label": "Change Name",    "type": "leaf", "children": [] }
+          ]},
+          { "id": "delete", "label": "Delete Account", "type": "leaf", "children": [
+            { "id": "delete-confirm",   "label": "Confirm Deletion", "type": "leaf", "children": [] },
+            { "id": "delete-export",    "label": "Export Data",      "type": "leaf", "children": [] }
+          ]}
+        ]
+      },
+      {
+        "id": "technical", "label": "Technical", "type": "category",
+        "children": [
+          { "id": "bug", "label": "Report a Bug", "type": "leaf", "children": [
+            { "id": "bug-log",          "label": "Collect Logs",     "type": "leaf", "children": [] },
+            { "id": "bug-ticket",       "label": "Create Ticket",    "type": "leaf", "children": [] },
+            { "id": "bug-workaround",   "label": "Offer Workaround", "type": "leaf", "children": [] }
+          ]},
+          { "id": "perf", "label": "App is Slow", "type": "leaf", "children": [
+            { "id": "perf-cache",       "label": "Clear Cache",      "type": "leaf", "children": [] },
+            { "id": "perf-status",      "label": "Status Page",      "type": "leaf", "children": [] }
+          ]},
+          { "id": "integrate", "label": "Integration Help", "type": "leaf", "children": [
+            { "id": "int-docs",         "label": "Send Docs",         "type": "leaf", "children": [] },
+            { "id": "int-api",          "label": "API Key Issue",     "type": "leaf", "children": [] },
+            { "id": "int-agent",        "label": "Book Eng. Call",    "type": "leaf", "children": [] }
+          ]}
+        ]
+      },
+      {
+        "id": "orders", "label": "Orders", "type": "category",
+        "children": [
+          { "id": "order-status", "label": "Order Status", "type": "leaf", "children": [
+            { "id": "os-track",         "label": "Track Package",  "type": "leaf", "children": [] },
+            { "id": "os-delay",         "label": "Report Delay",   "type": "leaf", "children": [] }
+          ]},
+          { "id": "return", "label": "Return / Refund", "type": "leaf", "children": [
+            { "id": "ret-label",        "label": "Generate Label", "type": "leaf", "children": [] },
+            { "id": "ret-refund",       "label": "Process Refund", "type": "leaf", "children": [] }
+          ]},
+          { "id": "damaged", "label": "Damaged Item", "type": "leaf", "children": [
+            { "id": "dmg-photo",        "label": "Request Photo",    "type": "leaf", "children": [] },
+            { "id": "dmg-replace",      "label": "Send Replacement", "type": "leaf", "children": [] }
+          ]}
+        ]
+      },
+      {
+        "id": "escalate", "label": "Escalate", "type": "category",
+        "children": [
+          { "id": "esc-human",    "label": "Live Agent",       "type": "leaf", "children": [] },
+          { "id": "esc-mgr",      "label": "Manager Review",   "type": "leaf", "children": [] },
+          { "id": "esc-callback", "label": "Schedule Callback","type": "leaf", "children": [] }
+        ]
+      }
+    ]
+  };
+  // ───────────────────────────────────────────────────────────────────────────
+
+  function init() {
+    // Start with only root's direct children visible — collapse everything deeper
+    function collapseDeep(node, depth) {
+      if (!node.children) return;
+      if (depth >= 1) {
+        node._collapsed = true;
+      }
+      node.children.forEach(c => collapseDeep(c, depth + 1));
+    }
+    collapseDeep(TREE_DATA, 0);
+    renderGraph(TREE_DATA);
+  }
+
+  function renderGraph(rawData) {
+    const tooltip = document.getElementById('tooltip');
+
+    const graphEl = document.getElementById('graph');
+    const svg = d3.select('#graph').append('svg')
+      .style('width', '100%')
+      .style('height', '100%')
+      .attr('width',  graphEl.clientWidth  || window.innerWidth)
+      .attr('height', graphEl.clientHeight || window.innerHeight);
+
+    // Keep SVG sized to container on resize
+    new ResizeObserver(() => {
+      svg.attr('width',  graphEl.clientWidth)
+         .attr('height', graphEl.clientHeight);
+    }).observe(graphEl);
+
+    // Defs: arrowhead marker
+    const defs = svg.append('defs');
+    defs.append('marker')
+      .attr('id', 'arrow')
+      .attr('markerWidth', 6).attr('markerHeight', 6)
+      .attr('refX', 5).attr('refY', 3)
+      .attr('orient', 'auto')
+      .append('path')
+      .attr('d', 'M0,0 L0,6 L6,3 z')
+      .attr('fill', 'var(--muted)');
+
+    const g = svg.append('g');
+
+    const zoom = d3.zoom()
+      .scaleExtent([0.08, 4])
+      .on('zoom', e => g.attr('transform', e.transform));
+    svg.call(zoom);
+
+    // Node dimensions
+    const NW = 140, NH = 34, NR = 7;
+    // Gap between columns (horizontal) and rows (vertical)
+    const CGAP = 60, RGAP = 10;
+
+    function buildHierarchy(data) {
+      return d3.hierarchy(data, d =>
+        d._collapsed ? null : (d.children && d.children.length ? d.children : null)
+      );
+    }
+
+    function update() {
+      const hier = buildHierarchy(rawData);
+
+      // nodeSize: [rowHeight, colWidth] — x is vertical, y is horizontal in d3 tree
+      d3.tree().nodeSize([NH + RGAP, NW + CGAP])(hier);
+
+      const nodes = hier.descendants();
+      const links = hier.links();
+
+      // --- Links ---
+      g.selectAll('.link').remove();
+      g.selectAll('.link')
+        .data(links)
+        .join('path')
+        .attr('class', 'link')
+        .attr('d', d => {
+          // source exits right-center of its rect; target enters left-center of its rect
+          const sx = d.source.y + (d.source.depth === 0 ? NW/2 : NW);
+          const sy = d.source.x;
+          const tx = d.target.y;
+          const ty = d.target.x;
+          const mx = (sx + tx) / 2;
+          return `M${sx},${sy} C${mx},${sy} ${mx},${ty} ${tx},${ty}`;
+        });
+
+      // --- Nodes ---
+      g.selectAll('.node-group').remove();
+      const node = g.selectAll('.node-group')
+        .data(nodes)
+        .join('g')
+        .attr('class', 'node-group')
+        // all non-root nodes: anchor is left edge of rect
+        // root node: anchor is center of rect
+        .attr('transform', d =>
+          d.depth === 0
+            ? `translate(${d.y},${d.x})`
+            : `translate(${d.y},${d.x})`
+        );
+
+      node.append('rect')
+        .attr('class', 'node-rect')
+        .attr('x',      d => d.depth === 0 ? -NW/2 : 0)
+        .attr('y',      -NH/2)
+        .attr('width',  NW)
+        .attr('height', NH)
+        .attr('rx', NR).attr('ry', NR)
+        .attr('fill', d =>
+          d.depth === 0 ? 'var(--node-root)' :
+          d.depth === 1 ? 'var(--node-cat)'  : 'var(--node-leaf)')
+        .attr('stroke', d =>
+          d.depth === 0 ? 'var(--accent)'  :
+          d.depth === 1 ? 'var(--accent2)' : 'var(--accent)')
+        .attr('stroke-width', d => d.depth === 0 ? 2.5 : 1.5)
+        .style('filter', d =>
+          d.depth === 0 ? 'drop-shadow(0 0 10px rgba(0,229,192,0.55))' :
+          d.depth === 1 ? 'drop-shadow(0 0 6px rgba(123,97,255,0.45))' : 'none');
+
+      node.append('text')
+        .attr('class', d =>
+          d.depth === 0 ? 'node-label root-label' :
+          d.depth === 1 ? 'node-label cat-label'  : 'node-label')
+        .attr('x', NW / 2)
+        .attr('y', 1)
+        .attr('text-anchor', 'middle')
+        .attr('dominant-baseline', 'central')
+        .text(d => d.data.label);
+
+      // Collapse badge
+      node.filter(d => d.data._collapsed && (d.data.children||[]).length > 0)
+        .append('text')
+        .attr('class', 'node-badge')
+        .attr('x', NW - 6).attr('y', -NH/2 + 5)
+        .attr('text-anchor', 'end')
+        .text(d => `+${(d.data.children||[]).length}`);
+
+      node.on('click', (event, d) => {
+        event.stopPropagation();
+        if (!(d.data.children && d.data.children.length)) return;
+        d.data._collapsed = !d.data._collapsed;
+        update();
+        setTimeout(fitToView, 60);
+      });
+
+      node.on('mousemove', (event, d) => {
+        const kids = (d.data.children||[]).length;
+        tooltip.style.opacity = '1';
+        tooltip.style.left = (event.clientX + 14) + 'px';
+        tooltip.style.top  = (event.clientY - 28) + 'px';
+        tooltip.textContent = d.data.label + (kids ? `  ·  ${kids} children` : '  ·  action');
+      });
+      node.on('mouseleave', () => { tooltip.style.opacity = '0'; });
+    }
+
+    function fitToView() {
+      const w = W(), h = H();
+      // Compute true bounds from node positions (don't rely on getBBox which misses right-edge rects)
+      const hier = buildHierarchy(rawData);
+      d3.tree().nodeSize([NH + RGAP, NW + CGAP])(hier);
+      const nodes = hier.descendants();
+
+      let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+      nodes.forEach(d => {
+        const left  = d.depth === 0 ? d.y - NW/2 : d.y;
+        const right = left + NW;
+        const top   = d.x - NH/2;
+        const bot   = d.x + NH/2;
+        minX = Math.min(minX, left);
+        maxX = Math.max(maxX, right);
+        minY = Math.min(minY, top);
+        maxY = Math.max(maxY, bot);
+      });
+
+      const treeW = maxX - minX;
+      const treeH = maxY - minY;
+      const pad   = 48;
+      const scale = Math.min((w - pad*2) / treeW, (h - pad*2) / treeH);
+      const tx = pad - minX * scale;
+      const ty = (h - treeH * scale) / 2 - minY * scale;
+
+      svg.transition().duration(450)
+        .call(zoom.transform, d3.zoomIdentity.translate(tx, ty).scale(scale));
+    }
+
+    update();
+    setTimeout(fitToView, 60);
+    window.addEventListener('resize', () => { update(); setTimeout(fitToView, 60); });
+  }
+
+  init();
+</script>
+</body>
+</html>
