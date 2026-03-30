@@ -1,19 +1,12 @@
 ---
 name: task-tracking-dots
-description: Manages Dots task tracking with the dot CLI, dependencies, and completion reasons. Use when tracking work items across sessions or coordinating task dependencies.
-compatibility: Requires the dot CLI available in the session environment.
+description: "Create, list, complete, and block tasks using the Dots CLI with priorities and dependencies. Use when tracking todos, managing a task list, recording progress across sessions, setting task blockers, or coordinating dependent work items."
+compatibility: "Requires the dot CLI available in the session environment."
 ---
 
 # Task Tracking with Dots
 
-Dots is a lightweight task tracker for managing work across sessions. Use the `dot` CLI to track work items, dependencies, and completion reasons.
-
-## When to use this skill
-
-Use this skill when you need to:
-- Track work items across sessions
-- Manage dependencies between tasks
-- Record completion reasons for auditability
+Dots is a lightweight task tracker for managing work across sessions. Use the `dot` CLI to create tasks, list pending items, mark tasks complete with reasons, set blockers, and track dependencies.
 
 ## Preflight: ensure dot is installed
 

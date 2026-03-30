@@ -1,6 +1,6 @@
 ---
 name: godot
-description: Develop, test, build, and deploy Godot 4.x games. Use when working with Godot Engine, GDScript, GdUnit4 testing, PlayGodot automation, or exporting games to web/desktop. Covers CI/CD pipelines and deployment to Vercel/GitHub Pages/itch.io.
+description: "Develop, test, build, and deploy Godot 4.x games. Use when working with Godot Engine, GDScript, GdUnit4 testing, PlayGodot automation, or exporting games to web/desktop. Covers CI/CD pipelines and deployment to Vercel/GitHub Pages/itch.io."
 ---
 
 # Godot Skill
@@ -130,51 +130,7 @@ godot --headless --path . -s res://addons/gdUnit4/bin/GdUnitCmdTool.gd \
   --run-tests --report-directory ./reports
 ```
 
-### GdUnit4 Assertions
-
-```gdscript
-# Values
-assert_that(value).is_equal(expected)
-assert_that(value).is_not_null()
-assert_that(condition).is_true()
-
-# Numbers
-assert_that(number).is_greater(5)
-assert_that(number).is_between(1, 100)
-
-# Strings
-assert_that(text).contains("expected")
-assert_that(text).starts_with("prefix")
-
-# Arrays
-assert_that(array).contains(element)
-assert_that(array).has_size(5)
-
-# Signals
-await assert_signal(node).is_emitted("signal_name")
-```
-
-### Scene Runner Input API
-
-```gdscript
-# Mouse
-runner.set_mouse_position(Vector2(100, 100))
-runner.simulate_mouse_button_pressed(MOUSE_BUTTON_LEFT)
-runner.simulate_mouse_button_released(MOUSE_BUTTON_LEFT)
-
-# Keyboard
-runner.simulate_key_pressed(KEY_SPACE)
-runner.simulate_key_pressed(KEY_S, false, true)  # Ctrl+S
-
-# Input actions
-runner.simulate_action_pressed("jump")
-runner.simulate_action_released("jump")
-
-# Waiting
-await runner.await_input_processed()
-await runner.await_idle_frame()
-await runner.await_signal("game_over", [], 5000)
-```
+For the full GdUnit4 assertions API, see `references/assertions.md`. For Scene Runner input simulation, see `references/scene-runner.md`.
 
 ---
 
@@ -266,66 +222,7 @@ pytest tests/ -v
 pytest tests/test_game.py::test_clicking_cell -v
 ```
 
-### PlayGodot API
-
-```python
-# Node interaction
-node = await game.get_node("/root/Game")
-await game.wait_for_node("/root/Game", timeout=10.0)
-exists = await game.node_exists("/root/Game")
-result = await game.call("/root/Node", "method", [arg1, arg2])
-value = await game.get_property("/root/Node", "property")
-await game.set_property("/root/Node", "property", value)
-
-# Node queries
-paths = await game.query_nodes("*Button*")
-count = await game.count_nodes("*Label*")
-
-# Mouse input
-await game.click("/root/Button")
-await game.click(300, 200)
-await game.double_click("/root/Button")
-await game.right_click(100, 100)
-await game.drag("/root/Item", "/root/Slot")
-
-# Keyboard input
-await game.press_key("space")
-await game.press_key("ctrl+s")
-await game.type_text("hello")
-
-# Input actions
-await game.press_action("jump")
-await game.hold_action("sprint", 2.0)
-
-# Touch input
-await game.tap(300, 200)
-await game.swipe(100, 100, 400, 100)
-await game.pinch((200, 200), 0.5)
-
-# Screenshots
-png_bytes = await game.screenshot()
-await game.screenshot("/tmp/screenshot.png")
-similarity = await game.compare_screenshot("expected.png")
-await game.assert_screenshot("reference.png", threshold=0.99)
-
-# Scene management
-scene = await game.get_current_scene()
-await game.change_scene("res://scenes/level2.tscn")
-await game.reload_scene()
-
-# Game state
-await game.pause()
-await game.unpause()
-is_paused = await game.is_paused()
-await game.set_time_scale(0.5)
-scale = await game.get_time_scale()
-
-# Waiting
-await game.wait_for_node("/root/Game/SpawnedEnemy", timeout=5.0)
-await game.wait_for_visible("/root/Game/UI/GameOverPanel", timeout=10.0)
-await game.wait_for_signal("game_over")
-await game.wait_for_signal("health_changed", source="/root/Game/Player")
-```
+For the full PlayGodot API (node queries, mouse/keyboard/touch input, screenshots, scene management, game state), see `references/playgodot.md`.
 
 ---
 
@@ -336,6 +233,9 @@ await game.wait_for_signal("health_changed", source="/root/Game/Player")
 ```bash
 # Requires export_presets.cfg with Web preset
 godot --headless --export-release "Web" ./build/index.html
+
+# Verify the export succeeded
+test -f ./build/index.html && echo "Export OK" || echo "Export FAILED — check export_presets.cfg and installed templates"
 ```
 
 ### Export Preset (export_presets.cfg)
@@ -353,6 +253,9 @@ export_path="build/index.html"
 ```bash
 npm i -g vercel
 vercel deploy ./build --prod
+
+# Verify deployment (replace URL with Vercel output)
+curl -s -o /dev/null -w "%{http_code}" https://your-project.vercel.app | grep -q 200 && echo "Deploy OK"
 ```
 
 ---

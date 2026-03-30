@@ -1,7 +1,7 @@
 ---
 name: slipbox
 description: "Interact with the SlipBox semantic knowledge engine and read notes from PrivateBox. Use when capturing ideas, searching notes, browsing your knowledge graph, or running semantic analysis passes (link, cluster, tension)."
-compatibility: Requires SLIPBOX_API_KEY, SLIPBOX_URL, and SLIPBOX_PRIVATEBOX_REPO env vars. Reading PrivateBox notes requires GITHUB_TOKEN or the gh CLI.
+compatibility: "Requires SLIPBOX_API_KEY, SLIPBOX_URL, and SLIPBOX_PRIVATEBOX_REPO env vars. Reading PrivateBox notes requires GITHUB_TOKEN or the gh CLI."
 ---
 
 # SlipBox Skill
@@ -70,48 +70,9 @@ All other configuration (OpenAI, GitHub, PrivateBox) lives on the deployed Verce
 
 ---
 
-## Quick Reference
+## API Reference
 
 All API calls require: `Authorization: Bearer $SLIPBOX_API_KEY`
-
-```bash
-# Health check
-curl -sL "$SLIPBOX_URL/api/health"
-
-# Add a note
-curl -sL -X POST "$SLIPBOX_URL/api/add-note" \
-  -H "Authorization: Bearer $SLIPBOX_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{"content": "Atomic idea goes here."}'
-
-# Add a typed note (type: "meta" or "hypothesis")
-curl -sL -X POST "$SLIPBOX_URL/api/add-note" \
-  -H "Authorization: Bearer $SLIPBOX_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{"content": "## Cluster: ...", "type": "meta"}'
-
-# Re-link all notes (recompute similarity links)
-curl -sL -X POST "$SLIPBOX_URL/api/link-pass" \
-  -H "Authorization: Bearer $SLIPBOX_API_KEY"
-
-# Cluster notes into thematic groups
-curl -sL -X POST "$SLIPBOX_URL/api/cluster-pass" \
-  -H "Authorization: Bearer $SLIPBOX_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{"k": 5}'
-
-# Detect conceptual tensions (contradictions within clusters)
-curl -sL -X POST "$SLIPBOX_URL/api/tension-pass" \
-  -H "Authorization: Bearer $SLIPBOX_API_KEY"
-
-# Fetch theme data (clusters + note content + tensions) for agent synthesis
-curl -sL "$SLIPBOX_URL/api/theme-data" \
-  -H "Authorization: Bearer $SLIPBOX_API_KEY"
-```
-
----
-
-## API Reference
 
 ### POST /api/add-note
 

@@ -1,6 +1,6 @@
 ---
 name: loop
-description: Runs an autonomous development loop with research and implementation modes. Use when orchestrating iterative research and implementation cycles with dots-based task tracking and git workflow automation.
+description: "Automate iterative development by researching solutions then writing code across multiple cycles. Use when you want hands-off coding, automated development loops, iterative research-then-implement workflows, or autonomous task completion with git commits and task tracking."
 metadata:
   claude_triggers: "/loop, /randroid, /randroid-loop"
   claude_hooks: "Stop: hooks/stop-hook.sh"
@@ -8,238 +8,89 @@ metadata:
 
 # Loop
 
-A self-sustaining development loop with two modes: **Researcher** and **Implementor**.
+A self-sustaining development loop with two modes: **Researcher** (explore, plan, create specs) and **Implementor** (write code, tests, docs from specs). Each iteration creates git commits, tracks progress via Dots, and optionally opens PRs.
 
 ## Prerequisites
 
-**Full permissions required.** The loop runs autonomously and needs unrestricted access.
+**Full permissions required.** The loop runs autonomously.
 
-### Claude Code
-```bash
-claude --dangerously-skip-permissions
-```
-
-### Codex
-The script automatically uses `--yolo` mode (no sandbox, no prompts).
+| Agent | Command |
+|-------|---------|
+| Claude Code | `claude --dangerously-skip-permissions` |
+| Codex | Automatically uses `--yolo` mode |
 
 ## Startup Flow
 
-When this skill is invoked, ask the user FOUR questions using AskUserQuestion, then one text prompt:
+Ask the user these questions via AskUserQuestion (Q1–Q4), then a text prompt (Q5):
 
-### Question 1: Mode (AskUserQuestion)
-- **Question**: "Which mode would you like to run?"
-- **Options**:
-  1. `Research` - Explore, investigate, and plan. Creates specs for implementation.
-  2. `Implement` - Execute on specs. Write code, tests, and documentation.
+| # | Question | Options |
+|---|----------|---------|
+| 1 | Mode | `Research` (explore/plan/spec) · `Implement` (code/test/docs) |
+| 2 | Git workflow | `Push` (default) · `Commit only` · `Open PR` · `PR and merge` |
+| 3 | Context | `Fresh context` (default, recommended) · `Keep context` |
+| 4 | Directions | `None` · mode-specific presets · `Other` (free-text) |
+| 5 | Iterations (text prompt) | Number → exact count · `inf` → infinite · `comp` → until complete |
 
-### Question 2: Git Workflow (AskUserQuestion)
-- **Question**: "What should happen after each task?"
-- **Options**:
-  - `Push` - Commit and push to current branch (default)
-  - `Commit only` - Commit locally, no push
-  - `Open PR` - Open PR, wait for CI (no merge)
-  - `PR and merge` - Open PR, wait for CI, then auto-merge
-
-### Question 3: Context Management (AskUserQuestion)
-- **Question**: "Should each iteration start with fresh context?"
-- **Options**:
-  - `Fresh context` - Clear context between iterations (default, recommended)
-  - `Keep context` - Maintain conversation history across iterations
-
-### Question 4: Directions (AskUserQuestion - optional)
-- **Question**: "Any specific directions for this run?"
-- **Options** (mode-aware, user can select "Other" for custom):
-  - `None` - No specific directions, work autonomously
-  - For Research mode:
-    - `Focus on specs` - Review and improve existing implementation specs
-    - `Explore dependencies` - Research external libraries and frameworks
-  - For Implement mode:
-    - `Fix issues first` - Prioritize fixing build errors and warnings
-    - `Skip tests` - Focus on implementation, skip test writing for now
-
-If user selects "Other", they can provide custom directions like:
-- "Focus on authentication patterns"
-- "Search Apple developer docs for NSPanel"
-- "Prioritize the archive feature"
-- "Redo the task list with proper SwiftUI patterns"
-
-The agent interprets directions intelligently (creating dots, modifying tasks, updating docs, changing priorities, etc.).
-
-### Question 5: Iterations (Text prompt - NOT AskUserQuestion)
-After the AskUserQuestion completes, ask:
-> "How many iterations? Enter a number, 'inf' for infinite, or 'comp' for until complete:"
-
-Parse the response:
-- Number (e.g., "2", "5", "10") → exact iteration count
-- "inf", "infinite", "-1" → infinite mode (-1)
-- "comp", "complete", "0" → until complete mode (0)
-
-**Key distinction:**
-- **Infinite / N iterations**: Completion promise is IGNORED. Loop continues for re-analysis and improvement.
-- **Until complete**: Only mode where completion promise stops the loop.
+**Key distinction:** In infinite/N-iteration modes the completion promise is ignored. Only "until complete" mode stops on the completion promise.
 
 After collecting answers:
-1. Initialize loop state by running: `./scripts/setup-loop.sh <mode> --iterations <N> --git-workflow <workflow> [--fresh-context] [--directions "..."]`
-   - Iterations: -1=infinite, 0=until complete, N=exact count
-   - Workflow: commit/push/pr/pr-merge
-   - Directions: optional user guidance for the agent
-2. Build the prompt by combining mode-specific + shared content:
-   - Read `<mode>-loop.md` (mode-specific sections)
-   - Read `loop-shared.md` (common sections)
-   - Concatenate: mode-specific + shared
-3. Begin execution based on context mode:
 
-**Fresh context mode (default):**
-You are the orchestrator. Run this loop in the main conversation:
+1. **Initialize**: Run `./scripts/setup-loop.sh <mode> --iterations <N> --git-workflow <workflow> [--fresh-context] [--directions "..."]`
+2. **Verify**: Confirm setup-loop.sh exits 0. If it fails, report the error and stop.
+3. **Build prompt**: Read `<mode>-loop.md` + `loop-shared.md`, concatenate them. Append user directions if provided.
+4. **Execute** based on context mode (see below).
 
-```
-iteration = 0
-PROMPT = contents of <mode>-loop.md + "\n\n" + contents of loop-shared.md
-DIRECTIONS = user's directions (if provided)
+### Fresh Context Mode (default)
 
-# Exponential backoff for infinite mode
-MIN_DELAY = 5        # seconds
-current_delay = MIN_DELAY
+You are the orchestrator. For each iteration, spawn a Task subagent with the built prompt:
 
-# If directions were provided, append them to the prompt
-if DIRECTIONS:
-    PROMPT = PROMPT + "\n\n## User Directions\n\n" + DIRECTIONS
+- **Until complete** (`iterations=0`): Stop when result contains `RANDROID_LOOP_COMPLETE`.
+- **Exact N** (`iterations>0`): Stop after N iterations.
+- **Infinite** (`iterations=-1`): Never stop on completion promise. Apply exponential backoff (starting 5s, doubling) when idle; reset on meaningful work.
 
-LOOP:
-    iteration += 1
-    print "=== Iteration {iteration} ==="
+**CRITICAL**: After each Task returns, YOU must check termination conditions and spawn the next iteration. Do not stop just because one Task finished.
 
-    result = Task(prompt=PROMPT, subagent_type="general-purpose")
+### Keep Context Mode
 
-    # Check termination conditions
-    if iterations == 0:  # "until complete" mode
-        if result contains "RANDROID_LOOP_COMPLETE":
-            print "Loop complete (promise found after {iteration} iterations)"
-            EXIT LOOP
-    elif iterations > 0:  # exact N iterations mode
-        if iteration >= iterations:
-            print "Completed {iteration} iterations"
-            EXIT LOOP
-    # iterations == -1 means infinite, continues below
-
-    # Exponential backoff for infinite mode when no work done
-    if iterations == -1:  # infinite mode
-        if result contains "RANDROID_LOOP_COMPLETE":
-            print "No work this iteration, backing off for {current_delay}s..."
-            sleep(current_delay)
-            current_delay = current_delay * 2  # No max cap
-        else:
-            # Meaningful work done, reset backoff
-            current_delay = MIN_DELAY
-
-    GOTO LOOP
-```
-
-**CRITICAL**: After each Task returns, YOU (the orchestrator) must:
-1. Check the result for the completion promise
-2. Check if iteration limit reached
-3. If neither → spawn another Task for the next iteration
-4. Do NOT stop just because one Task finished
-
-**Keep context mode:**
-Run the loop directly in the current conversation. The stop hook will intercept exit and continue looping with accumulated context.
+Run the loop in the current conversation. The stop hook intercepts exit and continues looping with accumulated context.
 
 ## Usage
 
-### Interactive (Recommended)
+```bash
+/loop                          # Interactive — prompts for all options
+/loop research                 # Research mode, prompts for iterations
+/loop implement --iterations 5 # Implement mode, 5 iterations
+/loop implement --open-pr      # Open PR after each task
+/loop implement --pr-and-merge # PR with auto-merge
+/loop implement --keep-context # Maintain conversation history
 ```
-/loop
-```
-Prompts for mode, iterations, and optional directions.
 
 Aliases: `/randroid`, `/randroid-loop`
 
-### Direct (Skip Questions)
-- `/loop research` - Research mode, prompts for iterations
-- `/loop implement` - Implement mode, prompts for iterations
-- `/loop research --loop` - Research mode, infinite (ignores completion)
-- `/loop research --until-complete` - Research mode, stops on completion
-- `/loop implement --iterations 5` - Implement mode, exactly 5 iterations
-- `/loop implement --open-pr` - Open PR workflow
-- `/loop implement --pr-and-merge` - PR with auto-merge workflow
-- `/loop implement --commit-only` - Local commits only
-- `/loop implement --keep-context` - Keep conversation context (no fresh start)
-- `/loop implement --iterations 5 --open-pr` - Combine options
-
-### With Directions
-You can provide guidance for the agent. When prompted for directions:
-- Select a preset option (mode-specific), or
-- Select "Other" and type custom directions like:
-  - "Focus on authentication patterns"
-  - "Prioritize the archive feature, skip tests for now"
-
-Directions can include:
-- Topics to research or questions to answer
-- Priorities for which tasks to work on
-- Specific implementation guidance
-- Requests to redo or improve previous work
-- Scope changes (add/remove/modify tasks)
-
 ### Codex (External Script)
-```bash
-# From terminal (outside Codex)
-./scripts/randroid-loop.sh
-# Interactive prompts for mode, iterations, and git workflow
-# Note: Wrapper always uses fresh context (each iteration is a new codex exec)
 
-# Direct invocation:
-./scripts/randroid-loop.sh research -1           # infinite
-./scripts/randroid-loop.sh research 0            # until complete
-./scripts/randroid-loop.sh implement 5           # exactly 5 iterations
-./scripts/randroid-loop.sh implement 5 pr        # 5 iterations, open PR
-./scripts/randroid-loop.sh implement 0 pr-merge  # until complete, PR + merge
+```bash
+./scripts/randroid-loop.sh                        # Interactive
+./scripts/randroid-loop.sh research -1            # Infinite research
+./scripts/randroid-loop.sh implement 5 pr         # 5 iterations, open PR
+./scripts/randroid-loop.sh implement 0 pr-merge   # Until complete, PR + merge
 ```
 
 ## Modes
 
 ### Research Mode
-The researcher explores, investigates, and plans. It:
-- Creates `research:` prefixed dots to track its own exploration
-- Creates `implement:` prefixed dots as deliverables for the implementor
-- Does NOT write production code
-- Outputs findings, decisions, and clear implementation specs
+Creates `research:` dots to track exploration and `implement:` dots as deliverables for the implementor. Does NOT write production code — outputs findings, decisions, and implementation specs.
 
 ### Implementor Mode
-The implementor executes. It:
-- Pulls from ready `implement:` dots
-- Writes code, tests, and documentation
-- Creates new `implement:` dots if scope expands
-- Creates `research:` dots if blocked by unknowns (for next research cycle)
+Pulls from ready `implement:` dots. Writes code, tests, and documentation. Creates new `implement:` or `research:` dots as scope expands or unknowns surface.
 
 ## Loop Mechanics
 
-### Fresh Context Each Iteration
-Each loop iteration starts with **fresh conversational context**. Only the filesystem persists:
-- Modified files
-- Git history and commits
-- Dots system state
-- Research/implementation artifacts
-
-This prevents context bloat and allows the agent to approach each iteration with clarity.
-
-### What Persists
-- All file changes from previous iterations
-- Git commits and history
-- `.dots/` task state
-- Any written documentation or specs
-
-### What Resets
-- Conversation history
-- In-memory state
-- Token usage (fresh budget each iteration)
+Each iteration starts with **fresh context** (default). Only the filesystem persists: modified files, git history, `.dots/` task state, and written artifacts. Conversation history and token budget reset.
 
 ## Loop Termination
 
-Output `<promise>RANDROID_LOOP_COMPLETE</promise>` when:
-- No more ready tasks for your mode
-- All work is committed and pushed
-
-The loop also stops when `--iterations N` limit is reached.
+Output `<promise>RANDROID_LOOP_COMPLETE</promise>` when no more ready tasks exist for your mode and all work is committed. The loop also stops when `--iterations N` limit is reached.
 
 ## Architecture
 
