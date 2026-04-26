@@ -6,7 +6,7 @@ A dual-format skills repository for **Claude Code**, **Codex CLI**, and **OpenCo
 
 | Skill | Description |
 |-------|-------------|
-| **loop** | Autonomous development loop with research and implementation modes |
+| **randroid-loop** | Autonomous development loop with research and implementation modes |
 | **task-tracking-dots** | Task management with Dots using the dot CLI for tracking work items |
 | **godot** | Develop, test, build, and deploy Godot 4.x games |
 | **unreal** | Develop, test, and automate Unreal Engine 5.x projects (WIP). PlayUnreal: https://github.com/Randroids-Dojo/PlayUnreal |
@@ -16,10 +16,10 @@ A dual-format skills repository for **Claude Code**, **Codex CLI**, and **OpenCo
 
 ### Recommended (all agents)
 
-Install the loop skill via the Skills CLI:
+Install the randroid-loop skill via the Skills CLI:
 
 ```bash
-npx skills add https://github.com/Randroids-Dojo/skills --skill loop
+npx skills add https://github.com/Randroids-Dojo/skills --skill randroid-loop
 ```
 
 Works with Codex CLI, Claude Code, OpenCode, Gemini CLI, and other Agent Skills-compatible tools.
@@ -55,7 +55,7 @@ npx skills add https://github.com/Randroids-Dojo/skills --skill slipbox
 Install individual skills using the built-in skill installer:
 
 ```
-$skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/loop
+$skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/randroid-loop
 $skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/task-tracking-dots
 $skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/godot
 $skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/unreal
@@ -71,7 +71,7 @@ git clone https://github.com/Randroids-Dojo/skills.git ~/.codex/skills/randroids
 Then symlink individual skills you want:
 
 ```bash
-ln -s ~/.codex/skills/randroids-dojo/plugins/loop ~/.codex/skills/loop
+ln -s ~/.codex/skills/randroids-dojo/plugins/randroid-loop ~/.codex/skills/randroid-loop
 ln -s ~/.codex/skills/randroids-dojo/plugins/task-tracking-dots ~/.codex/skills/task-tracking-dots
 ln -s ~/.codex/skills/randroids-dojo/plugins/godot ~/.codex/skills/godot
 ln -s ~/.codex/skills/randroids-dojo/plugins/unreal ~/.codex/skills/unreal
@@ -84,7 +84,7 @@ Install from the marketplace:
 
 ```bash
 /plugin marketplace add Randroids-Dojo/skills
-/plugin install loop
+/plugin install randroid-loop
 /plugin install task-tracking-dots
 /plugin install godot
 /plugin install unreal
@@ -108,7 +108,7 @@ The `skills` CLI installs into a canonical directory and then symlinks to agent-
 Skills are triggered automatically based on context, or explicitly:
 
 ```
-$loop               # Invoke loop skill
+$randroid-loop      # Invoke randroid-loop skill
 $task-tracking-dots # Task management with Dots
 $godot              # Invoke godot skill
 $unreal             # Invoke unreal skill
@@ -118,7 +118,7 @@ $slipbox            # Invoke slipbox skill
 ### Claude Code
 
 ```
-/loop               # Interactive mode selection
+/randroid-loop      # Interactive mode selection
 /task-tracking-dots # Task management with Dots
 /godot:godot        # Godot development assistance
 /unreal:unreal      # Unreal development assistance
@@ -135,7 +135,7 @@ $slipbox            # Invoke slipbox skill
 ├── .codex/
 │   └── skills -> ../plugins # Symlink for local Codex development
 ├── plugins/
-│   ├── loop/
+│   ├── randroid-loop/
 │   │   ├── SKILL.md         # Skill definition (Codex + Claude)
 │   │   ├── commands/        # Claude Code slash commands
 │   │   ├── scripts/         # Automation scripts

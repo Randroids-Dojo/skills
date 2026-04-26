@@ -1,12 +1,12 @@
 ---
-name: loop
+name: randroid-loop
 description: Runs an autonomous development loop with research and implementation modes. Use when orchestrating iterative research and implementation cycles with dots-based task tracking and git workflow automation.
 metadata:
-  claude_triggers: "/loop, /randroid, /randroid-loop"
+  claude_triggers: "/randroid-loop, /randroid"
   claude_hooks: "Stop: hooks/stop-hook.sh"
 ---
 
-# Loop
+# Randroid Loop
 
 A self-sustaining development loop with two modes: **Researcher** and **Implementor**.
 
@@ -148,23 +148,23 @@ Run the loop directly in the current conversation. The stop hook will intercept 
 
 ### Interactive (Recommended)
 ```
-/loop
+/randroid-loop
 ```
 Prompts for mode, iterations, and optional directions.
 
-Aliases: `/randroid`, `/randroid-loop`
+Alias: `/randroid`
 
 ### Direct (Skip Questions)
-- `/loop research` - Research mode, prompts for iterations
-- `/loop implement` - Implement mode, prompts for iterations
-- `/loop research --loop` - Research mode, infinite (ignores completion)
-- `/loop research --until-complete` - Research mode, stops on completion
-- `/loop implement --iterations 5` - Implement mode, exactly 5 iterations
-- `/loop implement --open-pr` - Open PR workflow
-- `/loop implement --pr-and-merge` - PR with auto-merge workflow
-- `/loop implement --commit-only` - Local commits only
-- `/loop implement --keep-context` - Keep conversation context (no fresh start)
-- `/loop implement --iterations 5 --open-pr` - Combine options
+- `/randroid-loop research` - Research mode, prompts for iterations
+- `/randroid-loop implement` - Implement mode, prompts for iterations
+- `/randroid-loop research --loop` - Research mode, infinite (ignores completion)
+- `/randroid-loop research --until-complete` - Research mode, stops on completion
+- `/randroid-loop implement --iterations 5` - Implement mode, exactly 5 iterations
+- `/randroid-loop implement --open-pr` - Open PR workflow
+- `/randroid-loop implement --pr-and-merge` - PR with auto-merge workflow
+- `/randroid-loop implement --commit-only` - Local commits only
+- `/randroid-loop implement --keep-context` - Keep conversation context (no fresh start)
+- `/randroid-loop implement --iterations 5 --open-pr` - Combine options
 
 ### With Directions
 You can provide guidance for the agent. When prompted for directions:
@@ -244,7 +244,7 @@ The loop also stops when `--iterations N` limit is reached.
 ## Architecture
 
 ```
-loop/
+randroid-loop/
 ├── SKILL.md              # This file
 ├── research-loop.md      # Research mode prompt
 ├── implement-loop.md     # Implementor mode prompt
