@@ -66,19 +66,21 @@ $skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/spir
 Or clone for all skills at once:
 
 ```bash
-git clone https://github.com/Randroids-Dojo/skills.git ~/.codex/skills/randroids-dojo
+git clone https://github.com/Randroids-Dojo/skills.git ~/.agents/skills/randroids-dojo
 ```
 
 Then symlink individual skills you want:
 
 ```bash
-ln -s ~/.codex/skills/randroids-dojo/plugins/randroid-loop ~/.codex/skills/randroid-loop
-ln -s ~/.codex/skills/randroids-dojo/plugins/task-tracking-dots ~/.codex/skills/task-tracking-dots
-ln -s ~/.codex/skills/randroids-dojo/plugins/godot ~/.codex/skills/godot
-ln -s ~/.codex/skills/randroids-dojo/plugins/unreal ~/.codex/skills/unreal
-ln -s ~/.codex/skills/randroids-dojo/plugins/slipbox ~/.codex/skills/slipbox
-ln -s ~/.codex/skills/randroids-dojo/plugins/spiral ~/.codex/skills/spiral
+ln -s ~/.agents/skills/randroids-dojo/plugins/randroid-loop ~/.agents/skills/randroid-loop
+ln -s ~/.agents/skills/randroids-dojo/plugins/task-tracking-dots ~/.agents/skills/task-tracking-dots
+ln -s ~/.agents/skills/randroids-dojo/plugins/godot ~/.agents/skills/godot
+ln -s ~/.agents/skills/randroids-dojo/plugins/unreal ~/.agents/skills/unreal
+ln -s ~/.agents/skills/randroids-dojo/plugins/slipbox ~/.agents/skills/slipbox
+ln -s ~/.agents/skills/randroids-dojo/plugins/spiral ~/.agents/skills/spiral
 ```
+
+Note: Codex 2026 reads skills from `~/.agents/skills/` (the universal "Agent Skills" path), not `~/.codex/skills/`. The `npx skills` CLI also targets `~/.agents/skills/` for Codex.
 
 #### Claude Code
 
@@ -100,9 +102,9 @@ The `skills` CLI installs into a canonical directory and then symlinks to agent-
 
 | Agent | Project install | Global install | Notes |
 | --- | --- | --- | --- |
-| Claude Code | `./.claude/skills/<skill>` | `${CLAUDE_CONFIG_DIR:-~/.claude}/skills/<skill>` | Uses `CLAUDE_CONFIG_DIR` when set. |
-| Codex CLI | `./.codex/skills/<skill>` | `${CODEX_HOME:-~/.codex}/skills/<skill>` | Uses `CODEX_HOME` when set. |
-| OpenCode | `./.opencode/skills/<skill>` | `${XDG_CONFIG_HOME:-~/.config}/opencode/skills/<skill>` | Uses XDG config home. |
+| Claude Code | `./.claude/skills/<skill>` (symlink to `./.agents/skills/<skill>`) | `~/.claude/skills/<skill>` (symlink to `~/.agents/skills/<skill>`) | Symlinked client. Uses `CLAUDE_CONFIG_DIR` when set. |
+| Codex CLI | `./.agents/skills/<skill>` | `~/.agents/skills/<skill>` | Universal client. Reads canonical path directly, no symlink needed. |
+| OpenCode | `./.opencode/skills/<skill>` | `${XDG_CONFIG_HOME:-~/.config}/opencode/skills/<skill>` | Symlinked client. Uses XDG config home. |
 
 ## Usage
 
@@ -137,8 +139,10 @@ $spiral             # Bootstrap or audit a project scaffold
 ├── .claude-plugin/
 │   ├── marketplace.json     # Claude Code marketplace manifest
 │   └── plugin.json          # Collection metadata
+├── .agents/
+│   └── skills -> ../plugins # Symlink for local Codex (and any universal-path client) development
 ├── .codex/
-│   └── skills -> ../plugins # Symlink for local Codex development
+│   └── skills -> ../plugins # Legacy alias for older Codex versions
 ├── plugins/
 │   ├── randroid-loop/
 │   │   ├── SKILL.md         # Skill definition (Codex + Claude)
@@ -179,7 +183,7 @@ This repository is structured to work with Claude Code, Codex CLI, and OpenCode:
 | Skill definition | `SKILL.md` | `SKILL.md` + `plugin.json` | `SKILL.md` |
 | Discovery | Skills CLI or `$skill-installer` | Marketplace or Skills CLI | Skills CLI or `.opencode/skills` |
 | Invocation | `$skill-name` | `/command-name` | Automatic via `skill` tool |
-| Global install (Skills CLI) | `~/.codex/skills/` | `~/.claude/skills/` | `~/.config/opencode/skills/` |
+| Global install (Skills CLI) | `~/.agents/skills/` | `~/.claude/skills/` (symlink to `~/.agents/skills/`) | `~/.config/opencode/skills/` |
 
 OpenCode loads skills on demand via the native `skill` tool; users typically invoke them by describing the desired behavior rather than using a slash command.
 

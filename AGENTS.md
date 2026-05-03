@@ -1,6 +1,6 @@
-# Agent Instructions — Skills Repo
+# Agent Instructions: Skills Repo
 
-This is the **source repository** for Claude Code skills. Skills are installed from here to `~/.claude/skills/` (and equivalent paths for other agents) via `npx skills`.
+This is the **source repository** for Claude Code and Codex skills. Skills are installed from here to `~/.agents/skills/` (the canonical universal path) and symlinked into `~/.claude/skills/` (Claude Code) via `npx skills`.
 
 ## Critical Rule: Never Edit Installed Files
 
@@ -8,9 +8,9 @@ This is the **source repository** for Claude Code skills. Skills are installed f
 
 | Location | What it is | Editable? |
 |----------|------------|-----------|
-| `plugins/<skill>/` | Source of truth | YES — edit here |
-| `~/.claude/skills/<skill>/` | Installed copy | NO — reinstall to update |
-| `~/.codex/skills/<skill>/` | Installed copy | NO — reinstall to update |
+| `plugins/<skill>/` | Source of truth | YES, edit here |
+| `~/.agents/skills/<skill>/` | Installed copy (canonical, read by Codex and other universal clients) | NO, reinstall to update |
+| `~/.claude/skills/<skill>/` | Symlink into `~/.agents/skills/<skill>/` | NO, reinstall to update |
 
 If you edit `~/.claude/skills/slipbox/SKILL.md` instead of `plugins/slipbox/SKILL.md`, your changes will be lost the next time the skill is installed and will never reach other machines.
 
@@ -23,7 +23,7 @@ If you edit `~/.claude/skills/slipbox/SKILL.md` instead of `plugins/slipbox/SKIL
    npx skills add randroids-dojo/skills --skill <name> -y -g
    ```
 
-> **Do not rely on `npx skills update`** — the installed skills have an empty `skillFolderHash` in `~/.agents/.skill-lock.json`, so the CLI cannot detect changes and will always report "All skills are up to date". Always use `npx skills add` to pull the latest.
+> **Do not rely on `npx skills update`**: the installed skills have an empty `skillFolderHash` in `~/.agents/.skill-lock.json`, so the CLI cannot detect changes and will always report "All skills are up to date". Always use `npx skills add` to pull the latest.
 
 ## Repository Structure
 
@@ -35,13 +35,14 @@ plugins/
 │   ├── SKILL.md          # Full skill documentation and agent instructions
 │   └── commands/
 │       └── slipbox.md    # Slash command quick reference
+├── spiral/
 ├── task-tracking-dots/
 └── unreal/
 ```
 
 Each skill has:
-- `SKILL.md` — loaded when the skill is invoked; contains full docs and behavioral instructions for the agent
-- `commands/<name>.md` — loaded when the slash command is used; keep this concise
+- `SKILL.md`: loaded when the skill is invoked; contains full docs and behavioral instructions for the agent
+- `commands/<name>.md`: loaded when the slash command is used; keep this concise
 
 ## Adding a New Skill
 
@@ -53,5 +54,5 @@ Each skill has:
    ---
    ```
 2. Optionally add `commands/<skill-name>.md` for a slash command entry point
-3. Update `README.md` skills table
+3. Update `README.md` skills table and `.claude-plugin/marketplace.json`
 4. Commit and push
