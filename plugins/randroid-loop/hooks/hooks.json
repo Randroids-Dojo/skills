@@ -1,0 +1,15 @@
+{
+  "description": "Randroid loop Stop hook. Intercepts session exit and feeds the prompt back to create a self-sustaining loop with fresh context each iteration.",
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/stop-hook.sh"
+          }
+        ]
+      }
+    ]
+  }
+}

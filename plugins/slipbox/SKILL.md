@@ -189,7 +189,7 @@ Response:
 
 ### POST /api/tension-pass
 
-Detect conceptual tensions — notes with contradictory content that cluster near each other.
+Detect conceptual tensions: notes with contradictory content that cluster near each other.
 
 ```bash
 curl -sL -X POST "$SLIPBOX_URL/api/tension-pass" \
@@ -209,7 +209,7 @@ Response:
 
 ### GET /api/theme-data
 
-Returns clusters with full note content and tensions for local LLM agent synthesis. No embeddings — only human-readable data. Use this to read your knowledge graph and synthesize meta-notes per cluster, then POST them back via `/api/add-note`.
+Returns clusters with full note content and tensions for local LLM agent synthesis. No embeddings: only human-readable data. Use this to read your knowledge graph and synthesize meta-notes per cluster, then POST them back via `/api/add-note`.
 
 Requires a current clusters index (run `cluster-pass` first).
 
@@ -273,10 +273,10 @@ Atomic idea content in Markdown.
 **Note ID format**: `YYYYMMDDTHHMMSS-<8hex>` (timestamp + content hash)
 
 **Index files** (in `index/` directory of PrivateBox):
-- `index/embeddings.json` — noteId → vector + model + timestamp
-- `index/backlinks.json` — noteId → array of linking notes
-- `index/clusters.json` — thematic groups of notes
-- `index/tensions.json` — pairs of contradictory notes
+- `index/embeddings.json`: noteId → vector + model + timestamp
+- `index/backlinks.json`: noteId → array of linking notes
+- `index/clusters.json`: thematic groups of notes
+- `index/tensions.json`: pairs of contradictory notes
 
 ---
 

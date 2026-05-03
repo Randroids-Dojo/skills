@@ -1,9 +1,6 @@
 ---
 name: randroid-loop
-description: Runs an autonomous development loop with research and implementation modes. Use when orchestrating iterative research and implementation cycles with dots-based task tracking and git workflow automation.
-metadata:
-  claude_triggers: "/randroid-loop, /randroid"
-  claude_hooks: "Stop: hooks/stop-hook.sh"
+description: Runs an autonomous development loop with research and implementation modes. Use when orchestrating iterative research and implementation cycles with dots-based task tracking and git workflow automation. Slash commands /randroid-loop and /randroid live under commands/. The Stop hook lives under hooks/hooks.json.
 ---
 
 # Randroid Loop

@@ -48,18 +48,18 @@ Use branch prefix and commit message style appropriate for your mode:
 - **Research mode**: Branch `research/...`, commits `research: ...`
 - **Implement mode**: Branch `feature/...`, commits `feat/fix/refactor: ...`
 
-**commit** — Local commit only (no push):
+**commit**: Local commit only (no push):
 ```bash
 git commit -m "<prefix>: <summary of work>"
 ```
 
-**push** — Commit and push to current branch (default):
+**push**: Commit and push to current branch (default):
 ```bash
 git commit -m "<prefix>: <summary of work>"
 git pull --rebase && git push
 ```
 
-**pr** — Open a PR and wait for CI:
+**pr**: Open a PR and wait for CI:
 ```bash
 # Create branch BEFORE committing (if on main)
 BRANCH_NAME="<prefix>/$(date +%Y%m%d-%H%M%S)"
@@ -76,7 +76,7 @@ gh pr create --fill || echo "PR already exists"
 gh pr checks --watch || echo "No CI checks configured"
 ```
 
-**pr-merge** — Open PR, wait for CI, then merge:
+**pr-merge**: Open PR, wait for CI, then merge:
 ```bash
 # Create branch BEFORE committing (if on main)
 BRANCH_NAME="<prefix>/$(date +%Y%m%d-%H%M%S)"

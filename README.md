@@ -60,6 +60,7 @@ $skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/task
 $skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/godot
 $skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/unreal
 $skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/slipbox
+$skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/spiral
 ```
 
 Or clone for all skills at once:
@@ -76,6 +77,7 @@ ln -s ~/.codex/skills/randroids-dojo/plugins/task-tracking-dots ~/.codex/skills/
 ln -s ~/.codex/skills/randroids-dojo/plugins/godot ~/.codex/skills/godot
 ln -s ~/.codex/skills/randroids-dojo/plugins/unreal ~/.codex/skills/unreal
 ln -s ~/.codex/skills/randroids-dojo/plugins/slipbox ~/.codex/skills/slipbox
+ln -s ~/.codex/skills/randroids-dojo/plugins/spiral ~/.codex/skills/spiral
 ```
 
 #### Claude Code
@@ -89,6 +91,7 @@ Install from the marketplace:
 /plugin install godot
 /plugin install unreal
 /plugin install slipbox
+/plugin install spiral
 ```
 
 ### Install locations (Skills CLI)
@@ -113,6 +116,7 @@ $task-tracking-dots # Task management with Dots
 $godot              # Invoke godot skill
 $unreal             # Invoke unreal skill
 $slipbox            # Invoke slipbox skill
+$spiral             # Bootstrap or audit a project scaffold
 ```
 
 ### Claude Code
@@ -123,6 +127,7 @@ $slipbox            # Invoke slipbox skill
 /godot:godot        # Godot development assistance
 /unreal:unreal      # Unreal development assistance
 /slipbox:slipbox    # SlipBox knowledge engine
+/spiral             # Bootstrap or audit a project scaffold (/spiral init, /spiral audit)
 ```
 
 ## Repository Structure
@@ -153,9 +158,15 @@ $slipbox            # Invoke slipbox skill
 │   │   ├── commands/        # Claude Code slash commands
 │   │   ├── scripts/         # Helper scripts
 │   │   └── references/      # Documentation
-│   └── slipbox/
+│   ├── slipbox/
+│   │   ├── SKILL.md         # Skill definition (Codex + Claude)
+│   │   └── commands/        # Claude Code slash commands
+│   └── spiral/
 │       ├── SKILL.md         # Skill definition (Codex + Claude)
-│       └── commands/        # Claude Code slash commands
+│       ├── commands/        # Claude Code slash commands (init, audit)
+│       ├── templates/       # Files written into target repos by /spiral init
+│       ├── scripts/         # init.sh and audit.sh
+│       └── docs/            # methodology and case studies
 └── README.md
 ```
 

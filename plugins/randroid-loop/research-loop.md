@@ -110,10 +110,10 @@ When creating `implement:` dots, ensure they meet these quality standards:
 
 Every implementation spec MUST include:
 
-1. **Description** — Clear explanation of what to build
-2. **Context** — Why this is needed, related features
-3. **Affected Files** — List specific files to modify/create
-4. **Verify** — Concrete verification steps
+1. **Description**: Clear explanation of what to build
+2. **Context**: Why this is needed, related features
+3. **Affected Files**: List specific files to modify/create
+4. **Verify**: Concrete verification steps
 
 ### Quality Checklist
 
@@ -138,9 +138,9 @@ manually deleting each completed item. This should be non-destructive
 (tasks go to archive, not deleted).
 
 ## Affected Files
-- `ContentView.swift` — Add button to toolbar
-- `TaskListView.swift` — Add clearCompleted() action
-- `TaskItem.swift` — May need archive helper
+- `ContentView.swift`: Add button to toolbar
+- `TaskListView.swift`: Add clearCompleted() action
+- `TaskItem.swift`: May need archive helper
 
 ## Implementation Notes
 - Button should only appear when there are completed tasks

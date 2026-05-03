@@ -28,6 +28,11 @@
       "name": "slipbox",
       "source": "./plugins/slipbox",
       "description": "Interact with the SlipBox semantic knowledge engine and read notes from PrivateBox. Capture atomic ideas, browse the knowledge graph, and run semantic analysis passes (link, cluster, tension). Service: /Users/randroid/Documents/Dev/SlipBox. Notes: https://github.com/Randroids-Dojo/PrivateBox"
+    },
+    {
+      "name": "spiral",
+      "source": "./plugins/spiral",
+      "description": "Bootstrap and audit the structural-discipline scaffold (GDD tree, coverage ledger, progress log, open questions, followups, playtest gate) that takes a vision into a delivered system through small iterations whose state lives in git, not the agent's head. Pairs with randroid-loop and task-tracking-dots. Cross-tool: works with Claude Code via .claude/rules/ and Codex via per-directory AGENTS.md symlinks."
     }
   ]
 }

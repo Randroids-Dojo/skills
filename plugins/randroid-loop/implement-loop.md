@@ -36,14 +36,14 @@ Read the spec carefully. Plan 2-5 concrete steps. Then:
 
 Run verification steps from two sources:
 
-**1. Task-specific verification** — Check the dot spec for a `## Verify` section:
+**1. Task-specific verification**: Check the dot spec for a `## Verify` section:
 ```bash
 dot show <task-id>  # Look for ## Verify section with checklist items
 ```
 
 If the spec includes verification steps (e.g., "build succeeds", "tests pass", "behavior X works"), execute each one.
 
-**2. Project-wide verification** — Check for `Docs/VERIFY.md`:
+**2. Project-wide verification**: Check for `Docs/VERIFY.md`:
 ```bash
 cat Docs/VERIFY.md  # If it exists, run the commands listed
 ```
@@ -132,12 +132,12 @@ dot add "research: <question>" -d "Need to investigate..."
 
 Before writing ANY code, complete these steps:
 
-1. **Read the spec thoroughly** — Understand what's being asked
-2. **Examine related code** — Look at existing patterns in the codebase
-3. **Identify ALL affected files** — Don't miss dependencies
-4. **Check for existing tests** — Understand current test coverage
-5. **Understand the data flow** — Trace how data moves through the system
-6. **If anything is unclear** — Create a `research:` dot instead of guessing
+1. **Read the spec thoroughly**: Understand what's being asked
+2. **Examine related code**: Look at existing patterns in the codebase
+3. **Identify ALL affected files**: Don't miss dependencies
+4. **Check for existing tests**: Understand current test coverage
+5. **Understand the data flow**: Trace how data moves through the system
+6. **If anything is unclear**: Create a `research:` dot instead of guessing
 
 **Never assume you understand a codebase without reading it first.**
 
@@ -175,11 +175,11 @@ Before writing ANY code, complete these steps:
 
 ### Verification Checklist
 
-1. **Build succeeds** — Run `xcodebuild` or equivalent
-2. **Tests pass** — Run full test suite, not just new tests
-3. **Feature works** — Manually verify the new behavior
-4. **Regression check** — Verify existing features still work
-5. **Task-specific checks** — Complete all items in `## Verify` section
+1. **Build succeeds**: Run `xcodebuild` or equivalent
+2. **Tests pass**: Run full test suite, not just new tests
+3. **Feature works**: Manually verify the new behavior
+4. **Regression check**: Verify existing features still work
+5. **Task-specific checks**: Complete all items in `## Verify` section
 
 ### Verification Evidence
 
@@ -197,7 +197,7 @@ dot off <task-id> -r "Build passes, tests pass, verified feature X works manuall
 
 ## Guidelines
 
-- **Trust the spec**: If it's unclear, make a research dot—don't guess
+- **Trust the spec**: If it's unclear, make a research dot, don't guess
 - **One task, one commit**: Keep changes atomic
 - **Don't gold-plate**: Implement what's specified, nothing more
 - **Stay unblocked**: If stuck >5 min, create a dot and move on

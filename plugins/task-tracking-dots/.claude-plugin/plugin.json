@@ -1,0 +1,5 @@
+{
+  "name": "task-tracking-dots",
+  "description": "Manages Dots task tracking with the dot CLI, dependencies, and completion reasons. Use when tracking work items across sessions or coordinating task dependencies.",
+  "version": "1.0.0"
+}

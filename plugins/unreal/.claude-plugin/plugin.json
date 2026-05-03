@@ -1,0 +1,5 @@
+{
+  "name": "unreal",
+  "description": "Develop, test, and automate Unreal Engine 5.x projects (WIP). Covers PlayUnreal automation, Remote Control API, Automation Driver, and CI-friendly E2E flows.",
+  "version": "0.1.0"
+}

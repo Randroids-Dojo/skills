@@ -1,0 +1,5 @@
+{
+  "name": "slipbox",
+  "description": "Interact with the SlipBox semantic knowledge engine and read notes from PrivateBox. Use when capturing ideas, searching notes, browsing your knowledge graph, or running semantic analysis passes (link, cluster, tension).",
+  "version": "1.0.0"
+}
