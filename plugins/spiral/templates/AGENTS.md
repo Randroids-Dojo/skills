@@ -152,6 +152,28 @@ When adding auto-scrolling, credits, animated overlays, portals, or modal UI:
 
 ---
 
+## RULE 11: One backing store per project
+
+Every Vercel project gets its own dedicated storage resources. Never share an Upstash KV, Postgres, Blob, or any other backing store across projects, even when key-prefix or schema namespacing would prevent collisions.
+
+Why:
+
+- Shared rate limits. One project's runaway loop pressures the other's ceiling.
+- Shared billing. Cost attribution becomes impossible.
+- Shared rotation. A token leak in one project forces every co-tenant to redeploy.
+- Shared blast radius on outages. A misconfigured PUT in one project can fill the other's storage budget.
+
+How:
+
+- Provision storage via the Vercel marketplace UI before wiring code that needs it. The CLI does not expose marketplace provisioning; this is one of the few setup steps that lives in the dashboard.
+- After provisioning, attach the resource to exactly one Vercel project. Never use `vercel env add` to copy another project's connection string into this project.
+- The first env vars on a fresh project should come from the project's own provisioned store, not from another project's `.env.local`.
+- Local dev pulls from the project's own Vercel env via `vercel env pull` (which respects the project link in `.vercel/project.json`).
+
+If you find yourself about to run `vercel env add KV_REST_API_URL` with a value that came from another project's env, stop. Provision a dedicated store first.
+
+---
+
 ## Quick pre-commit checklist
 
 1. No em-dashes. Run `grep -rnP '[\x{2014}\x{2013}]' .` (checks for U+2014 em-dash and U+2013 en-dash). Must return nothing.
