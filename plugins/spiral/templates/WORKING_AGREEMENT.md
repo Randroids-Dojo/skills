@@ -27,7 +27,7 @@ Every PR must include:
 After opening a PR:
 
 - Read flat comments, reviews, and threaded inline comments.
-- Treat Copilot or bot review comments as actionable unless clearly incorrect.
+- Treat CodeRabbit or bot review comments as actionable unless clearly incorrect.
 - Fix valid comments and push followup commits.
 - After every followup push, wait for any configured bot reviewer to finish reviewing that pushed commit.
 - The bot review wait is settled only when all required checks are green AND at least 60 seconds have passed since the latest PR branch push or latest bot review activity, whichever is later.
