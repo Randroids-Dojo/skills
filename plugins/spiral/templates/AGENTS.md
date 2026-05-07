@@ -89,7 +89,7 @@ For every slice:
 6. Update `docs/PROGRESS_LOG.md`, `docs/GDD_COVERAGE.json`, `docs/OPEN_QUESTIONS.md`, `docs/FOLLOWUPS.md`, and the GDD section when the work changes them.
 7. Run the local verification suite. At minimum: dash checks, `git diff --check`, type-check, relevant unit tests, broader checks when warranted.
 8. Open a PR.
-9. Inspect all PR review comments, including inline and threaded comments from Copilot or other review bots.
+9. Inspect all PR review comments, including inline and threaded comments from CodeRabbit or other review bots.
 10. Fix actionable review comments, reply in-thread when the platform supports it, resolve threads when resolved.
 11. After every push to the PR branch, wait for any configured bot reviewer to finish its review pass. The wait is settled only when all required checks are green AND at least 60 seconds have passed since the latest PR branch push or latest bot review activity, whichever is later. Re-inspect reviews and review threads after the settled wait.
 12. Wait for CI and the preview deploy to pass.
