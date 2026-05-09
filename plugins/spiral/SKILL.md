@@ -103,6 +103,7 @@ The output is a checklist, not a generated remediation file. One canonical place
 
 - `randroid-loop` reads the ledgers this skill writes. The loop's research and implement modes both name `OPEN_QUESTIONS.md` and `FOLLOWUPS.md` as required reads.
 - `task-tracking-dots` is the work-item tracker. `Q-NNN` entries that resolve into work become Dots. `F-NNN` entries with `Priority: blocks-release` become Dots.
+- `vibekit` (optional) supplies bootstrap and per-module cookbook for the in-house `@randroids-dojo/vibekit` shared library. Spiral defers to it for VibeKit-specific knowledge the same way it defers to `randroid-loop` for slice execution. A project that prefers a different shared library swaps this skill out without touching spiral.
 - This skill is stateless. All state lives in the target repo's ledger files.
 
 ## Architecture

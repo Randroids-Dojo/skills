@@ -31,10 +31,12 @@ Per-dep entry shape:
 - **Pin format**: `github:Randroids-Dojo/VibeKit#vX.Y.Z` (tag-pinned)
 - **Currently pinned**: `v0.1.0`
 - **Detect-new**: `gh api repos/Randroids-Dojo/VibeKit/releases/latest --jq .tag_name`
+- **Bootstrap / cookbook**: the `vibekit` skill supplies `/vibekit add` (pins the dep, prints this ledger entry) and `/vibekit cookbook` (per-module wire-up patterns: joystick, editor-history, confetti, rng, math, storage, server kv/sign/rate-limit). Optional companion to spiral: a project that prefers a different shared library swaps the skill but keeps this ledger procedure.
 - **Migration notes**:
   - The kit is pre-1.0; any release may break callers (release-please uses `bump-patch-for-minor-pre-major`, so feat-level changes still ship as patches and may carry signature changes).
   - Read the kit's `CHANGELOG.md` between the pinned and target tag.
   - Type errors usually surface in `pnpm type-check`; runtime regressions in unit tests + the targeted Playwright smoke for any UI that touches the kit.
+  - For wire-up patterns (especially when a kit module's signature shifts), consult `/vibekit cookbook <module>` rather than re-reading the kit's full README.
 
 ---
 
