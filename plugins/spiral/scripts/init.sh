@@ -66,6 +66,7 @@ manifest=(
   "PROGRESS_LOG.md:docs/PROGRESS_LOG.md"
   "OPEN_QUESTIONS.md:docs/OPEN_QUESTIONS.md"
   "FOLLOWUPS.md:docs/FOLLOWUPS.md"
+  "DEPENDENCY_LEDGER.md:docs/DEPENDENCY_LEDGER.md"
   "PLAYTEST.md:docs/PLAYTEST.md"
   "FUN_FACTOR_AUDIT.md:docs/FUN_FACTOR_AUDIT.md"
   # Path-scoped Rules (.claude/rules/*.md). Read by Claude Code based on

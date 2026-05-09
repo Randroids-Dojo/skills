@@ -41,6 +41,7 @@ Flatline is the failure case this skill explicitly prevents. The audit script fl
 | `docs/PROGRESS_LOG.md` | Append-only slice receipts (Branch / Changed / Verification / Assumptions / GDD coverage / Followups). Newest on top |
 | `docs/OPEN_QUESTIONS.md` | Q-NNN entries with options, recommended default, status, resolution. Defaults let the loop ship without blocking |
 | `docs/FOLLOWUPS.md` | F-NNN entries with priority (blocks-release, nice-to-have, polish), blocker condition, unblock condition |
+| `docs/DEPENDENCY_LEDGER.md` | Watched dependencies with currently-pinned version + per-dep upgrade procedure. The Dependency Upgrade Gate fires every loop iteration that touches `main` |
 | `docs/PLAYTEST.md` | Qualitative second-gate checklist. The loop is not done until this resolves |
 | `docs/FUN_FACTOR_AUDIT.md` | Qualitative gap-finder. Run when coverage is ≥80% done. Source of P0/P1 polish work |
 | `.claude/rules/slice-discipline.md` | Path-scoped Rule. Loads when editing source. Enforces "no drive-by refactors, no speculative abstractions, refactor-in-slice" |
@@ -62,8 +63,8 @@ The scaffold is designed to work in both Claude Code and Codex without modificat
 2. **Contract**: the three docs that govern every iteration (rules, plan, agreement).
 3. **Slice**: the bounded unit of work (one PR, one log entry, small enough that a botched slice is reverted in one click).
 4. **Ledgers**: externalized memory (progress log, open questions, followups, coverage). Append-only.
-5. **Gates**: what blocks merge. Mechanical (CI green, type-check, tests, no em-dash, bot-review settled). Qualitative (playtest, fun-factor audit). The qualitative gate is the second gate that prevents Flatline-style early termination.
-6. **Selection rule**: what to work on next: red CI > P0/P1 dot > answered open question > high-priority followup > coverage gap > partial GDD section > cleanup.
+5. **Gates**: what blocks merge AND what triggers a slice. Mechanical (CI green, type-check, tests, no em-dash, bot-review settled). Qualitative (playtest, fun-factor audit). Dependency Upgrade Gate (see `docs/DEPENDENCY_LEDGER.md`): a watched-dep release is the same kind of fresh state as a new commit on `main`; the agent observes and acts at every loop boundary that touches `main`. The qualitative gate is the second gate that prevents Flatline-style early termination.
+6. **Selection rule**: what to work on next: red CI > pending dep upgrade > P0/P1 dot > answered open question > high-priority followup > coverage gap > partial GDD section > cleanup.
 7. **Loop**: the continuous operation. Read context, pick slice, branch, implement, test, update ledgers, PR, handle review, wait for bot + CI, merge, pull main, smoke prod, close item, start next. Never voluntarily idles. Executed by `randroid-loop`.
 
 ## How `init` works
@@ -84,9 +85,9 @@ The script:
 
 Invocation: `/spiral audit` from inside any git repo, or `bash ${CLAUDE_PLUGIN_ROOT}/scripts/audit.sh`.
 
-The script runs eight checks and prints a remediation checklist:
+The script runs nine checks and prints a remediation checklist:
 
-1. **Missing canonical files.** Verifies the full scaffold (AGENTS.md, CLAUDE.md, the docs ledger set, the three .claude/rules files) is present. Lists any missing.
+1. **Missing canonical files.** Verifies the full scaffold (AGENTS.md, CLAUDE.md, the docs ledger set including DEPENDENCY_LEDGER.md, the three .claude/rules files) is present. Lists any missing.
 2. **Monolith GDD.** Warns if `docs/GDD.md` exists alone without a `docs/gdd/` directory. Suggests splitting into a tree.
 3. **Chapter-granular coverage.** Counts rows in `docs/GDD_COVERAGE.json`. Warns if row count is implausibly low for project age (heuristic: fewer than 14 rows per project-week).
 4. **Missing qualitative gate.** Warns if `docs/PLAYTEST.md` or `docs/FUN_FACTOR_AUDIT.md` is missing. This is the Flatline failure mode.
@@ -94,6 +95,7 @@ The script runs eight checks and prints a remediation checklist:
 6. **Open questions without defaults.** Warns on any `Q-` entry missing a `Recommended default:` line.
 7. **Followups without priority.** Warns on any `F-` entry missing a `Priority:` tag.
 8. **Em-dash drift.** Greps the canonical files for U+2014 / U+2013. Warns on hits.
+9. **Dependency ledger present.** Warns if `docs/DEPENDENCY_LEDGER.md` is missing or empty (no watched deps recorded). The gate has nothing to fire against without it.
 
 The output is a checklist, not a generated remediation file. One canonical place per kind of state.
 
@@ -124,6 +126,7 @@ spiral/
 │   ├── PROGRESS_LOG.md
 │   ├── OPEN_QUESTIONS.md
 │   ├── FOLLOWUPS.md
+│   ├── DEPENDENCY_LEDGER.md
 │   ├── PLAYTEST.md
 │   ├── FUN_FACTOR_AUDIT.md
 │   ├── dot-claude-rules-slice-discipline.md

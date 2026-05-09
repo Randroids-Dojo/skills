@@ -4,7 +4,7 @@ Bootstrap the structural-discipline scaffold into the current repo.
 
 ## When to use
 
-At the start of a fresh project, before any feature code. Writes the ten canonical files (`AGENTS.md` plus the `docs/` ledger set) so an autonomous PR loop can run against the repo.
+At the start of a fresh project, before any feature code. Writes the canonical files (`AGENTS.md` plus the `docs/` ledger set, including `docs/DEPENDENCY_LEDGER.md` and the qualitative-gate docs) so an autonomous PR loop can run against the repo.
 
 Refuses to run if `AGENTS.md` already exists. Use `/spiral audit` on existing repos instead.
 

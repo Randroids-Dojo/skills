@@ -22,7 +22,7 @@ Default path is the current directory.
 
 ## What it checks
 
-1. Missing canonical files.
+1. Missing canonical files (including `docs/DEPENDENCY_LEDGER.md`).
 2. Monolith `docs/GDD.md` instead of a `docs/gdd/` tree.
 3. Chapter-granular coverage rows (heuristic: fewer than 14 rows per project-week).
 4. Missing qualitative gate (`docs/PLAYTEST.md` or `docs/FUN_FACTOR_AUDIT.md`).
@@ -30,6 +30,7 @@ Default path is the current directory.
 6. Open questions without `Recommended default:` lines.
 7. Followups without `Priority:` tags.
 8. Em-dash drift in the canonical files.
+9. `docs/DEPENDENCY_LEDGER.md` missing the `## Watch list` section (the Dependency Upgrade Gate has nothing to fire against without it).
 
 ## Output
 

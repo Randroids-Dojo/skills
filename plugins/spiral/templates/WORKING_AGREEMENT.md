@@ -53,7 +53,24 @@ Minimum for code changes:
 - Build command before opening or merging PRs that affect runtime code.
 - Smoke test (Playwright or equivalent) when UI routes, API routes, routing, or core flows are touched.
 
+Minimum for dependency-upgrade slices (`chore(deps): bump <dep> from <from> to <to>`):
+
+- All of the above for code changes.
+- Read the upstream CHANGELOG between the pinned and target version BEFORE editing project code; document the breaking changes and migrations applied in the PR body.
+- Update `docs/DEPENDENCY_LEDGER.md` **Currently pinned** in the same PR.
+- Smoke test any feature that imports from the upgraded dep.
+- See `docs/DEPENDENCY_LEDGER.md` §"Upgrade procedure" for the full step list.
+
 Never mark work complete with failing required verification.
+
+## Dependency Upgrade Gate
+
+Run at every loop boundary that touches `main`:
+
+- After landing on fresh `main` (post-merge or fresh pull), before picking the next slice.
+- Before opening a new PR, in case a watched release landed while the slice was in flight.
+
+Mechanism lives in `docs/IMPLEMENTATION_PLAN.md` §"Dependency Upgrade Gate"; the watched dep list and per-dep procedure live in `docs/DEPENDENCY_LEDGER.md`. Treat a new release as a non-optional signal: the upgrade is the next slice unless red CI takes over.
 
 ## Merge And Deploy
 

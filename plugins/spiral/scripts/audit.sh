@@ -34,6 +34,7 @@ canonical=(
   "docs/PROGRESS_LOG.md"
   "docs/OPEN_QUESTIONS.md"
   "docs/FOLLOWUPS.md"
+  "docs/DEPENDENCY_LEDGER.md"
   "docs/PLAYTEST.md"
   "docs/FUN_FACTOR_AUDIT.md"
   ".claude/rules/slice-discipline.md"
@@ -198,6 +199,7 @@ emdash_hits=$(grep -lP '[\x{2014}\x{2013}]' \
   docs/PROGRESS_LOG.md \
   docs/OPEN_QUESTIONS.md \
   docs/FOLLOWUPS.md \
+  docs/DEPENDENCY_LEDGER.md \
   docs/PLAYTEST.md \
   docs/FUN_FACTOR_AUDIT.md \
   docs/GDD_COVERAGE.json \
@@ -211,6 +213,17 @@ if [[ -n "${emdash_hits}" ]]; then
   while IFS= read -r line; do
     [[ -n "${line}" ]] && add_finding "    ${line}"
   done <<< "${emdash_hits}"
+fi
+
+# Check 9: dependency ledger present and non-empty
+# A missing or empty ledger means the Dependency Upgrade Gate has nothing to
+# fire against. Even projects with no internal deps should keep a ledger
+# whose Watch list section exists (possibly empty) so future deps land here
+# rather than spreading across docs.
+if [[ -f "docs/DEPENDENCY_LEDGER.md" ]]; then
+  if ! grep -q "## Watch list" docs/DEPENDENCY_LEDGER.md 2>/dev/null; then
+    add_finding "[DEPS] docs/DEPENDENCY_LEDGER.md exists but has no '## Watch list' section. The Dependency Upgrade Gate cannot find watched deps. Re-copy the template or add the section."
+  fi
 fi
 
 # Output
