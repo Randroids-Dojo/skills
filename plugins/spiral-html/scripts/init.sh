@@ -101,7 +101,7 @@ ln -sf "../../.claude/rules/gdd-build-log.md" "${TARGET_DIR}/docs/gdd/AGENTS.md"
 written+=("docs/gdd/AGENTS.md (symlink to .claude/rules/gdd-build-log.md)")
 
 # Em-dash sanity check on the written files (U+2014 em-dash, U+2013 en-dash).
-if grep -lP '[\x{2014}\x{2013}]' \
+if grep -lE '—|–' \
   "${TARGET_DIR}/AGENTS.html" \
   "${TARGET_DIR}/AGENTS.md" \
   "${TARGET_DIR}/CLAUDE.md" \

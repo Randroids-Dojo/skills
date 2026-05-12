@@ -17,7 +17,10 @@ if [[ ! -d "${TARGET_DIR}" ]]; then
   exit 1
 fi
 
-cd "${TARGET_DIR}"
+cd "${TARGET_DIR}" || {
+  echo "Error: cannot enter ${TARGET_DIR}." >&2
+  exit 1
+}
 
 findings=()
 add_finding() {
@@ -218,7 +221,7 @@ PY
 fi
 
 # Check 8: em-dash drift in canonical files (U+2014 em-dash, U+2013 en-dash).
-emdash_hits=$(grep -lP '[\x{2014}\x{2013}]' \
+emdash_hits=$(grep -lE '—|–' \
   AGENTS.html \
   AGENTS.md \
   CLAUDE.md \

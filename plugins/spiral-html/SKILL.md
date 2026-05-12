@@ -1,6 +1,6 @@
 ---
 name: spiral-html
-description: HTML-first bootstrap and audit of the structural-discipline scaffold (GDD tree, coverage ledger, progress log, open questions, followups, playtest gate) that takes a vision into a delivered system through small iterations whose state lives in git, not the agent's head. Same methodology as spiral; ledgers, rules, and contracts are written in HTML rather than Markdown. Slash commands /spiral-html-init and /spiral-html-audit live under commands/.
+description: "HTML-first bootstrap and audit of the structural-discipline scaffold (GDD tree, coverage ledger, progress log, open questions, followups, playtest gate) that takes a vision into a delivered system through small iterations whose state lives in git, not the agent's head. Same methodology as spiral; ledgers, rules, and contracts are written in HTML rather than Markdown. Slash commands /spiral-html-init and /spiral-html-audit live under commands/."
 ---
 
 <h1>Spiral (HTML edition)</h1>
