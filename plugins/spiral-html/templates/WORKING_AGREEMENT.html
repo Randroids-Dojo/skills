@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Working Agreement: {{PROJECT_NAME}}</title>
+</head>
+<body>
+
+<header>
+  <h1>Working Agreement</h1>
+  <p>This file defines the process rules for implementation slices on <strong>{{PROJECT_NAME}}</strong>.</p>
+</header>
+
+<section id="branches">
+  <h2>Branches</h2>
+  <ul>
+    <li>Start every slice from current <code>main</code>.</li>
+    <li>Branch names should be short and descriptive: <code>feature/manual-shifting</code>, <code>fix/leaderboard-pagination</code>, <code>docs/update-coverage</code>.</li>
+    <li>Never push directly to <code>main</code>.</li>
+    <li>Do not mix unrelated changes in one branch.</li>
+  </ul>
+</section>
+
+<section id="commits">
+  <h2>Commits</h2>
+  <ul>
+    <li>Use short human commit messages.</li>
+    <li>Do not include AI attribution.</li>
+    <li>Keep commits focused. A PR may contain more than one commit when review fixes are added.</li>
+  </ul>
+</section>
+
+<section id="pull-requests">
+  <h2>Pull Requests</h2>
+  <p>Every PR must include:</p>
+  <ul>
+    <li>Summary of user-facing and technical changes.</li>
+    <li>Verification commands run.</li>
+    <li>GDD, coverage, followup, or open-question updates.</li>
+    <li>Any known limitations or blocked checks.</li>
+  </ul>
+  <p>After opening a PR:</p>
+  <ul>
+    <li>Read flat comments, reviews, and threaded inline comments.</li>
+    <li>Treat CodeRabbit or bot review comments as actionable unless clearly incorrect.</li>
+    <li>Fix valid comments and push followup commits.</li>
+    <li>After every followup push, wait for any configured bot reviewer to finish reviewing that pushed commit.</li>
+    <li>The bot review wait is settled only when all required checks are green AND at least 60 seconds have passed since the latest PR branch push or latest bot review activity, whichever is later.</li>
+    <li>Re-read flat reviews and threaded inline comments after each push and after the settled wait. Merge only after bot review is finished or the settled wait confirms no fresh bot feedback appeared.</li>
+    <li>Reply when the context would help future readers.</li>
+    <li>Resolve threads when fixed.</li>
+  </ul>
+</section>
+
+<section id="verification">
+  <h2>Verification</h2>
+  <p>Minimum for docs-only changes:</p>
+  <ul>
+    <li>Dash check (U+2014 em-dash and U+2013 en-dash): <code>grep -rnP '[\x{2014}\x{2013}]' . --exclude-dir=.git --exclude-dir=node_modules --exclude-dir=.next</code> (must return nothing).</li>
+    <li><code>git diff --check</code>.</li>
+    <li>Project-specific type-check command.</li>
+  </ul>
+  <p>Minimum for code changes:</p>
+  <ul>
+    <li>Dash checks.</li>
+    <li><code>git diff --check</code>.</li>
+    <li>Type-check.</li>
+    <li>Relevant unit tests.</li>
+    <li>Full test suite when shared logic, storage, schemas, or core systems are touched.</li>
+    <li>Build command before opening or merging PRs that affect runtime code.</li>
+    <li>Smoke test (Playwright or equivalent) when UI routes, API routes, routing, or core flows are touched.</li>
+  </ul>
+  <p>Minimum for dependency-upgrade slices (<code>chore(deps): bump &lt;dep&gt; from &lt;from&gt; to &lt;to&gt;</code>):</p>
+  <ul>
+    <li>All of the above for code changes.</li>
+    <li>Read the upstream CHANGELOG between the pinned and target version BEFORE editing project code; document the breaking changes and migrations applied in the PR body.</li>
+    <li>Update <code>docs/DEPENDENCY_LEDGER.html</code> <strong>Currently pinned</strong> in the same PR.</li>
+    <li>Smoke test any feature that imports from the upgraded dep.</li>
+    <li>See <code>docs/DEPENDENCY_LEDGER.html</code> §<a href="DEPENDENCY_LEDGER.html#upgrade-procedure">Upgrade procedure</a> for the full step list.</li>
+  </ul>
+  <p>Never mark work complete with failing required verification.</p>
+</section>
+
+<section id="dependency-upgrade-gate">
+  <h2>Dependency Upgrade Gate</h2>
+  <p>Run at every loop boundary that touches <code>main</code>:</p>
+  <ul>
+    <li>After landing on fresh <code>main</code> (post-merge or fresh pull), before picking the next slice.</li>
+    <li>Before opening a new PR, in case a watched release landed while the slice was in flight.</li>
+  </ul>
+  <p>Mechanism lives in <code>docs/IMPLEMENTATION_PLAN.html</code> §<a href="IMPLEMENTATION_PLAN.html#dependency-upgrade-gate">Dependency Upgrade Gate</a>; the watched dep list and per-dep procedure live in <code>docs/DEPENDENCY_LEDGER.html</code>. Treat a new release as a non-optional signal: the upgrade is the next slice unless red CI takes over.</p>
+</section>
+
+<section id="merge-and-deploy">
+  <h2>Merge And Deploy</h2>
+  <ul>
+    <li>Merge only through PRs.</li>
+    <li>Wait for CI, preview deploy, and bot review after the latest push.</li>
+    <li>After merge, pull <code>main</code>.</li>
+    <li>Verify main commit status.</li>
+    <li>Verify production deploy status.</li>
+    <li>Smoke test production with an HTTP check at minimum. Use deeper browser smoke when UI behavior changed.</li>
+  </ul>
+</section>
+
+<section id="clarifications">
+  <h2>Clarifications</h2>
+  <p>Ask only when ambiguity is expensive or risky. When a simple consistent default is available, choose it, record the assumption in <code>docs/OPEN_QUESTIONS.html</code> with a <code>Recommended default</code> entry, and continue.</p>
+</section>
+
+<section id="risk-gates">
+  <h2>Risk Gates</h2>
+  <p>Always stop for explicit user approval before:</p>
+  <ul>
+    <li>Force pushes.</li>
+    <li>Hard resets.</li>
+    <li>Recursive deletes.</li>
+    <li>Dropping data store keys or deleting remote data.</li>
+    <li>Deleting branches other than branches created for the current completed PR.</li>
+    <li>Modifying CI/CD configuration.</li>
+    <li>Uploading content to third-party services outside the existing PR and deploy flow.</li>
+    <li>Handling secrets.</li>
+  </ul>
+</section>
+
+</body>
+</html>

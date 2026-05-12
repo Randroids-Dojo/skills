@@ -11,6 +11,8 @@ A dual-format skills repository for **Claude Code**, **Codex CLI**, and **OpenCo
 | **godot** | Develop, test, build, and deploy Godot 4.x games |
 | **unreal** | Develop, test, and automate Unreal Engine 5.x projects (WIP). PlayUnreal: https://github.com/Randroids-Dojo/PlayUnreal |
 | **slipbox** | Interact with the SlipBox semantic knowledge engine and read notes from PrivateBox |
+| **spiral** | Bootstrap and audit the structural-discipline scaffold (Markdown ledgers) used by long-running autonomous PR loops |
+| **spiral-html** | HTML-first variant of spiral. Same scaffold and audit checks, ledgers authored as semantic HTML with `data-*` ids |
 
 ## Installation
 
@@ -61,6 +63,7 @@ $skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/godo
 $skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/unreal
 $skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/slipbox
 $skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/spiral
+$skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/spiral-html
 ```
 
 Or clone for all skills at once:
@@ -78,6 +81,7 @@ ln -s ~/.agents/skills/randroids-dojo/plugins/godot ~/.agents/skills/godot
 ln -s ~/.agents/skills/randroids-dojo/plugins/unreal ~/.agents/skills/unreal
 ln -s ~/.agents/skills/randroids-dojo/plugins/slipbox ~/.agents/skills/slipbox
 ln -s ~/.agents/skills/randroids-dojo/plugins/spiral ~/.agents/skills/spiral
+ln -s ~/.agents/skills/randroids-dojo/plugins/spiral-html ~/.agents/skills/spiral-html
 ```
 
 Note: Codex 2026 reads skills from `~/.agents/skills/` (the universal "Agent Skills" path), not `~/.codex/skills/`. The `npx skills` CLI also targets `~/.agents/skills/` for Codex.
@@ -94,6 +98,7 @@ Install from the marketplace:
 /plugin install unreal
 /plugin install slipbox
 /plugin install spiral
+/plugin install spiral-html
 ```
 
 ### Install locations (Skills CLI)
@@ -119,6 +124,7 @@ $godot              # Invoke godot skill
 $unreal             # Invoke unreal skill
 $slipbox            # Invoke slipbox skill
 $spiral             # Bootstrap or audit a project scaffold
+$spiral-html        # HTML-first variant of spiral
 ```
 
 ### Claude Code
@@ -130,6 +136,7 @@ $spiral             # Bootstrap or audit a project scaffold
 /unreal:unreal      # Unreal development assistance
 /slipbox:slipbox    # SlipBox knowledge engine
 /spiral             # Bootstrap or audit a project scaffold (/spiral init, /spiral audit)
+/spiral-html        # HTML-first variant (/spiral-html init, /spiral-html audit)
 ```
 
 ## Repository Structure
@@ -165,12 +172,18 @@ $spiral             # Bootstrap or audit a project scaffold
 │   ├── slipbox/
 │   │   ├── SKILL.md         # Skill definition (Codex + Claude)
 │   │   └── commands/        # Claude Code slash commands
-│   └── spiral/
-│       ├── SKILL.md         # Skill definition (Codex + Claude)
-│       ├── commands/        # Claude Code slash commands (init, audit)
-│       ├── templates/       # Files written into target repos by /spiral init
-│       ├── scripts/         # init.sh and audit.sh
-│       └── docs/            # methodology and case studies
+│   ├── spiral/
+│   │   ├── SKILL.md         # Skill definition (Codex + Claude)
+│   │   ├── commands/        # Claude Code slash commands (init, audit)
+│   │   ├── templates/       # Files written into target repos by /spiral init
+│   │   ├── scripts/         # init.sh and audit.sh
+│   │   └── docs/            # methodology and case studies
+│   └── spiral-html/
+│       ├── SKILL.md         # Skill definition (YAML frontmatter + HTML body)
+│       ├── commands/        # /spiral-html init, /spiral-html audit
+│       ├── templates/       # HTML scaffold written into target repos
+│       ├── scripts/         # init.sh and audit.sh (HTML-aware)
+│       └── docs/            # methodology.html and case-studies.html
 └── README.md
 ```
 

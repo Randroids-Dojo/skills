@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>GDD: {{PROJECT_NAME}}</title>
+</head>
+<body>
+
+<header>
+  <h1>GDD: {{PROJECT_NAME}}</h1>
+  <aside data-role="guardrail">
+    <strong>Anti-Flatline guardrail.</strong> This GDD is a directory tree, not a single file. Each requirement is its own file. Coverage rows in <code>docs/GDD_COVERAGE.json</code> are written at requirement granularity, NOT chapter granularity. A multi-week project should produce on the order of 100+ rows, not 11. If you only have a dozen rows, your coverage is too coarse and the loop will self-terminate before the product is good.
+  </aside>
+  <p><strong>Project pitch:</strong> {{PITCH}}</p>
+</header>
+
+<section id="how-to-use">
+  <h2>How to use this directory</h2>
+  <ul>
+    <li>Each <code>docs/gdd/&lt;n&gt;-&lt;title&gt;.html</code> file is one requirement or one tightly-scoped section.</li>
+    <li>Each file starts with a <code>&lt;p data-status="..."&gt;</code> element: <code>not_started</code> | <code>partial</code> | <code>done</code>.</li>
+    <li>Once a file's work ships, append a <code>&lt;section data-role="build-log"&gt;</code> with what landed, the key files, and any non-obvious decisions. Build logs grow with the code.</li>
+    <li>Keep file names short and stable. The file path is referenced from <code>GDD_COVERAGE.json</code>.</li>
+  </ul>
+</section>
+
+<section id="conventions">
+  <h2>Conventions</h2>
+  <ul>
+    <li>One requirement, one file, one row in the coverage ledger.</li>
+    <li>File names: <code>&lt;NN&gt;-&lt;kebab-title&gt;.html</code>, e.g. <code>05-vehicle-physics.html</code>, <code>12-leaderboard-submit.html</code>.</li>
+    <li>Cross-references between sections use relative links.</li>
+    <li>The em-dash ban applies here.</li>
+  </ul>
+</section>
+
+<section id="index">
+  <h2>Index</h2>
+  <p>Add entries below as sections are drafted. Each entry: filename + one-line description. This index is the human-readable map; the machine-readable map is <code>docs/GDD_COVERAGE.json</code>.</p>
+  <ul>
+    <li><code>01-vision-and-pillars.html</code>: what {{PROJECT_NAME}} is and what it is not.</li>
+    <li><em>&lt;draft your first requirement file here&gt;</em></li>
+  </ul>
+</section>
+
+<section id="out-of-scope">
+  <h2>Out of scope</h2>
+  <p>A dedicated <code>docs/gdd/99-out-of-scope.html</code> file is the explicit fence. List anything that has been considered and rejected for v1, with a one-line rationale. The loop must not scope-creep into items listed there without approval.</p>
+</section>
+
+</body>
+</html>

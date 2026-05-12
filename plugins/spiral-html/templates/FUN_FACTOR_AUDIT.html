@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Fun Factor Gap Audit</title>
+</head>
+<body>
+
+<header>
+  <h1>Fun Factor Gap Audit</h1>
+  <aside data-role="gate">
+    <strong>Backlog generator.</strong> Run this audit when <code>docs/GDD_COVERAGE.json</code> is ≥80% <code>done</code>. Re-run after every major system lands. This is the source of the P0 / P1 polish work that prevents the loop from terminating before the product is good. Each gap identified here becomes a <code>Q-NNN</code> open question or an <code>F-NNN</code> followup.
+    <p>This doc exists because the Flatline failure mode is: every coverage row is <code>done</code>, every test passes, every checkbox is green, but the product is not actually fun. Coverage rows say a <em>system</em> exists. They cannot say the system <em>delivers experience</em>. This audit asks the questions coverage cannot.</p>
+  </aside>
+</header>
+
+<section id="how-to-run">
+  <h2>How to run an audit</h2>
+  <ol>
+    <li>Set today's date as the audit header (<code>&lt;article data-audit-date="YYYY-MM-DD"&gt;</code>).</li>
+    <li>Walk each prompt below. Write a one-sentence answer for each. Be honest. "Yes" answers do not generate work; gaps do.</li>
+    <li>For each gap, decide: is this a question (<code>Q-NNN</code>) or a followup (<code>F-NNN</code>)?</li>
+    <li>Add the entry. Reference the audit date in the entry's Context line.</li>
+    <li>Save the audit. Do not delete previous audits; let the file grow.</li>
+  </ol>
+  <p>Append-only. Earlier audits are preserved.</p>
+</section>
+
+<section id="prompts">
+  <h2>Prompts</h2>
+
+  <section data-prompt-group="first-session">
+    <h3>The first session</h3>
+    <ul>
+      <li>Does the first 90 seconds make the player want to keep playing?</li>
+      <li>What is the first specific moment that surprises a new user (positive or negative)?</li>
+      <li>Where does a new user get stuck or confused?</li>
+    </ul>
+  </section>
+
+  <section data-prompt-group="core-action">
+    <h3>The core action</h3>
+    <ul>
+      <li>Does the core action feel good at every skill level (novice, mid, expert)?</li>
+      <li>Is there meaningful skill expression? Can two players visibly perform differently at the same task?</li>
+      <li>Does the core action have texture (light cues, weight, follow-through), or does it feel binary?</li>
+    </ul>
+  </section>
+
+  <section data-prompt-group="variety">
+    <h3>Variety</h3>
+    <ul>
+      <li>Do the variations within the system feel distinct, or do they feel like recolors?</li>
+      <li>If the player picks a "different" option (track / character / mode / layout), do they have a different experience?</li>
+      <li>Is there a surprise still waiting for a player who has played for an hour?</li>
+    </ul>
+  </section>
+
+  <section data-prompt-group="difficulty-arc">
+    <h3>Difficulty arc</h3>
+    <ul>
+      <li>Where is the difficulty too high (frustration without learning)?</li>
+      <li>Where is the difficulty too low (boredom)?</li>
+      <li>Is there a clear "I want to keep going to get better" pull?</li>
+    </ul>
+  </section>
+
+  <section data-prompt-group="stickiness">
+    <h3>Stickiness</h3>
+    <ul>
+      <li>What brings a player back the next day?</li>
+      <li>What makes a player tell a friend about this?</li>
+      <li>What is the smallest change that would meaningfully improve retention?</li>
+    </ul>
+  </section>
+
+  <section data-prompt-group="polish-postponed">
+    <h3>Polish you have been postponing</h3>
+    <ul>
+      <li>List up to five "we know this needs work" items you have been quietly avoiding. Be specific.</li>
+      <li>For each, name the smallest slice that would meaningfully address it.</li>
+    </ul>
+  </section>
+</section>
+
+<section id="audit-log">
+  <h2>Audit log</h2>
+
+  <article data-audit-date="{{TODAY}}" data-audit-state="initial">
+    <h3>Audit {{TODAY}} (initial)</h3>
+    <p>(populate when first run, after at least one full system has landed and coverage is non-trivial)</p>
+  </article>
+
+  <aside id="earlier-audits">
+    <h3>Earlier audits</h3>
+    <p>(append previous audits below this line as they age out, newest above oldest)</p>
+  </aside>
+</section>
+
+</body>
+</html>

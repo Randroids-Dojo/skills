@@ -1,0 +1,5 @@
+{
+  "name": "spiral-html",
+  "description": "HTML-first variant of the Spiral structural-discipline scaffold. Bootstraps and audits a vision-to-delivered scaffold whose ledgers, rules, and contracts are written in HTML rather than Markdown. Same methodology as spiral; different communication medium.",
+  "version": "1.0.0"
+}

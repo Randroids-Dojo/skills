@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Followups</title>
+</head>
+<body>
+
+<header>
+  <h1>Followups</h1>
+  <p>Backlog spillover discovered during implementation. Keep items PR-sized when possible.</p>
+  <aside data-role="convention">
+    <strong>Critical convention.</strong> Every followup must carry a <code>data-priority</code> attribute. Three buckets:
+    <ul>
+      <li><code>blocks-release</code>: cannot ship v1 without this.</li>
+      <li><code>nice-to-have</code>: improves the product but does not block.</li>
+      <li><code>polish</code>: post-release cleanup.</li>
+    </ul>
+  </aside>
+</header>
+
+<section id="how-to-add" data-role="entry-template">
+  <h2>How to add a followup</h2>
+  <pre><code>&lt;section data-f="F-NNN" data-priority="blocks-release|nice-to-have|polish"&gt;
+  &lt;h3&gt;F-NNN: Short title&lt;/h3&gt;
+  &lt;dl&gt;
+    &lt;dt&gt;Context&lt;/dt&gt;&lt;dd&gt;one or two sentences on why this came up.&lt;/dd&gt;
+    &lt;dt&gt;Blocker (if any)&lt;/dt&gt;&lt;dd&gt;the condition that prevents working on this now.&lt;/dd&gt;
+    &lt;dt&gt;Unblock condition&lt;/dt&gt;&lt;dd&gt;what has to be true to start.&lt;/dd&gt;
+    &lt;dt&gt;PR / Dot reference&lt;/dt&gt;&lt;dd&gt;#N or dots-N (when picked up)&lt;/dd&gt;
+  &lt;/dl&gt;
+&lt;/section&gt;</code></pre>
+  <p>Keep <code>F-NNN</code> IDs monotonically increasing. When a followup ships, leave the entry in place and append a <code>&lt;dt&gt;Resolved&lt;/dt&gt;&lt;dd&gt;PR #N&lt;/dd&gt;</code> entry. Never delete.</p>
+</section>
+
+<main id="blocks-release">
+  <h2>Blocks Release</h2>
+  <p>(none yet)</p>
+</main>
+
+<main id="nice-to-have">
+  <h2>Nice To Have</h2>
+
+  <section data-f="F-001" data-priority="nice-to-have">
+    <h3>F-001: Draft first GDD section</h3>
+    <dl>
+      <dt>Context</dt><dd>scaffold landed; the seed <code>docs/gdd/01-vision-and-pillars.html</code> has not been drafted yet.</dd>
+      <dt>Blocker</dt><dd>none.</dd>
+      <dt>Unblock condition</dt><dd>dev provides one paragraph of vision text or approves a draft.</dd>
+    </dl>
+  </section>
+
+</main>
+
+<main id="polish">
+  <h2>Polish</h2>
+  <p>(none yet)</p>
+</main>
+
+</body>
+</html>
