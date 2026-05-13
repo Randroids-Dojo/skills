@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Open Questions</title>
+</head>
+<body>
+
+<header>
+  <h1>Open Questions</h1>
+  <p>Questions here block or influence implementation.</p>
+  <aside data-role="convention">
+    <strong>Critical convention.</strong> Every question must include a <code>&lt;dt&gt;Recommended default&lt;/dt&gt;</code> entry. The loop ships under that default and leaves the question open for override. Do not block the loop on dev sign-off. Stress-tested values that survive multiple iterations get frozen.
+  </aside>
+</header>
+
+<section id="how-to-add" data-role="entry-template">
+  <h2>How to add a new question</h2>
+  <pre><code>&lt;section data-q="Q-NNN" data-status="open"&gt;
+  &lt;h3&gt;Q-NNN: Short title&lt;/h3&gt;
+  &lt;dl&gt;
+    &lt;dt&gt;Context&lt;/dt&gt;&lt;dd&gt;one or two sentences on why this is a decision point.&lt;/dd&gt;
+    &lt;dt&gt;Options&lt;/dt&gt;&lt;dd&gt;
+      &lt;ol type="A"&gt;
+        &lt;li&gt;Option A description.&lt;/li&gt;
+        &lt;li&gt;Option B description.&lt;/li&gt;
+        &lt;li&gt;Option C description.&lt;/li&gt;
+      &lt;/ol&gt;
+    &lt;/dd&gt;
+    &lt;dt&gt;Recommended default&lt;/dt&gt;&lt;dd&gt;B. One sentence on the rationale.&lt;/dd&gt;
+    &lt;dt&gt;Status&lt;/dt&gt;&lt;dd&gt;open&lt;/dd&gt;
+    &lt;dt&gt;Resolution&lt;/dt&gt;&lt;dd&gt;(filled in once dev confirms or overrides)&lt;/dd&gt;
+  &lt;/dl&gt;
+&lt;/section&gt;</code></pre>
+  <p>Keep <code>Q-NNN</code> IDs monotonically increasing. When a question resolves, leave the entry in place and update <code>data-status</code> to <code>resolved</code> plus the <code>Resolution</code> entry. Never delete.</p>
+</section>
+
+<main id="open">
+  <h2>Open</h2>
+
+  <section data-q="Q-001" data-status="open">
+    <h3>Q-001: First requirement file</h3>
+    <dl>
+      <dt>Context</dt><dd>which GDD section to draft first as the seed for the coverage ledger.</dd>
+      <dt>Options</dt><dd>
+        <ol type="A">
+          <li><code>01-vision-and-pillars.html</code> (the abstract framing).</li>
+          <li>The first concrete user-visible feature.</li>
+          <li>The data model / persistence layer.</li>
+        </ol>
+      </dd>
+      <dt>Recommended default</dt><dd>A. The pillars file is short, drives every subsequent decision, and unblocks the rest.</dd>
+      <dt>Status</dt><dd>open</dd>
+      <dt>Resolution</dt><dd></dd>
+    </dl>
+  </section>
+
+</main>
+
+<aside id="resolved">
+  <h2>Resolved</h2>
+  <p>(none yet)</p>
+</aside>
+
+</body>
+</html>

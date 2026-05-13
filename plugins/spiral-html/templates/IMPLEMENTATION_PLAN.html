@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Implementation Plan: {{PROJECT_NAME}}</title>
+</head>
+<body>
+
+<header>
+  <h1>Implementation Plan</h1>
+  <p>This document is the main operating loop for <strong>{{PROJECT_NAME}}</strong> implementation. Agents must keep working continuously until the planned scope is complete.</p>
+</header>
+
+<section id="loop-contract">
+  <h2>Loop Contract</h2>
+  <p>Every slice follows the same loop:</p>
+  <ol>
+    <li>Read <code>AGENTS.html</code>, <code>README.md</code>, this plan, <code>docs/WORKING_AGREEMENT.html</code>, the relevant <code>docs/gdd/</code> files, <code>docs/PROGRESS_LOG.html</code>, <code>docs/OPEN_QUESTIONS.html</code>, <code>docs/FOLLOWUPS.html</code>, <code>docs/GDD_COVERAGE.json</code>, <code>docs/DEPENDENCY_LEDGER.html</code>, and the active backlog.</li>
+    <li><strong>Run the Dependency Upgrade Gate</strong> (see below). If a watched dep is out of date, the upgrade is the next slice unless step 1 of slice selection (broken main / red CI) takes over.</li>
+    <li>Pick the highest-priority unblocked task from this plan, coverage gaps, followups, the qualitative-gate docs, and the active backlog.</li>
+    <li>Create one branch for one PR-sized slice.</li>
+    <li>Build the slice completely using existing code patterns.</li>
+    <li>Add or update tests for the touched behavior.</li>
+    <li>Update continuity docs and the GDD coverage ledger.</li>
+    <li>Run local verification.</li>
+    <li><strong>Re-run the Dependency Upgrade Gate</strong> before opening the PR. If a watched dep landed a new release while the slice was in flight, defer it to a separate PR (do not bundle into this one); log the bump as the next slice.</li>
+    <li>Open a PR.</li>
+    <li>Inspect review comments and threaded inline comments.</li>
+    <li>Fix actionable feedback, reply when useful, resolve threads.</li>
+    <li>After every push to the PR branch, wait for any configured bot reviewer to finish its review pass, then re-inspect reviews and threaded comments. The wait is settled only when all required checks are green AND at least 60 seconds have passed since the latest PR branch push or latest bot review activity, whichever is later. If no fresh bot review appears after that, record that no new bot feedback was posted after the push.</li>
+    <li>Wait for CI and preview deploy to pass.</li>
+    <li>Merge only when green and bot review has settled after the latest push.</li>
+    <li>Pull <code>main</code>, verify main CI and production deploy, smoke test production.</li>
+    <li>Close the backlog item with the PR number and verification evidence.</li>
+    <li>Immediately start the next slice.</li>
+  </ol>
+  <p>Do not stop after planning, after opening a PR, or after merging. If a task is blocked, log the blocker in <code>docs/OPEN_QUESTIONS.html</code> or <code>docs/FOLLOWUPS.html</code>, update the backlog item, and move to the next unblocked slice.</p>
+</section>
+
+<section id="dependency-upgrade-gate">
+  <h2>Dependency Upgrade Gate</h2>
+  <p>Run at two points in the loop:</p>
+  <ul>
+    <li><strong>After step 16</strong> (just landed on fresh <code>main</code>), before picking the next slice.</li>
+    <li><strong>Before step 10</strong> (opening a PR), to catch new releases that landed while the slice was in flight.</li>
+  </ul>
+  <p>Read <code>docs/DEPENDENCY_LEDGER.html</code>. For every watched dep, run its <strong>Detect-new</strong> command and compare against the ledger's <strong>Currently pinned</strong> value. If a newer release exists:</p>
+  <ol>
+    <li>The upgrade IS the next slice unless slice selection priority 1 (red CI / broken main) takes over.</li>
+    <li>Follow the per-dep procedure in <code>docs/DEPENDENCY_LEDGER.html</code> §<a href="DEPENDENCY_LEDGER.html#upgrade-procedure">Upgrade procedure</a>: branch, bump, type-check, test, build, smoke, PR.</li>
+    <li>If the upgrade requires a migration that cannot land in one PR, abort the bump, log an <code>F-NNN</code> followup for the migration work, and continue with the prior pin. Add a Dot for the migration work.</li>
+    <li>The bump PR updates the ledger's <strong>Currently pinned</strong> line in the same diff that bumps the package manifest. The two must move together.</li>
+  </ol>
+  <p>The gate is mechanical, not optional. A new pinned tag is the same kind of "fresh state" that a new commit on <code>main</code> is: the agent must observe and react.</p>
+</section>
+
+<section id="slice-selection">
+  <h2>Slice Selection</h2>
+  <p>Priority order:</p>
+  <ol>
+    <li>Broken <code>main</code>, red CI, broken deploy, or failing required checks.</li>
+    <li><strong>Pending dependency upgrades from <code>docs/DEPENDENCY_LEDGER.html</code>.</strong></li>
+    <li>Active P0 or P1 backlog items.</li>
+    <li>Open <code>docs/OPEN_QUESTIONS.html</code> entries that block implementation and have enough information to resolve.</li>
+    <li>High-priority <code>docs/FOLLOWUPS.html</code> items.</li>
+    <li><code>docs/GDD_COVERAGE.json</code> gaps marked <code>not_started</code> or <code>partial</code>.</li>
+    <li>GDD requirements with user-visible scope still marked partial.</li>
+    <li><strong>Once coverage is ≥80% done:</strong> open items in <code>docs/PLAYTEST.html</code> and gaps in <code>docs/FUN_FACTOR_AUDIT.html</code>. These are the second gate. The loop is not finished until these resolve.</li>
+    <li>Cleanup that removes blockers, stale docs, or brittle test gaps.</li>
+  </ol>
+  <p>Prefer the smallest slice that creates a useful PR. Avoid mixing unrelated work.</p>
+</section>
+
+<section id="definition-of-done">
+  <h2>Definition Of Done</h2>
+  <p>A slice is done only when all apply:</p>
+  <ul>
+    <li>Code, docs, tests, and coverage ledger match the implemented behavior.</li>
+    <li>Required local verification passes.</li>
+    <li>PR is open and all actionable review comments are handled.</li>
+    <li>Bot review has finished after the latest push, or no fresh bot feedback appeared after the settled wait.</li>
+    <li>CI and preview deploy are green.</li>
+    <li>PR is merged.</li>
+    <li>Local <code>main</code> is updated from remote.</li>
+    <li>Main CI and production deploy are green.</li>
+    <li>Production smoke test passes or a blocker is logged.</li>
+    <li>The backlog item or followup is closed with the PR number and verification.</li>
+  </ul>
+</section>
+
+<section id="project-closure">
+  <h2>Project Closure</h2>
+  <p>The loop ends when ALL apply:</p>
+  <ol>
+    <li>Every row in <code>docs/GDD_COVERAGE.json</code> is <code>done</code> with implementation and test refs.</li>
+    <li>Every checklist item in <code>docs/PLAYTEST.html</code> is checked or explicitly deferred to a follow-up release.</li>
+    <li><code>docs/FUN_FACTOR_AUDIT.html</code> has been re-run after the last system landed and produced no new P0 or P1 gaps.</li>
+  </ol>
+  <p>Closing the loop without all three is the Flatline failure mode: shipping a complete-on-paper system that is not actually good.</p>
+</section>
+
+<section id="current-planned-scope">
+  <h2>Current Planned Scope</h2>
+  <p>Use <code>docs/gdd/</code> as the product scope. The current high-level remaining areas are reflected in <code>docs/GDD_COVERAGE.json</code>, with active spillover in <code>docs/FOLLOWUPS.html</code>.</p>
+</section>
+
+</body>
+</html>

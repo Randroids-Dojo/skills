@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Release Playtest Checklist</title>
+</head>
+<body>
+
+<header>
+  <h1>Release Playtest Checklist</h1>
+  <aside data-role="gate">
+    <strong>The second gate.</strong> When all coverage rows in <code>docs/GDD_COVERAGE.json</code> are <code>done</code>, this checklist becomes the active backlog. The loop is not finished until every item here is checked or explicitly deferred to a future release.
+    <p>This exists because shipping a complete-on-paper system is not the same as shipping a good system. Coverage rows track <em>systems</em>; this checklist tracks <em>experience</em>. Both gates must close.</p>
+  </aside>
+</header>
+
+<section id="how-to-use">
+  <h2>How to use this doc</h2>
+  <ul>
+    <li>Each section captures one experience-level question the systems-level coverage will not catch.</li>
+    <li>Items use <code>&lt;input type="checkbox"&gt;</code> elements. Check when the experience is verified (live playtest, recorded session, or qualitative review).</li>
+    <li>An item that fails review becomes a new <code>F-NNN</code> entry in <code>docs/FOLLOWUPS.html</code> with <code>data-priority="blocks-release"</code>.</li>
+    <li>Re-run the relevant section after any large system lands.</li>
+  </ul>
+</section>
+
+<section data-section="first-90-seconds">
+  <h2>First 90 seconds</h2>
+  <p>The window where a new player decides whether to keep playing.</p>
+  <ul>
+    <li><label><input type="checkbox"> First-time experience does not require external instructions. The user understands the goal within 30 seconds.</label></li>
+    <li><label><input type="checkbox"> First input has a visible, satisfying response (sound, motion, particle, animation).</label></li>
+    <li><label><input type="checkbox"> No dead ends, modal dialogs, or auth walls in the first minute.</label></li>
+    <li><label><input type="checkbox"> If the user does nothing, the screen still communicates what to do.</label></li>
+    <li><label><input type="checkbox"> First completion of the core action delivers a clear positive signal.</label></li>
+  </ul>
+</section>
+
+<section data-section="core-loop-fun">
+  <h2>Core loop fun</h2>
+  <p>The minute-to-minute moment-to-moment quality.</p>
+  <ul>
+    <li><label><input type="checkbox"> The core action is satisfying when performed perfectly.</label></li>
+    <li><label><input type="checkbox"> The core action is satisfying when performed imperfectly (no harsh punishment for trying).</label></li>
+    <li><label><input type="checkbox"> The user can tell, without reading the HUD, whether they are doing well.</label></li>
+    <li><label><input type="checkbox"> Repetition does not become tedious within a 5-minute session.</label></li>
+    <li><label><input type="checkbox"> Difficulty curve has clear progression. Plateaus are intentional.</label></li>
+  </ul>
+</section>
+
+<section data-section="variety-and-surprise">
+  <h2>Variety and surprise</h2>
+  <ul>
+    <li><label><input type="checkbox"> At least three meaningfully different situations / opponents / states / levels exist.</label></li>
+    <li><label><input type="checkbox"> Each variation feels distinct from the others, not a recolor.</label></li>
+    <li><label><input type="checkbox"> Random elements (where applicable) produce surprise without producing frustration.</label></li>
+  </ul>
+</section>
+
+<section data-section="session-arc">
+  <h2>Session arc</h2>
+  <p>The length of time a user wants to play in one sitting.</p>
+  <ul>
+    <li><label><input type="checkbox"> A session has a clear in / play / out flow. The user can stop cleanly.</label></li>
+    <li><label><input type="checkbox"> Progress persists between sessions (saves, leaderboards, profile, settings).</label></li>
+    <li><label><input type="checkbox"> Returning users get a "welcome back" signal (recent items, new options, last-played continuation).</label></li>
+  </ul>
+</section>
+
+<section data-section="audio-and-feel">
+  <h2>Audio and feel</h2>
+  <ul>
+    <li><label><input type="checkbox"> No audio loop is fatiguing after 5 minutes.</label></li>
+    <li><label><input type="checkbox"> Audio reinforces successful actions (positive cues) and warns of failure conditions (negative cues).</label></li>
+    <li><label><input type="checkbox"> The user can mute / adjust audio without leaving the experience.</label></li>
+  </ul>
+</section>
+
+<section data-section="performance-and-reliability">
+  <h2>Performance and reliability</h2>
+  <ul>
+    <li><label><input type="checkbox"> Frame rate stays inside acceptable bounds on the lowest target hardware.</label></li>
+    <li><label><input type="checkbox"> No reproducible crash, hang, or visual artifact in 15 minutes of play.</label></li>
+    <li><label><input type="checkbox"> Loading times are acceptable, or are masked by something the user enjoys watching.</label></li>
+  </ul>
+</section>
+
+<section data-section="accessibility">
+  <h2>Accessibility</h2>
+  <ul>
+    <li><label><input type="checkbox"> Text is readable at the smallest target screen size.</label></li>
+    <li><label><input type="checkbox"> Color is not the sole channel for any critical information.</label></li>
+    <li><label><input type="checkbox"> Keyboard / gamepad / touch parity is maintained for all primary actions.</label></li>
+    <li><label><input type="checkbox"> Motion-sensitive users have a "reduce motion" path.</label></li>
+  </ul>
+</section>
+
+<section data-section="deferred">
+  <h2>Deferred</h2>
+  <p>Items intentionally pushed to a future release. Each one names the release.</p>
+  <p>(none yet)</p>
+</section>
+
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Methodology: how the spiral works</title>
+</head>
+<body>
+
+<h1>Methodology: how the spiral works</h1>
+
+<p>The agent does not remember the project. The project remembers itself. Every kind of state lives in git-tracked files with rigid templates. The agent's job collapses to: read ledgers, pick the next slice, run the loop, update ledgers.</p>
+
+<p>This is the why behind every file the <code>spiral-html</code> skill writes. The methodology is identical to <code>spiral</code>; the format of the files is HTML rather than Markdown.</p>
+
+<section id="the-shape">
+  <h2>The shape</h2>
+  <p>A loop returns to the same point. A spiral returns to the same artifacts but advanced. Every iteration grows the build logs, evidence rows, progress receipts, and resolved questions, so every revisit finds the substrate richer than the last. Drawn as a diagram, it is not a circle. It is a spiral: forward-while-circling.</p>
+  <p>Most agents fail at multi-week projects because they hold context in their head. This methodology externalizes every kind of state into git-tracked files with rigid templates. That removes the rediscovery tax that kills long-running loops.</p>
+</section>
+
+<section id="the-seven-parts">
+  <h2>The seven parts</h2>
+  <p>There are seven, and they map to the canonical scaffold files (eleven full templates plus three rules and the Codex / Claude shims):</p>
+
+  <section data-part="1">
+    <h3>1. Vision</h3>
+    <p><code>docs/gdd/</code> is the canonical spec. Each requirement is its own HTML file. Each file carries a <code>&lt;p data-status="..."&gt;</code> element and gains a <code>&lt;section data-role="build-log"&gt;</code> subsection as work ships. Build logs grow with the code so the next slice can read what landed without rediscovering it.</p>
+    <p><strong>Anti-pattern: monolith GDD.</strong> A single <code>docs/GDD.html</code> file pushes coverage rows toward chapter granularity, which is the Flatline failure mode (rows that flip to <code>done</code> once any code lands).</p>
+  </section>
+
+  <section data-part="2">
+    <h3>2. Contract</h3>
+    <p>Three always-on docs that compound, plus three path-scoped Rules:</p>
+    <ul>
+      <li><code>AGENTS.html</code> codifies rules: em-dash ban, the pre-slice reading list (the file canon), stack constraints, commit-message style, the autonomous PR loop reference, secrets policy, testing expectations, motion / overlay QA, the pre-commit checklist. <code>AGENTS.md</code> is a one-line shim pointing here so Codex's root-down walk still lands.</li>
+      <li><code>CLAUDE.md</code> is a one-line shim pointing at <code>AGENTS.html</code>. Lets Claude Code read the same contract Codex reads, so a single repo works in both tools.</li>
+      <li><code>docs/IMPLEMENTATION_PLAN.html</code> codifies the 18-step loop: read context, branch, implement, test, update ledgers, PR, handle review, wait for bot + CI, merge, pull main, smoke prod, close item, start next.</li>
+      <li><code>docs/WORKING_AGREEMENT.html</code> codifies process: branch naming, commit hygiene, PR contents, the bot-review settled-wait gate (60s + green CI), verification minimums (different for docs vs code), merge-and-deploy expectations, risk gates.</li>
+    </ul>
+    <p>Plus three Claude Code Rules in <code>.claude/rules/</code> that load only when matching files are edited:</p>
+    <ul>
+      <li><code>slice-discipline.md</code> loads when editing source code (<code>src/**</code>, <code>app/**</code>, <code>lib/**</code>, <code>components/**</code>, <code>pages/**</code>, <code>scripts/**</code>, <code>tests/**</code>). Enforces no drive-by refactors, no speculative abstractions, refactor-in-slice.</li>
+      <li><code>ledger-append-only.md</code> loads when editing the four ledger files. Enforces append-only and never-rewrite-past-entries.</li>
+      <li><code>gdd-build-log.md</code> loads when editing GDD section files. Enforces a build-log entry on every shipped feature.</li>
+    </ul>
+    <p>The split between always-on docs (AGENTS.html, the plan, the agreement) and path-scoped Rules is deliberate. Always-on guidance is universal: every slice needs to know about the em-dash ban and the autonomous loop. Path-scoped guidance is specific: only slices that touch ledgers need the append-only rule, only slices that touch the GDD need the build-log rule. Loading them on demand saves context for the work the slice is actually doing.</p>
+    <p>Together they leave no slice-time decision to ad-hoc judgment. The agent does not negotiate the rules, it follows them.</p>
+  </section>
+
+  <section data-part="3">
+    <h3>3. Slice</h3>
+    <p>The unit of work. One PR. One commit-message-sized change. One log entry. Bounded so the agent can finish before context drift, and small enough that a botched slice is reverted in one click.</p>
+    <p>The slice contract is also what enables compounding. Each slice shipping a feature also updates the build log + coverage row + progress entry. The next slice reads those updates and starts cheaper.</p>
+  </section>
+
+  <section data-part="4">
+    <h3>4. Ledgers</h3>
+    <p>Externalized memory. Four append-only files:</p>
+    <ul>
+      <li><code>docs/PROGRESS_LOG.html</code>: receipts as <code>&lt;article data-slice="..." data-date="..."&gt;</code> elements, newest-on-top, never deleted. Each entry's <code>&lt;dl&gt;</code> fields: Branch / Changed / Verification / Assumptions / GDD coverage / Followups.</li>
+      <li><code>docs/OPEN_QUESTIONS.html</code>: <code>&lt;section data-q="Q-NNN" data-status="open|resolved"&gt;</code> entries with Options, <strong>Recommended default</strong> (mandatory), Status, Resolution. The default lets the loop ship without blocking on dev sign-off.</li>
+      <li><code>docs/FOLLOWUPS.html</code>: <code>&lt;section data-f="F-NNN" data-priority="..."&gt;</code> entries with priority (<code>blocks-release</code> | <code>nice-to-have</code> | <code>polish</code>), Blocker condition, Unblock condition.</li>
+      <li><code>docs/GDD_COVERAGE.json</code>: atomic-row spec to code traceability. One row per requirement. Each row carries <code>gddRef</code>, <code>status</code>, <code>implementationRefs</code>, <code>testRefs</code>, <code>followupRefs</code>.</li>
+    </ul>
+    <p>Append-only is the load-bearing convention. A future slice cannot trust ledgers that get retroactively edited.</p>
+  </section>
+
+  <section data-part="5">
+    <h3>5. Gates</h3>
+    <p>What blocks merge. Two kinds:</p>
+    <p><strong>Mechanical:</strong> CI green, type-check, tests, no em-dash, bot-review settled-wait. These are checked by tools.</p>
+    <p><strong>Qualitative:</strong> <code>docs/PLAYTEST.html</code> (release checklist) and <code>docs/FUN_FACTOR_AUDIT.html</code> (gap audit). These are the second gate that re-opens the loop after systems land. Coverage rows say a <em>system</em> exists. The qualitative gate asks whether the system <em>delivers experience</em>.</p>
+    <p>Without the qualitative gate, the loop terminates the moment every coverage row is <code>done</code>, even if the product is not actually good. This is the Flatline failure mode and the reason <code>PLAYTEST.html</code> and <code>FUN_FACTOR_AUDIT.html</code> ship by default.</p>
+  </section>
+
+  <section data-part="6">
+    <h3>6. Selection rule</h3>
+    <p>What to work on next. Priority order:</p>
+    <ol>
+      <li>Broken <code>main</code>, red CI, broken deploy.</li>
+      <li>P0 / P1 backlog items.</li>
+      <li>Open questions with enough info to resolve under their recommended default.</li>
+      <li>High-priority followups.</li>
+      <li>Coverage gaps marked <code>not_started</code> or <code>partial</code>.</li>
+      <li>GDD requirements with user-visible scope still partial.</li>
+      <li><strong>Qualitative gate items</strong> once coverage is ≥80% done.</li>
+      <li>Cleanup that removes blockers.</li>
+    </ol>
+    <p>Plus the constraint: prefer the smallest slice that creates a useful PR. Avoid mixing unrelated work.</p>
+  </section>
+
+  <section data-part="7">
+    <h3>7. Loop</h3>
+    <p>The continuous operation. Read context, pick slice, branch, implement, test, update ledgers, PR, handle review, wait for bot + CI, merge, pull main, smoke prod, close item, start next.</p>
+    <p>Never voluntarily idles. Executed by <code>randroid-loop</code>.</p>
+  </section>
+</section>
+
+<section id="compounding-effect">
+  <h2>The compounding effect</h2>
+  <p>Each slice that ships also pays the doc-update tax that makes the next slice cheaper. When the next slice starts, it reads the build logs, coverage refs, progress receipts, and resolved questions: all of which are richer than they were one slice ago. That is what makes hundreds of slices in a few weeks tractable.</p>
+  <p>The fastest part of the loop is the part that has been done many times. Each pass through the spiral makes the next pass faster.</p>
+</section>
+
+<section id="convention-beats-configuration">
+  <h2>Why convention beats configuration</h2>
+  <p><code>AGENTS.html</code> Rule 3 nails down the stack: framework, 3D, physics, audio, storage, validation, tests. There is no per-slice "should we add a library?" debate, which is the single biggest time sink in most projects.</p>
+  <p>The em-dash ban is the canary for the same principle: a rule trivial in isolation is useful as a tripwire. An agent that ships an em-dash (U+2014) is an agent that did not run its own pre-commit checklist. The rule doubles as a discipline test.</p>
+</section>
+
+<section id="closure-rule">
+  <h2>The closure rule</h2>
+  <p>The loop ends when all three conditions hold:</p>
+  <ol>
+    <li>Every coverage row is <code>done</code> with implementation and test refs.</li>
+    <li>Every <code>PLAYTEST.html</code> checklist item is checked or explicitly deferred.</li>
+    <li><code>FUN_FACTOR_AUDIT.html</code> has been re-run after the last system landed and produced no new P0 / P1 gaps.</li>
+  </ol>
+  <p>Closing the loop without all three is the Flatline failure mode: a complete-on-paper system that is not actually good. The <code>spiral-html audit</code> script catches a missing qualitative gate so this failure mode is impossible by construction.</p>
+</section>
+
+<section id="why-one-agent">
+  <h2>Why one agent can sustain this</h2>
+  <p>Externalize every kind of state. Externalize every kind of decision. Bound the unit of work. Make doc updates a checked merge gate. Define closure mechanically. Then the agent's job is not "build the project," it is "do the next slice and update the ledgers." That collapse is what makes weeks-long autonomous loops work.</p>
+  <p>Small agent, big paper trail. The agent rotates the spiral; the spiral advances.</p>
+</section>
+
+</body>
+</html>

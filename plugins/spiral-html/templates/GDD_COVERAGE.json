@@ -1,0 +1,25 @@
+{
+  "_comment_1": "ATOMIC GRANULARITY ONLY. One row per requirement, not per chapter. A 14-day project should produce on the order of 100 rows. If your row count is implausibly low for project age, the loop will self-terminate before the product is good. This is the Flatline failure mode.",
+  "_comment_2": "Allowed status values: not_started | partial | done. Every row should carry implementationRefs and testRefs once status >= partial. followupRefs link to F-NNN entries in FOLLOWUPS.html.",
+  "updatedAt": "{{TODAY}}",
+  "rows": [
+    {
+      "id": "REQ-001",
+      "requirement": "Player can do <atomic-thing>",
+      "gddRef": "docs/gdd/02-core-loop.html#section-anchor",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-002",
+      "requirement": "System emits <atomic-event> when <atomic-condition>",
+      "gddRef": "docs/gdd/02-core-loop.html#another-anchor",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    }
+  ]
+}

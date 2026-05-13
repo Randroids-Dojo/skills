@@ -38,6 +38,11 @@
       "name": "spiral",
       "source": "./plugins/spiral",
       "description": "Bootstrap and audit the structural-discipline scaffold (GDD tree, coverage ledger, progress log, open questions, followups, playtest gate) that takes a vision into a delivered system through small iterations whose state lives in git, not the agent's head. Pairs with randroid-loop and task-tracking-dots. Cross-tool: works with Claude Code via .claude/rules/ and Codex via per-directory AGENTS.md symlinks."
+    },
+    {
+      "name": "spiral-html",
+      "source": "./plugins/spiral-html",
+      "description": "HTML-first variant of the spiral skill. Same structural-discipline scaffold (GDD tree, coverage ledger, progress log, open questions, followups, playtest gate) authored in HTML rather than Markdown. Ledgers use semantic data-* attributes for unambiguous agent reads. Ships AGENTS.md / CLAUDE.md shims pointing at AGENTS.html so Codex and Claude Code still land on the contract."
     }
   ]
 }
