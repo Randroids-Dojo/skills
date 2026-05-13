@@ -15,6 +15,11 @@
       "description": "Task management with Dots. Track work items across sessions with the dot CLI, dependencies, and completion reasons."
     },
     {
+      "name": "task-tracking-dots-html",
+      "source": "./plugins/task-tracking-dots-html",
+      "description": "Task management with the HTML-backed Dots fork. Track work items across sessions with dot CLI files stored as .html documents."
+    },
+    {
       "name": "godot",
       "source": "./plugins/godot",
       "description": "Develop, test, build, and deploy Godot 4.x games. Includes GdUnit4 testing, PlayGodot automation, web/desktop exports, CI/CD pipelines, and deployment to Vercel/GitHub Pages/itch.io."
