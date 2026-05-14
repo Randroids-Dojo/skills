@@ -12,12 +12,12 @@
     {
       "name": "task-tracking-dots",
       "source": "./plugins/task-tracking-dots",
-      "description": "Task management with Dots. Track work items across sessions with the dot CLI, dependencies, and completion reasons."
+      "description": "Task management with Dots. Track work items across sessions with the dot-html CLI, dependencies, and completion reasons."
     },
     {
       "name": "task-tracking-dots-html",
       "source": "./plugins/task-tracking-dots-html",
-      "description": "Task management with the HTML-backed Dots fork. Track work items across sessions with dot CLI files stored as .html documents."
+      "description": "Task management with the HTML-backed Dots fork. Track work items across sessions with dot-html CLI files stored as .html documents."
     },
     {
       "name": "godot",

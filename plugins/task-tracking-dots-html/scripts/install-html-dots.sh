@@ -23,13 +23,13 @@ esac
 
 asset=""
 if [[ -n "$os" && -n "$arch" ]]; then
-  asset="dot-${os}-${arch}"
+  asset="dot-html-${os}-${arch}"
   url="https://github.com/${repo}/releases/latest/download/${asset}"
-  if curl -fsSL "$url" -o "$tmp_dir/dot"; then
-    chmod +x "$tmp_dir/dot"
-    mv "$tmp_dir/dot" "$install_dir/dot"
-    echo "Installed $repo release asset $asset to $install_dir/dot"
-    "$install_dir/dot" --version
+  if curl -fsSL "$url" -o "$tmp_dir/dot-html"; then
+    chmod +x "$tmp_dir/dot-html"
+    mv "$tmp_dir/dot-html" "$install_dir/dot-html"
+    echo "Installed $repo release asset $asset to $install_dir/dot-html"
+    "$install_dir/dot-html" --version
     exit 0
   fi
 fi
@@ -45,7 +45,7 @@ git clone --depth 1 "https://github.com/${repo}.git" "$tmp_dir/dots-html"
   cd "$tmp_dir/dots-html"
   zig build -Doptimize=ReleaseSmall
 )
-cp "$tmp_dir/dots-html/zig-out/bin/dot" "$install_dir/dot"
-chmod +x "$install_dir/dot"
-echo "Built and installed $repo from source to $install_dir/dot"
-"$install_dir/dot" --version
+cp "$tmp_dir/dots-html/zig-out/bin/dot-html" "$install_dir/dot-html"
+chmod +x "$install_dir/dot-html"
+echo "Built and installed $repo from source to $install_dir/dot-html"
+"$install_dir/dot-html" --version

@@ -1,22 +1,22 @@
 ---
 name: task-tracking-dots-html
-description: Manages task tracking with the HTML-backed Dots fork from Randroids-Dojo/dots-html. Use when tracking work items across sessions with dot CLI files stored as .html documents.
+description: Manages task tracking with the HTML-backed Dots fork from Randroids-Dojo/dots-html. Use when tracking work items across sessions with dot-html CLI files stored as .html documents.
 compatibility: Requires curl and either a matching GitHub release asset or Zig 0.15+ for source builds.
 ---
 
 # Task Tracking with HTML Dots
 
-Use the `dot` CLI from `Randroids-Dojo/dots-html` to track work items across sessions. This fork stores dots as `.html` documents under `.dots/`.
+Use the `dot-html` CLI from `Randroids-Dojo/dots-html` to track work items across sessions. This fork stores dots as `.html` documents under `.dots/`.
 
 ## Preflight
 
 Check for the CLI:
 
 ```bash
-command -v dot >/dev/null 2>&1 && dot --version
+command -v dot-html >/dev/null 2>&1 && dot-html --version
 ```
 
-If `dot` is missing or is the markdown-backed upstream build, install this fork:
+If `dot-html` is missing, install this fork:
 
 ```bash
 plugins/task-tracking-dots-html/scripts/install-html-dots.sh
@@ -29,20 +29,20 @@ When installed from a global skill, run the script from the installed skill dire
 At the start of every session:
 
 ```bash
-dot ls
-dot ready
+dot-html ls
+dot-html ready
 ```
 
 Before starting work:
 
 ```bash
-dot on <id>
+dot-html on <id>
 ```
 
 After completing work:
 
 ```bash
-dot off <id> -r "What was done"
+dot-html off <id> -r "What was done"
 ```
 
 Never leave completed tasks open. Close with a short reason.
@@ -50,20 +50,20 @@ Never leave completed tasks open. Close with a short reason.
 ## Creating Dots
 
 ```bash
-dot "Fix the bug"
-dot add "Design API" -p 1 -d "Details"
-dot add "Subtask" -P dots-1
-dot add "After X" -a dots-2
+dot-html "Fix the bug"
+dot-html add "Design API" -p 1 -d "Details"
+dot-html add "Subtask" -P dots-1
+dot-html add "After X" -a dots-2
 ```
 
 ## Inspecting Work
 
 ```bash
-dot ls
-dot ready
-dot show dots-1
-dot tree
-dot find "query"
+dot-html ls
+dot-html ready
+dot-html show dots-1
+dot-html tree
+dot-html find "query"
 ```
 
 ## File Storage
@@ -78,4 +78,4 @@ New dots are stored as HTML files:
     dots-child-3456cdef.html
 ```
 
-The CLI owns these files. Prefer `dot` commands for changes so status, dependencies, archive moves, and parent-child paths stay consistent.
+The CLI owns these files. Prefer `dot-html` commands for changes so status, dependencies, archive moves, and parent-child paths stay consistent.
