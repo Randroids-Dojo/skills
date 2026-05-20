@@ -6,7 +6,7 @@
 # Usage:
 #   bash init.sh "<project-name>" "<one-line-pitch>" "<stack>"
 #
-# Refuses to run if AGENTS.html already exists. Use audit.sh on existing repos.
+# Refuses to run if AGENTS.md already exists. Use audit.sh on existing repos.
 
 set -euo pipefail
 
@@ -34,8 +34,8 @@ if [[ -z "${PROJECT_NAME}" || -z "${PITCH}" || -z "${STACK}" ]]; then
   exit 1
 fi
 
-if [[ -e "${TARGET_DIR}/AGENTS.html" ]]; then
-  echo "Error: AGENTS.html already exists at ${TARGET_DIR}." >&2
+if [[ -e "${TARGET_DIR}/AGENTS.md" ]]; then
+  echo "Error: AGENTS.md already exists at ${TARGET_DIR}." >&2
   echo "       Use audit.sh on existing repos." >&2
   exit 1
 fi
@@ -58,9 +58,8 @@ substitute() {
 
 # template-name : destination-path-relative-to-target-dir
 manifest=(
-  "AGENTS.html:AGENTS.html"
-  "AGENTS-shim.md:AGENTS.md"
-  "CLAUDE-shim.md:CLAUDE.md"
+  "AGENTS.md:AGENTS.md"
+  "CLAUDE.md:CLAUDE.md"
   "IMPLEMENTATION_PLAN.html:docs/IMPLEMENTATION_PLAN.html"
   "WORKING_AGREEMENT.html:docs/WORKING_AGREEMENT.html"
   "docs-gdd-index.html:docs/gdd/index.html"
@@ -92,8 +91,8 @@ done
 # - docs/AGENTS.md    -> ledger-append-only (covers ledger files in docs/)
 # - docs/gdd/AGENTS.md -> gdd-build-log     (covers GDD section files)
 # slice-discipline covers source dirs that do not exist yet at init time.
-# Note: the root-level AGENTS.md is the shim that points at AGENTS.html;
-# Codex still walks into docs/ and docs/gdd/ to pick up these symlinks.
+# Note: the root-level AGENTS.md carries the full contract; Codex still walks
+# into docs/ and docs/gdd/ to pick up these per-directory symlinks.
 ln -sf "../.claude/rules/ledger-append-only.md" "${TARGET_DIR}/docs/AGENTS.md"
 written+=("docs/AGENTS.md (symlink to .claude/rules/ledger-append-only.md)")
 
@@ -102,7 +101,6 @@ written+=("docs/gdd/AGENTS.md (symlink to .claude/rules/gdd-build-log.md)")
 
 # Em-dash sanity check on the written files (U+2014 em-dash, U+2013 en-dash).
 if grep -lE '—|–' \
-  "${TARGET_DIR}/AGENTS.html" \
   "${TARGET_DIR}/AGENTS.md" \
   "${TARGET_DIR}/CLAUDE.md" \
   "${TARGET_DIR}"/docs/*.html \

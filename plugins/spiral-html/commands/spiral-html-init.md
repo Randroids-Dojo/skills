@@ -4,9 +4,9 @@
 
 <h2>When to use</h2>
 
-<p>At the start of a fresh project, before any feature code. Writes the canonical files (<code>AGENTS.html</code>, the <code>AGENTS.md</code> + <code>CLAUDE.md</code> shims, plus the <code>docs/</code> HTML ledger set, including <code>docs/DEPENDENCY_LEDGER.html</code> and the qualitative-gate docs) so an autonomous PR loop can run against the repo.</p>
+<p>At the start of a fresh project, before any feature code. Writes the canonical files (<code>AGENTS.md</code> as the Markdown contract, <code>CLAUDE.md</code> as a one-line <code>@AGENTS.md</code> import, plus the <code>docs/</code> HTML ledger set, including <code>docs/DEPENDENCY_LEDGER.html</code> and the qualitative-gate docs) so an autonomous PR loop can run against the repo. <code>AGENTS.md</code> and <code>CLAUDE.md</code> stay Markdown because Codex's root-down walk and Claude Code's project-memory import only resolve those filenames.</p>
 
-<p>Refuses to run if <code>AGENTS.html</code> already exists. Use <code>/spiral-html audit</code> on existing repos instead.</p>
+<p>Refuses to run if <code>AGENTS.md</code> already exists. Use <code>/spiral-html audit</code> on existing repos instead.</p>
 
 <h2>How to invoke</h2>
 
@@ -14,8 +14,8 @@
 
 <ol>
   <li><strong>Project name.</strong> Used in headers and substituted as <code>{{PROJECT_NAME}}</code>.</li>
-  <li><strong>One-line pitch.</strong> Substituted as <code>{{PITCH}}</code>. Used in <code>AGENTS.html</code> and the GDD index.</li>
-  <li><strong>Stack.</strong> Substituted as <code>{{STACK}}</code>. Used in <code>AGENTS.html</code> Rule 3. Free text. Examples: "Next.js + Three.js + Vercel KV", "Godot 4.x + GDScript", "Rust + axum + Postgres".</li>
+  <li><strong>One-line pitch.</strong> Substituted as <code>{{PITCH}}</code>. Used in <code>AGENTS.md</code> and the GDD index.</li>
+  <li><strong>Stack.</strong> Substituted as <code>{{STACK}}</code>. Used in <code>AGENTS.md</code> Rule 3. Free text. Examples: "Next.js + Three.js + Vercel KV", "Godot 4.x + GDScript", "Rust + axum + Postgres".</li>
 </ol>
 
 <p>Then run:</p>

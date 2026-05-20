@@ -32,7 +32,7 @@
 
 <pre><code>bash ${CLAUDE_PLUGIN_ROOT}/scripts/init.sh "MyProject" "one-line pitch" "Next.js + Three.js"</code></pre>
 
-<p>This writes <code>AGENTS.html</code>, the <code>AGENTS.md</code> + <code>CLAUDE.md</code> shims, and the <code>docs/</code> HTML ledger set. Add your first GDD section under <code>docs/gdd/</code>, then start the loop with <code>/randroid-loop implement</code>.</p>
+<p>This writes <code>AGENTS.md</code> (the full Markdown contract that Codex's root-down walk picks up), <code>CLAUDE.md</code> (a one-line <code>@AGENTS.md</code> import for Claude Code's project memory), and the <code>docs/</code> HTML ledger set. Add your first GDD section under <code>docs/gdd/</code>, then start the loop with <code>/randroid-loop implement</code>.</p>
 
 <p>In an existing repo:</p>
 

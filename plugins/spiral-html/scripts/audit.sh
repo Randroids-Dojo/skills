@@ -29,7 +29,6 @@ add_finding() {
 
 # Check 1: missing canonical files
 canonical=(
-  "AGENTS.html"
   "AGENTS.md"
   "CLAUDE.md"
   "docs/IMPLEMENTATION_PLAN.html"
@@ -77,12 +76,14 @@ for entry in "${codex_symlinks[@]}"; do
   fi
 done
 
-# Verify the root AGENTS.md / CLAUDE.md shims point at AGENTS.html.
-for shim in "AGENTS.md" "CLAUDE.md"; do
-  if [[ -f "${shim}" ]] && ! grep -q "AGENTS.html" "${shim}" 2>/dev/null; then
-    add_finding "[SHIM] ${shim} exists but does not reference AGENTS.html. In the HTML-first scaffold this file should be a one-paragraph pointer to AGENTS.html so Codex / Claude Code land on the right contract."
-  fi
-done
+# AGENTS.md should be the full contract (RULE 1..N, em-dash ban, etc.).
+# CLAUDE.md should import it via `@AGENTS.md` so Claude Code picks up the same rules.
+if [[ -f "AGENTS.md" ]] && ! grep -q "RULE 1" "AGENTS.md" 2>/dev/null; then
+  add_finding "[CONTRACT] AGENTS.md exists but does not contain the contract rules (looking for 'RULE 1'). The HTML-first scaffold keeps AGENTS.md and CLAUDE.md as Markdown so Codex's root-down walk and Claude Code's project-memory import keep working. Re-copy the template."
+fi
+if [[ -f "CLAUDE.md" ]] && ! grep -q "@AGENTS.md" "CLAUDE.md" 2>/dev/null; then
+  add_finding "[CONTRACT] CLAUDE.md exists but does not import AGENTS.md (looking for '@AGENTS.md'). It should be a one-line file: '@AGENTS.md'."
+fi
 
 # Check 2: monolith GDD
 if [[ -f "docs/GDD.html" && ! -d "docs/gdd" ]]; then
@@ -222,7 +223,6 @@ fi
 
 # Check 8: em-dash drift in canonical files (U+2014 em-dash, U+2013 en-dash).
 emdash_hits=$(grep -lE '—|–' \
-  AGENTS.html \
   AGENTS.md \
   CLAUDE.md \
   docs/IMPLEMENTATION_PLAN.html \

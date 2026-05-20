@@ -13,13 +13,9 @@ description: "HTML-first bootstrap and audit of the structural-discipline scaffo
 
 <p>HTML is the new way to communicate to agents. Structured elements (<code>&lt;section&gt;</code>, <code>&lt;article&gt;</code>, <code>&lt;table&gt;</code>, <code>&lt;ol&gt;</code>, <code>&lt;dl&gt;</code>, <code>&lt;details&gt;</code>) carry semantics that Markdown discards. An agent reading <code>&lt;section data-role="rule" data-id="rule-1"&gt;</code> can locate, cite, and update content without parsing prose. The audit script in this skill exploits that: it grep-checks for HTML attributes rather than heading prefixes.</p>
 
-<p>Tradeoffs:</p>
+<p>Two files must stay Markdown: <code>AGENTS.md</code> and <code>CLAUDE.md</code>. Codex's native root-down walk only picks up <code>AGENTS.md</code>, and Claude Code's project-memory import only resolves <code>CLAUDE.md</code>. The contract therefore lives in <code>AGENTS.md</code> as Markdown; <code>CLAUDE.md</code> is a one-liner (<code>@AGENTS.md</code>) so Claude Code imports the same rules. Everything else under <code>docs/</code> is HTML.</p>
 
-<ul>
-  <li>Codex's native <code>AGENTS.md</code> walk does not pick up <code>AGENTS.html</code>. This skill ships its own <code>AGENTS.html</code> and a tiny <code>AGENTS.md</code> shim that points at it.</li>
-  <li>Claude Code's <code>CLAUDE.md</code> import similarly cannot import an <code>.html</code> file directly; the shim handles that too.</li>
-  <li>Path-scoped Rules under <code>.claude/rules/</code> retain YAML frontmatter (Claude Code requires it for path globbing); only the body becomes HTML.</li>
-</ul>
+<p>Path-scoped Rules under <code>.claude/rules/</code> retain YAML frontmatter (Claude Code requires it for path globbing); only the body becomes HTML.</p>
 
 <h2>When to invoke</h2>
 
@@ -51,9 +47,8 @@ description: "HTML-first bootstrap and audit of the structural-discipline scaffo
     <tr><th>Path</th><th>Role</th></tr>
   </thead>
   <tbody>
-    <tr><td><code>AGENTS.html</code></td><td>Rules-as-contract in HTML: em-dash ban, pre-slice reading list, stack constraints, commit style, autonomous PR loop reference, secrets policy, testing expectations, pre-commit checklist.</td></tr>
-    <tr><td><code>AGENTS.md</code></td><td>One-line shim pointing at <code>AGENTS.html</code> so Codex's root-down walk still finds the contract.</td></tr>
-    <tr><td><code>CLAUDE.md</code></td><td>One-line shim pointing at <code>AGENTS.html</code> so Claude Code picks up the same rules.</td></tr>
+    <tr><td><code>AGENTS.md</code></td><td>Rules-as-contract in Markdown (stays Markdown so Codex's root-down walk works): em-dash ban, pre-slice reading list, stack constraints, commit style, autonomous PR loop reference, secrets policy, testing expectations, pre-commit checklist. The pre-slice reading list points at the <code>.html</code> ledgers.</td></tr>
+    <tr><td><code>CLAUDE.md</code></td><td>One line: <code>@AGENTS.md</code>. Claude Code's project-memory import only resolves <code>CLAUDE.md</code>, so the file exists to forward the same rules.</td></tr>
     <tr><td><code>docs/IMPLEMENTATION_PLAN.html</code></td><td>The 18-step loop contract. Slice selection priority. Definition of done.</td></tr>
     <tr><td><code>docs/WORKING_AGREEMENT.html</code></td><td>Process: branches, commits, PR template, bot-review settled-wait gate, verification minimums, merge-and-deploy expectations, risk gates.</td></tr>
     <tr><td><code>docs/gdd/index.html</code></td><td>GDD tree index. Each requirement is its own file. Build logs grow per-section as work ships.</td></tr>
@@ -72,20 +67,20 @@ description: "HTML-first bootstrap and audit of the structural-discipline scaffo
 
 <h2>Cross-tool compatibility</h2>
 
-<p>The HTML-first scaffold cannot rely on the same discovery contracts as the Markdown version. The shim strategy preserves both tools at the cost of two tiny pointer files:</p>
+<p>The HTML-first scaffold cannot rely on every discovery contract the Markdown version uses. Two files stay Markdown so the canonical discovery paths keep working:</p>
 
 <ul>
-  <li><code>AGENTS.md</code> (the Codex-required filename) contains one line: <code>See AGENTS.html for the active contract.</code> Codex will still walk into the repo; the agent reading it follows the pointer.</li>
-  <li><code>CLAUDE.md</code> (the Claude Code import filename) contains one line: <code>See AGENTS.html for the active contract.</code> Same pattern.</li>
+  <li><code>AGENTS.md</code> (the Codex-required filename) carries the full contract as Markdown. Codex's root-down walk finds and reads it directly. The reading list inside points at the <code>.html</code> ledgers.</li>
+  <li><code>CLAUDE.md</code> (the Claude Code project-memory filename) contains one line: <code>@AGENTS.md</code>. Claude Code's import mechanism resolves the pointer and loads the same contract.</li>
   <li><code>.claude/rules/*.md</code> keep YAML frontmatter and the <code>.md</code> filename because Claude Code's path-scoped Rules system parses the frontmatter to decide when to load. The body inside each rule is HTML.</li>
-  <li>The Codex per-directory <code>AGENTS.md</code> symlinks become symlinks to the rules files (still <code>.md</code>); Codex reads the YAML frontmatter and HTML body uniformly.</li>
+  <li>The Codex per-directory <code>AGENTS.md</code> symlinks point at the rules files (still <code>.md</code>); Codex reads the YAML frontmatter and HTML body uniformly.</li>
 </ul>
 
 <h2>The seven parts of the spiral</h2>
 
 <ol>
   <li><strong>Vision</strong>: the canonical spec (GDD tree, atomic requirements) as HTML section files.</li>
-  <li><strong>Contract</strong>: the three docs that govern every iteration (rules in <code>AGENTS.html</code>, plan, agreement).</li>
+  <li><strong>Contract</strong>: the three docs that govern every iteration (rules in <code>AGENTS.md</code>, plan, agreement).</li>
   <li><strong>Slice</strong>: the bounded unit of work (one PR, one log entry, small enough that a botched slice is reverted in one click).</li>
   <li><strong>Ledgers</strong>: externalized memory (progress log, open questions, followups, coverage) as append-only HTML elements with <code>data-*</code> ids.</li>
   <li><strong>Gates</strong>: what blocks merge AND what triggers a slice. Mechanical (CI green, type-check, tests, no em-dash, bot-review settled). Qualitative (playtest, fun-factor audit). Dependency Upgrade Gate (see <code>docs/DEPENDENCY_LEDGER.html</code>): a watched-dep release is the same kind of fresh state as a new commit on <code>main</code>; the agent observes and acts at every loop boundary that touches <code>main</code>. The qualitative gate is the second gate that prevents Flatline-style early termination.</li>
@@ -100,11 +95,11 @@ description: "HTML-first bootstrap and audit of the structural-discipline scaffo
 <p>The script:</p>
 
 <ol>
-  <li>Refuses to run if <code>AGENTS.html</code> already exists at the repo root. Use <code>audit</code> instead.</li>
+  <li>Refuses to run if <code>AGENTS.md</code> already exists at the repo root. Use <code>audit</code> instead.</li>
   <li>Prompts for project name, one-line pitch, and stack if not passed as args.</li>
   <li>Copies every template file into the target repo, substituting <code>{{PROJECT_NAME}}</code>, <code>{{PITCH}}</code>, <code>{{STACK}}</code>, <code>{{TODAY}}</code>.</li>
   <li>Creates <code>docs/gdd/</code> for the GDD tree and <code>.claude/rules/</code> for the path-scoped Rules.</li>
-  <li>Writes the <code>AGENTS.md</code> and <code>CLAUDE.md</code> shims that point at <code>AGENTS.html</code>.</li>
+  <li>Writes <code>AGENTS.md</code> (the full Markdown contract) and <code>CLAUDE.md</code> (one-line <code>@AGENTS.md</code> import).</li>
   <li>Verifies em-dash cleanliness on every written file.</li>
   <li>Prints a next-steps note: draft the first GDD section under <code>docs/gdd/</code>, then run <code>/randroid-loop implement</code> to start the spiral.</li>
 </ol>
@@ -116,7 +111,7 @@ description: "HTML-first bootstrap and audit of the structural-discipline scaffo
 <p>The script runs nine checks and prints a remediation checklist:</p>
 
 <ol>
-  <li><strong>Missing canonical files.</strong> Verifies the full HTML scaffold (<code>AGENTS.html</code> plus the shims, the docs HTML ledger set including <code>DEPENDENCY_LEDGER.html</code>, the three <code>.claude/rules</code> files) is present.</li>
+  <li><strong>Missing canonical files.</strong> Verifies the scaffold is present: the Markdown contract pair (<code>AGENTS.md</code>, <code>CLAUDE.md</code>), the docs HTML ledger set including <code>DEPENDENCY_LEDGER.html</code>, and the three <code>.claude/rules</code> files.</li>
   <li><strong>Monolith GDD.</strong> Warns if <code>docs/GDD.html</code> exists alone without a <code>docs/gdd/</code> directory.</li>
   <li><strong>Chapter-granular coverage.</strong> Counts rows in <code>docs/GDD_COVERAGE.json</code>. Warns if row count is implausibly low for project age (heuristic: fewer than 14 rows per project-week).</li>
   <li><strong>Missing qualitative gate.</strong> Warns if <code>docs/PLAYTEST.html</code> or <code>docs/FUN_FACTOR_AUDIT.html</code> is missing.</li>
@@ -148,9 +143,8 @@ description: "HTML-first bootstrap and audit of the structural-discipline scaffo
 │   ├── spiral-html-init.md     # /spiral-html init slash command
 │   └── spiral-html-audit.md    # /spiral-html audit slash command
 ├── templates/
-│   ├── AGENTS.html             # The contract, in HTML
-│   ├── AGENTS-shim.md          # Codex pointer to AGENTS.html
-│   ├── CLAUDE-shim.md          # Claude Code pointer to AGENTS.html
+│   ├── AGENTS.md               # The contract, in Markdown (Codex root-down walk)
+│   ├── CLAUDE.md               # One-line @AGENTS.md import (Claude Code project memory)
 │   ├── IMPLEMENTATION_PLAN.html
 │   ├── WORKING_AGREEMENT.html
 │   ├── docs-gdd-index.html

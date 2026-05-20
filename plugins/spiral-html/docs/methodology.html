@@ -32,8 +32,8 @@
     <h3>2. Contract</h3>
     <p>Three always-on docs that compound, plus three path-scoped Rules:</p>
     <ul>
-      <li><code>AGENTS.html</code> codifies rules: em-dash ban, the pre-slice reading list (the file canon), stack constraints, commit-message style, the autonomous PR loop reference, secrets policy, testing expectations, motion / overlay QA, the pre-commit checklist. <code>AGENTS.md</code> is a one-line shim pointing here so Codex's root-down walk still lands.</li>
-      <li><code>CLAUDE.md</code> is a one-line shim pointing at <code>AGENTS.html</code>. Lets Claude Code read the same contract Codex reads, so a single repo works in both tools.</li>
+      <li><code>AGENTS.md</code> codifies rules in Markdown: em-dash ban, the pre-slice reading list (the file canon, pointing at the <code>.html</code> ledgers), stack constraints, commit-message style, the autonomous PR loop reference, secrets policy, testing expectations, motion / overlay QA, the pre-commit checklist. The contract stays Markdown so Codex's root-down walk picks it up directly.</li>
+      <li><code>CLAUDE.md</code> is a one-line file containing <code>@AGENTS.md</code>. Claude Code's project-memory import only resolves <code>CLAUDE.md</code>; the import forwards the same rules Codex reads, so a single repo works in both tools.</li>
       <li><code>docs/IMPLEMENTATION_PLAN.html</code> codifies the 18-step loop: read context, branch, implement, test, update ledgers, PR, handle review, wait for bot + CI, merge, pull main, smoke prod, close item, start next.</li>
       <li><code>docs/WORKING_AGREEMENT.html</code> codifies process: branch naming, commit hygiene, PR contents, the bot-review settled-wait gate (60s + green CI), verification minimums (different for docs vs code), merge-and-deploy expectations, risk gates.</li>
     </ul>
@@ -43,7 +43,7 @@
       <li><code>ledger-append-only.md</code> loads when editing the four ledger files. Enforces append-only and never-rewrite-past-entries.</li>
       <li><code>gdd-build-log.md</code> loads when editing GDD section files. Enforces a build-log entry on every shipped feature.</li>
     </ul>
-    <p>The split between always-on docs (AGENTS.html, the plan, the agreement) and path-scoped Rules is deliberate. Always-on guidance is universal: every slice needs to know about the em-dash ban and the autonomous loop. Path-scoped guidance is specific: only slices that touch ledgers need the append-only rule, only slices that touch the GDD need the build-log rule. Loading them on demand saves context for the work the slice is actually doing.</p>
+    <p>The split between always-on docs (AGENTS.md, the plan, the agreement) and path-scoped Rules is deliberate. Always-on guidance is universal: every slice needs to know about the em-dash ban and the autonomous loop. Path-scoped guidance is specific: only slices that touch ledgers need the append-only rule, only slices that touch the GDD need the build-log rule. Loading them on demand saves context for the work the slice is actually doing.</p>
     <p>Together they leave no slice-time decision to ad-hoc judgment. The agent does not negotiate the rules, it follows them.</p>
   </section>
 
@@ -104,7 +104,7 @@
 
 <section id="convention-beats-configuration">
   <h2>Why convention beats configuration</h2>
-  <p><code>AGENTS.html</code> Rule 3 nails down the stack: framework, 3D, physics, audio, storage, validation, tests. There is no per-slice "should we add a library?" debate, which is the single biggest time sink in most projects.</p>
+  <p><code>AGENTS.md</code> Rule 3 nails down the stack: framework, 3D, physics, audio, storage, validation, tests. There is no per-slice "should we add a library?" debate, which is the single biggest time sink in most projects.</p>
   <p>The em-dash ban is the canary for the same principle: a rule trivial in isolation is useful as a tripwire. An agent that ships an em-dash (U+2014) is an agent that did not run its own pre-commit checklist. The rule doubles as a discipline test.</p>
 </section>
 
