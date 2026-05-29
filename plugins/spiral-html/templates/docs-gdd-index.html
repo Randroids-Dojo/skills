@@ -21,6 +21,7 @@
     <li>Each file starts with a <code>&lt;p data-status="..."&gt;</code> element: <code>not_started</code> | <code>partial</code> | <code>done</code>.</li>
     <li>Once a file's work ships, append a <code>&lt;section data-role="build-log"&gt;</code> with what landed, the key files, and any non-obvious decisions. Build logs grow with the code.</li>
     <li>Keep file names short and stable. The file path is referenced from <code>GDD_COVERAGE.json</code>.</li>
+    <li>Every section file MUST be linked from the <a href="#index">Index</a> below with a real <code>&lt;a href&gt;</code> hyperlink (not bare <code>&lt;code&gt;</code> text), so the index stays navigable as the tree grows.</li>
   </ul>
 </section>
 
@@ -36,16 +37,16 @@
 
 <section id="index">
   <h2>Index</h2>
-  <p>Add entries below as sections are drafted. Each entry: filename + one-line description. This index is the human-readable map; the machine-readable map is <code>docs/GDD_COVERAGE.json</code>.</p>
+  <p>Add entries below as sections are drafted. Each entry is a hyperlink to the section file plus a one-line description. This index is the human-readable map; the machine-readable map is <code>docs/GDD_COVERAGE.json</code>.</p>
   <ul>
-    <li><code>01-vision-and-pillars.html</code>: what {{PROJECT_NAME}} is and what it is not.</li>
-    <li><em>&lt;draft your first requirement file here&gt;</em></li>
+    <li><a href="01-vision-and-pillars.html">01-vision-and-pillars.html</a>: what {{PROJECT_NAME}} is and what it is not.</li>
+    <li><em>&lt;draft your first requirement file here, then link it like the entry above&gt;</em></li>
   </ul>
 </section>
 
 <section id="out-of-scope">
   <h2>Out of scope</h2>
-  <p>A dedicated <code>docs/gdd/99-out-of-scope.html</code> file is the explicit fence. List anything that has been considered and rejected for v1, with a one-line rationale. The loop must not scope-creep into items listed there without approval.</p>
+  <p>A dedicated <a href="99-out-of-scope.html">99-out-of-scope.html</a> file is the explicit fence. List anything that has been considered and rejected for v1, with a one-line rationale. The loop must not scope-creep into items listed there without approval.</p>
 </section>
 
 </body>

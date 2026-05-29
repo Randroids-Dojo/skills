@@ -1,0 +1,16 @@
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Dependencies and build output
+node_modules/
+dist/
+build/
+
+# Secrets and local env (never commit these, see AGENTS.md Rule 8)
+.env
+.env.local
+.env.*.local
+
+# Vercel
+.vercel

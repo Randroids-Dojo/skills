@@ -86,6 +86,31 @@ for entry in "${manifest[@]}"; do
   written+=("${dst_path}")
 done
 
+# .gitignore: create from template if absent, else append any missing lines.
+# Merge-safe so a repo that already has a .gitignore keeps its entries.
+GITIGNORE_SRC="${TEMPLATES_DIR}/dot-gitignore"
+GITIGNORE_DST="${TARGET_DIR}/.gitignore"
+if [[ ! -e "${GITIGNORE_DST}" ]]; then
+  cp "${GITIGNORE_SRC}" "${GITIGNORE_DST}"
+  written+=(".gitignore")
+else
+  appended=0
+  while IFS= read -r line; do
+    # Skip blank lines and comments when checking for presence.
+    [[ -z "${line}" || "${line}" == \#* ]] && continue
+    if ! grep -qxF "${line}" "${GITIGNORE_DST}"; then
+      if [[ "${appended}" -eq 0 ]]; then
+        printf '\n# Added by spiral-html init\n' >> "${GITIGNORE_DST}"
+        appended=1
+      fi
+      printf '%s\n' "${line}" >> "${GITIGNORE_DST}"
+    fi
+  done < "${GITIGNORE_SRC}"
+  if [[ "${appended}" -eq 1 ]]; then
+    written+=(".gitignore (merged missing entries)")
+  fi
+fi
+
 # Codex symlinks: each .claude/rules/X.md gets a per-directory AGENTS.md
 # alias so Codex picks it up via its root-down AGENTS.md walk.
 # - docs/AGENTS.md    -> ledger-append-only (covers ledger files in docs/)

@@ -45,6 +45,7 @@ paths:
   <li>The build log entry MUST name the key files added or modified.</li>
   <li>The build log entry MUST link the PR number once known.</li>
   <li>Do NOT rewrite past build log entries, even if the implementation has since changed. Add a new entry instead.</li>
+  <li>When this slice CREATES a new GDD section file, add a matching entry to the Index in <code>docs/gdd/index.html</code> as a real <code>&lt;a href&gt;</code> hyperlink (not bare <code>&lt;code&gt;</code> text), plus a one-line description. The index must stay navigable.</li>
 </ol>
 
 <h2>What to avoid</h2>
