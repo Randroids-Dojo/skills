@@ -4,6 +4,8 @@ Shared rules for every agentic coding tool working in {{PROJECT_NAME}}. Claude C
 
 This repo uses the HTML-first variant of the spiral scaffold. The ledgers and contracts under `docs/` are `.html` files. This file (`AGENTS.md`) and `CLAUDE.md` stay as Markdown so Codex's root-down walk and Claude Code's project-memory import keep working.
 
+Task tracking uses the HTML-backed Dots fork: the `dot-html` CLI (skill `task-tracking-dots-html`), which stores work items as `.html` files under `.dots/`. Do NOT use the Markdown `dot` CLI (skill `task-tracking-dots`) on this project, even if it is also installed. If only the Markdown variant is present, install the HTML fork first (`task-tracking-dots-html` ships an installer); do not silently fall back to Markdown dots.
+
 Project pitch: {{PITCH}}
 
 ---
@@ -37,7 +39,7 @@ Before each implementation slice, read:
 - `docs/GDD_COVERAGE.json`
 - `docs/DEPENDENCY_LEDGER.html` (and run the Dependency Upgrade Gate from `docs/IMPLEMENTATION_PLAN.html`)
 - `docs/PLAYTEST.html` and `docs/FUN_FACTOR_AUDIT.html` when coverage is >=80% done
-- the current task backlog (Dots or equivalent)
+- the current task backlog (HTML Dots via `dot-html`, stored under `.dots/`)
 
 ### Path-scoped Rules
 

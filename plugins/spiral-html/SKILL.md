@@ -24,7 +24,7 @@ description: "HTML-first bootstrap and audit of the structural-discipline scaffo
   <li><code>/spiral-html audit</code>: on an existing project. Diffs the repo against the canonical HTML structure and prints a remediation checklist. Catches the three known failure modes (monolith GDD, chapter-granular coverage, missing qualitative gate) plus generic drift.</li>
 </ul>
 
-<p>Per-slice execution (read context, branch, implement, PR, merge, repeat) is the job of <code>randroid-loop</code>. Per-task tracking is the job of <code>task-tracking-dots</code>. This skill is the substrate those two run against.</p>
+<p>Per-slice execution (read context, branch, implement, PR, merge, repeat) is the job of <code>randroid-loop</code>. Per-task tracking is the job of <code>task-tracking-dots-html</code> (the HTML-backed <code>dot-html</code> fork, NOT the Markdown <code>task-tracking-dots</code>). This skill is the substrate those two run against.</p>
 
 <h2>Why this exists: the three case studies</h2>
 
@@ -128,7 +128,7 @@ description: "HTML-first bootstrap and audit of the structural-discipline scaffo
 
 <ul>
   <li><code>randroid-loop</code> reads the ledgers this skill writes. The loop's research and implement modes both name <code>OPEN_QUESTIONS</code> and <code>FOLLOWUPS</code> as required reads. With this skill, those references resolve to the <code>.html</code> files.</li>
-  <li><code>task-tracking-dots</code> is the work-item tracker. <code>Q-NNN</code> entries that resolve into work become Dots. <code>F-NNN</code> entries with <code>data-priority="blocks-release"</code> become Dots.</li>
+  <li><code>task-tracking-dots-html</code> (the <code>dot-html</code> CLI, HTML dots under <code>.dots/</code>) is the work-item tracker, NOT the Markdown <code>task-tracking-dots</code>. <code>Q-NNN</code> entries that resolve into work become Dots. <code>F-NNN</code> entries with <code>data-priority="blocks-release"</code> become Dots.</li>
   <li>This skill is stateless. All state lives in the target repo's ledger files.</li>
 </ul>
 

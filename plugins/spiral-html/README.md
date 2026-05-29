@@ -8,10 +8,10 @@
 
 <h2>What it solves</h2>
 
-<p>Three sibling skills (<code>randroid-loop</code>, <code>task-tracking-dots</code>, and this one) form the autonomous-loop trio:</p>
+<p>Three sibling skills (<code>randroid-loop</code>, <code>task-tracking-dots-html</code>, and this one) form the autonomous-loop trio:</p>
 
 <ul>
-  <li><code>task-tracking-dots</code>: work items (the queue).</li>
+  <li><code>task-tracking-dots-html</code>: work items (the queue). Use the HTML-backed <code>dot-html</code> fork to match this scaffold, NOT the Markdown <code>task-tracking-dots</code>.</li>
   <li><code>randroid-loop</code>: execution (the worker).</li>
   <li><code>spiral-html</code>: substrate (the contract, vision, ledgers, and gates the worker consumes and updates).</li>
 </ul>
