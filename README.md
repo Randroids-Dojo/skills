@@ -14,6 +14,7 @@ A dual-format skills repository for **Claude Code**, **Codex CLI**, and **OpenCo
 | **slipbox** | Interact with the SlipBox semantic knowledge engine and read notes from PrivateBox |
 | **spiral** | Bootstrap and audit the structural-discipline scaffold (Markdown ledgers) used by long-running autonomous PR loops |
 | **spiral-html** | HTML-first variant of spiral. Same scaffold and audit checks, ledgers authored as semantic HTML with `data-*` ids |
+| **address-pr-comments** | Address actionable PR review comments, implement fixes, verify changes, and reply with signed GitHub comments |
 
 ## Installation
 
@@ -57,6 +58,12 @@ To install the SlipBox skill:
 npx skills add https://github.com/Randroids-Dojo/skills --skill slipbox
 ```
 
+To install the address-pr-comments skill:
+
+```bash
+npx skills add https://github.com/Randroids-Dojo/skills --skill address-pr-comments
+```
+
 ### Manual installs
 
 #### Codex CLI
@@ -72,6 +79,7 @@ $skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/unre
 $skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/slipbox
 $skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/spiral
 $skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/spiral-html
+$skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/address-pr-comments
 ```
 
 Or clone for all skills at once:
@@ -91,6 +99,7 @@ ln -s ~/.agents/skills/randroids-dojo/plugins/unreal ~/.agents/skills/unreal
 ln -s ~/.agents/skills/randroids-dojo/plugins/slipbox ~/.agents/skills/slipbox
 ln -s ~/.agents/skills/randroids-dojo/plugins/spiral ~/.agents/skills/spiral
 ln -s ~/.agents/skills/randroids-dojo/plugins/spiral-html ~/.agents/skills/spiral-html
+ln -s ~/.agents/skills/randroids-dojo/plugins/address-pr-comments ~/.agents/skills/address-pr-comments
 ```
 
 Note: Codex 2026 reads skills from `~/.agents/skills/` (the universal "Agent Skills" path), not `~/.codex/skills/`. The `npx skills` CLI also targets `~/.agents/skills/` for Codex.
@@ -109,6 +118,7 @@ Install from the marketplace:
 /plugin install slipbox
 /plugin install spiral
 /plugin install spiral-html
+/plugin install address-pr-comments
 ```
 
 ### Install locations (Skills CLI)
@@ -136,6 +146,7 @@ $unreal             # Invoke unreal skill
 $slipbox            # Invoke slipbox skill
 $spiral             # Bootstrap or audit a project scaffold
 $spiral-html        # HTML-first variant of spiral
+$address-pr-comments # Address all actionable PR review comments
 ```
 
 ### Claude Code
@@ -149,6 +160,7 @@ $spiral-html        # HTML-first variant of spiral
 /slipbox:slipbox    # SlipBox knowledge engine
 /spiral             # Bootstrap or audit a project scaffold (/spiral init, /spiral audit)
 /spiral-html        # HTML-first variant (/spiral-html init, /spiral-html audit)
+/address-pr-comments # Address all actionable PR review comments
 ```
 
 ## Repository Structure
@@ -194,12 +206,15 @@ $spiral-html        # HTML-first variant of spiral
 │   │   ├── templates/       # Files written into target repos by /spiral init
 │   │   ├── scripts/         # init.sh and audit.sh
 │   │   └── docs/            # methodology and case studies
-│   └── spiral-html/
-│       ├── SKILL.md         # Skill definition (YAML frontmatter + HTML body)
-│       ├── commands/        # /spiral-html init, /spiral-html audit
-│       ├── templates/       # HTML scaffold written into target repos
-│       ├── scripts/         # init.sh and audit.sh (HTML-aware)
-│       └── docs/            # methodology.html and case-studies.html
+│   ├── spiral-html/
+│   │   ├── SKILL.md         # Skill definition (YAML frontmatter + HTML body)
+│   │   ├── commands/        # /spiral-html init, /spiral-html audit
+│   │   ├── templates/       # HTML scaffold written into target repos
+│   │   ├── scripts/         # init.sh and audit.sh (HTML-aware)
+│   │   └── docs/            # methodology.html and case-studies.html
+│   └── address-pr-comments/
+│       ├── SKILL.md         # Skill definition (Codex + Claude)
+│       └── commands/        # Claude Code slash command
 └── README.md
 ```
 
