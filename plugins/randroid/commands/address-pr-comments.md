@@ -1,3 +1,8 @@
+---
+description: "Address actionable PR review comments, implement fixes, run focused verification, and reply with signed GitHub comments."
+argument-hint: "[PR URL, PR number, or current branch]"
+---
+
 # /randroid:address-pr-comments
 
 Address all actionable PR review comments on the current branch or a specified pull request.

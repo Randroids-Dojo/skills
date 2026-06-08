@@ -1,6 +1,6 @@
 ---
 name: randroid
-description: "Randroid workflow commands. Use /randroid:address-pr-comments when the user asks to handle PR feedback, requested changes, unresolved review threads, or review comments on the current branch or a specified PR."
+description: "Randroid command namespace. Use when the user asks for available Randroid slash commands or invokes /randroid directly."
 ---
 
 # Randroid Commands
