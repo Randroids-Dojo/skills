@@ -7,7 +7,7 @@ description: Add @randroids-dojo/vibekit (https://github.com/Randroids-Dojo/Vibe
 
 `@randroids-dojo/vibekit` is the in-house reusable-component library this workspace's game projects share. The default entry exposes framework-agnostic client modules (virtual-joystick, editor-history, confetti, rng, math, storage); the `./server` subpath exposes Node-only helpers (kv, sign, rate-limit) locked to `@upstash/redis` + `node:crypto`.
 
-This skill is the bootstrap-and-cookbook layer for VibeKit. It is intentionally optional and lives alongside `spiral` (structural-discipline scaffold) and `randroid-loop` (research / implement loops) the same way: spiral defers to randroid-loop for execution; spiral defers to *this* skill for VibeKit-specific bootstrap and component usage. A project that prefers a different shared library swaps this skill out without touching spiral's gate, ledger, or loop machinery.
+This skill is the bootstrap-and-cookbook layer for VibeKit. It is intentionally optional and lives alongside `spiral` (structural-discipline scaffold) and `randroid:loop` (research / implement loops) the same way: spiral defers to randroid:loop for execution; spiral defers to *this* skill for VibeKit-specific bootstrap and component usage. A project that prefers a different shared library swaps this skill out without touching spiral's gate, ledger, or loop machinery.
 
 ## When to invoke
 
@@ -18,13 +18,13 @@ This skill is the bootstrap-and-cookbook layer for VibeKit. It is intentionally 
 
 - **Spiral** defines the Dependency Upgrade Gate, the ledger format, and the upgrade procedure (read CHANGELOG, branch, bump, type-check, test, build, smoke, PR with `chore(deps):` title). It does not know about any specific dep. See `plugins/spiral/templates/DEPENDENCY_LEDGER.md`.
 - **VibeKit** (this skill) supplies the worked example for the spiral ledger and the cookbook for wiring up each module. A project that uses VibeKit gets a richer ledger entry (with import snippets) and a cookbook reference; a project that prefers a different shared library follows the same spiral procedure with that library's own skill.
-- **Randroid-loop** is the slice executor. It reads spiral's ledgers + AGENTS.md, picks the next slice, branches, implements, opens a PR. When a slice is "bump VibeKit from vX to vY" it follows spiral's procedure; this skill's cookbook tells it which migration patterns are common per module.
+- **Randroid loop command** is the slice executor. It reads spiral's ledgers + AGENTS.md, picks the next slice, branches, implements, opens a PR. When a slice is "bump VibeKit from vX to vY" it follows spiral's procedure; this skill's cookbook tells it which migration patterns are common per module.
 
 ## Composition
 
 ```
 spiral (methodology + scaffold + Dependency Upgrade Gate)
-   ├─ defers execution to randroid-loop
+   ├─ defers execution to randroid:loop
    └─ defers VibeKit-specific bootstrap + cookbook to vibekit (this skill)
 ```
 

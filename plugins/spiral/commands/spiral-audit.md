@@ -8,7 +8,7 @@ On any existing repo to check whether it is a fit substrate for an autonomous PR
 
 Run this:
 
-- After `randroid-loop` completes a long run, to surface stale ledgers.
+- After `randroid:loop` completes a long run, to surface stale ledgers.
 - Before assuming a project is "done." Catches the Flatline failure mode (chapter-granular coverage + missing qualitative gate = early termination).
 - When inheriting a project that was set up without `spiral init`, to see how much retrofit is needed.
 

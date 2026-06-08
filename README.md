@@ -6,63 +6,26 @@ A dual-format skills repository for **Claude Code**, **Codex CLI**, and **OpenCo
 
 | Skill | Description |
 |-------|-------------|
-| **randroid-loop** | Autonomous development loop with research and implementation modes |
-| **task-tracking-dots** | Task management with Dots using the dot-html CLI for tracking work items |
+| **task-tracking-dots** | Task management with Dots using the dot CLI for tracking work items |
 | **task-tracking-dots-html** | Task management with the HTML-backed Dots fork |
 | **godot** | Develop, test, build, and deploy Godot 4.x games |
 | **unreal** | Develop, test, and automate Unreal Engine 5.x projects (WIP). PlayUnreal: https://github.com/Randroids-Dojo/PlayUnreal |
 | **slipbox** | Interact with the SlipBox semantic knowledge engine and read notes from PrivateBox |
 | **spiral** | Bootstrap and audit the structural-discipline scaffold (Markdown ledgers) used by long-running autonomous PR loops |
 | **spiral-html** | HTML-first variant of spiral. Same scaffold and audit checks, ledgers authored as semantic HTML with `data-*` ids |
-| **randroid** | Randroid workflow commands, including addressing PR review comments with signed GitHub replies |
+| **randroid** | Randroid workflow commands, including autonomous loops and PR review comment handling |
 
 ## Installation
 
 ### Recommended (all agents)
 
-Install the randroid-loop skill via the Skills CLI:
-
-```bash
-npx skills add https://github.com/Randroids-Dojo/skills --skill randroid-loop
-```
-
-Works with Codex CLI, Claude Code, OpenCode, Gemini CLI, and other Agent Skills-compatible tools.
-
-To install the task-tracking-dots skill:
-
-```bash
-npx skills add https://github.com/Randroids-Dojo/skills --skill task-tracking-dots
-```
-
-To install the HTML-backed task-tracking-dots skill:
-
-```bash
-npx skills add https://github.com/Randroids-Dojo/skills --skill task-tracking-dots-html
-```
-
-To install the Godot skill:
-
-```bash
-npx skills add https://github.com/Randroids-Dojo/skills --skill godot
-```
-
-To install the Unreal skill:
-
-```bash
-npx skills add https://github.com/Randroids-Dojo/skills --skill unreal
-```
-
-To install the SlipBox skill:
-
-```bash
-npx skills add https://github.com/Randroids-Dojo/skills --skill slipbox
-```
-
-To install the Randroid command skill:
+Install the Randroid command skill via the Skills CLI:
 
 ```bash
 npx skills add https://github.com/Randroids-Dojo/skills --skill randroid
 ```
+
+Works with Codex CLI, Claude Code, OpenCode, Gemini CLI, and other Agent Skills-compatible tools. Replace `randroid` with another skill name from the table to install that skill instead.
 
 ### Manual installs
 
@@ -71,7 +34,6 @@ npx skills add https://github.com/Randroids-Dojo/skills --skill randroid
 Install individual skills using the built-in skill installer:
 
 ```
-$skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/randroid-loop
 $skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/task-tracking-dots
 $skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/task-tracking-dots-html
 $skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/godot
@@ -91,7 +53,6 @@ git clone https://github.com/Randroids-Dojo/skills.git ~/.agents/skills/randroid
 Then symlink individual skills you want:
 
 ```bash
-ln -s ~/.agents/skills/randroids-dojo/plugins/randroid-loop ~/.agents/skills/randroid-loop
 ln -s ~/.agents/skills/randroids-dojo/plugins/task-tracking-dots ~/.agents/skills/task-tracking-dots
 ln -s ~/.agents/skills/randroids-dojo/plugins/task-tracking-dots-html ~/.agents/skills/task-tracking-dots-html
 ln -s ~/.agents/skills/randroids-dojo/plugins/godot ~/.agents/skills/godot
@@ -110,7 +71,6 @@ Install from the marketplace:
 
 ```bash
 /plugin marketplace add Randroids-Dojo/skills
-/plugin install randroid-loop
 /plugin install task-tracking-dots
 /plugin install task-tracking-dots-html
 /plugin install godot
@@ -138,7 +98,7 @@ The `skills` CLI installs into a canonical directory and then symlinks to agent-
 Skills are triggered automatically based on context, or explicitly:
 
 ```
-$randroid-loop      # Invoke randroid-loop skill
+$randroid           # Randroid workflow commands, including loop and PR review handling
 $task-tracking-dots # Task management with Dots
 $task-tracking-dots-html # Task management with HTML-backed Dots
 $godot              # Invoke godot skill
@@ -146,13 +106,12 @@ $unreal             # Invoke unreal skill
 $slipbox            # Invoke slipbox skill
 $spiral             # Bootstrap or audit a project scaffold
 $spiral-html        # HTML-first variant of spiral
-$randroid           # Randroid workflow commands, including PR review comment handling
 ```
 
 ### Claude Code
 
 ```
-/randroid-loop      # Interactive mode selection
+/randroid:loop      # Autonomous research/implementation loop
 /task-tracking-dots # Task management with Dots
 /task-tracking-dots-html # Task management with HTML-backed Dots
 /godot:godot        # Godot development assistance
@@ -175,11 +134,6 @@ $randroid           # Randroid workflow commands, including PR review comment ha
 ├── .codex/
 │   └── skills -> ../plugins # Legacy alias for older Codex versions
 ├── plugins/
-│   ├── randroid-loop/
-│   │   ├── SKILL.md         # Skill definition (Codex + Claude)
-│   │   ├── commands/        # Claude Code slash commands
-│   │   ├── scripts/         # Automation scripts
-│   │   └── ...
 │   ├── task-tracking-dots/
 │   │   ├── SKILL.md         # Skill definition (Codex + Claude)
 │   │   └── commands/        # Claude Code slash commands
@@ -214,7 +168,9 @@ $randroid           # Randroid workflow commands, including PR review comment ha
 │   │   └── docs/            # methodology.html and case-studies.html
 │   └── randroid/
 │       ├── SKILL.md         # Skill definition (Codex + Claude)
-│       └── commands/        # Claude Code slash command
+│       ├── commands/        # /randroid:loop and /randroid:address-pr-comments
+│       ├── hooks/           # Stop hook for keep-context loop mode
+│       └── scripts/         # Loop setup and external Codex loop wrapper
 └── README.md
 ```
 

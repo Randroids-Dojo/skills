@@ -1,4 +1,9 @@
-# Randroid Loop
+---
+description: "Run the autonomous Randroid research/implementation loop with dots task tracking and git workflow automation."
+argument-hint: "[research|implement] [--loop|--until-complete|--iterations N] [--commit-only|--open-pr|--pr-and-merge] [--keep-context]"
+---
+
+# /randroid:loop
 
 A self-sustaining development loop with two modes: **Researcher** and **Implementor**.
 
@@ -56,7 +61,8 @@ After collecting answers:
    - Read `${CLAUDE_PLUGIN_ROOT}/<mode>-loop.md`
    - Read `${CLAUDE_PLUGIN_ROOT}/loop-shared.md`
    - Concatenate: mode-specific + shared
-3. Begin execution based on context mode
+3. Let the shared prompt select the project task tracker (`dot-html` for `.html` dots, otherwise `dot` for `.md` dots)
+4. Begin execution based on context mode
 
 **Fresh context mode (default):**
 You are the orchestrator. Run this loop:

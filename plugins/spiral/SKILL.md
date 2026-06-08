@@ -1,6 +1,6 @@
 ---
 name: spiral
-description: Bootstrap and audit the structural-discipline scaffold (GDD tree, coverage ledger, progress log, open questions, followups, playtest gate) that takes a vision into a delivered system through small iterations whose state lives in git, not the agent's head. Each cycle returns to the same artifacts and finds them advanced. Pairs with randroid-loop and task-tracking-dots. Use when bootstrapping a new project or auditing an existing one. Slash commands /spiral, /spiral-init, /spiral-audit live under commands/.
+description: Bootstrap and audit the structural-discipline scaffold (GDD tree, coverage ledger, progress log, open questions, followups, playtest gate) that takes a vision into a delivered system through small iterations whose state lives in git, not the agent's head. Each cycle returns to the same artifacts and finds them advanced. Pairs with /randroid:loop and task-tracking-dots. Use when bootstrapping a new project or auditing an existing one. Slash commands /spiral, /spiral-init, /spiral-audit live under commands/.
 ---
 
 # Spiral
@@ -14,7 +14,7 @@ The agent does not remember the project. The project remembers itself. Every kin
 - **`/spiral init`**: at the start of a fresh project. Writes the canonical scaffold (rules, plan, agreement, GDD tree, coverage ledger, progress log, open questions, followups, playtest, fun-factor audit) into the current repo.
 - **`/spiral audit`**: on an existing project. Diffs the repo against the canonical structure and prints a remediation checklist. Catches the three known failure modes (monolith GDD, chapter-granular coverage, missing qualitative gate) plus generic drift (stale progress log, missing ledgers, open questions without recommended defaults, followups without priorities).
 
-Per-slice execution (read context, branch, implement, PR, merge, repeat) is the job of `randroid-loop`. Per-task tracking is the job of `task-tracking-dots`. This skill is the substrate those two run against.
+Per-slice execution (read context, branch, implement, PR, merge, repeat) is the job of `randroid:loop`. Per-task tracking is the job of `task-tracking-dots`. This skill is the substrate those two run against.
 
 ## Why this exists: the three case studies
 
@@ -65,7 +65,7 @@ The scaffold is designed to work in both Claude Code and Codex without modificat
 4. **Ledgers**: externalized memory (progress log, open questions, followups, coverage). Append-only.
 5. **Gates**: what blocks merge AND what triggers a slice. Mechanical (CI green, type-check, tests, no em-dash, bot-review settled). Qualitative (playtest, fun-factor audit). Dependency Upgrade Gate (see `docs/DEPENDENCY_LEDGER.md`): a watched-dep release is the same kind of fresh state as a new commit on `main`; the agent observes and acts at every loop boundary that touches `main`. The qualitative gate is the second gate that prevents Flatline-style early termination.
 6. **Selection rule**: what to work on next: red CI > pending dep upgrade > P0/P1 dot > answered open question > high-priority followup > coverage gap > partial GDD section > cleanup.
-7. **Loop**: the continuous operation. Read context, pick slice, branch, implement, test, update ledgers, PR, handle review, wait for bot + CI, merge, pull main, smoke prod, close item, start next. Never voluntarily idles. Executed by `randroid-loop`.
+7. **Loop**: the continuous operation. Read context, pick slice, branch, implement, test, update ledgers, PR, handle review, wait for bot + CI, merge, pull main, smoke prod, close item, start next. Never voluntarily idles. Executed by `randroid:loop`.
 
 ## How `init` works
 
@@ -79,7 +79,7 @@ The script:
 4. Creates `docs/gdd/` for the GDD tree and `.claude/rules/` for the path-scoped Rules.
 5. Writes `CLAUDE.md` as a `@AGENTS.md` import shim so Claude Code and Codex read the same rules.
 6. Verifies em-dash cleanliness on every written file.
-7. Prints a next-steps note: draft the first GDD section under `docs/gdd/`, then run `/randroid-loop implement` to start the spiral.
+7. Prints a next-steps note: draft the first GDD section under `docs/gdd/`, then run `/randroid:loop implement` to start the spiral.
 
 ## How `audit` works
 
@@ -101,9 +101,9 @@ The output is a checklist, not a generated remediation file. One canonical place
 
 ## Composition
 
-- `randroid-loop` reads the ledgers this skill writes. The loop's research and implement modes both name `OPEN_QUESTIONS.md` and `FOLLOWUPS.md` as required reads.
+- `randroid:loop` reads the ledgers this skill writes. The loop's research and implement modes both name `OPEN_QUESTIONS.md` and `FOLLOWUPS.md` as required reads.
 - `task-tracking-dots` is the work-item tracker. `Q-NNN` entries that resolve into work become Dots. `F-NNN` entries with `Priority: blocks-release` become Dots.
-- `vibekit` (optional) supplies bootstrap and per-module cookbook for the in-house `@randroids-dojo/vibekit` shared library. Spiral defers to it for VibeKit-specific knowledge the same way it defers to `randroid-loop` for slice execution. A project that prefers a different shared library swaps this skill out without touching spiral.
+- `vibekit` (optional) supplies bootstrap and per-module cookbook for the in-house `@randroids-dojo/vibekit` shared library. Spiral defers to it for VibeKit-specific knowledge the same way it defers to `randroid:loop` for slice execution. A project that prefers a different shared library swaps this skill out without touching spiral.
 - This skill is stateless. All state lives in the target repo's ledger files.
 
 ## Architecture

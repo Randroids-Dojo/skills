@@ -20,7 +20,7 @@ The current skill runs once and outputs `<promise>RANDROID_LOOP_COMPLETE</promis
 Based on the [Ralph Wiggum plugin](https://github.com/anthropics/claude-code/tree/main/plugins/ralph-wiggum).
 
 **How it works:**
-1. User runs `/randroid-loop research --loop` (or `--iterations N`)
+1. User runs `/randroid:loop research --loop` (or `--iterations N`)
 2. Skill sets up state file with iteration count, completion promise
 3. Stop hook intercepts session exit
 4. If completion promise not found AND iterations remain, feed same prompt back
@@ -201,20 +201,20 @@ Both approaches achieve **fresh context on every loop**:
 
 ```bash
 # Interactive mode selection (current behavior)
-/randroid-loop
+/randroid:loop
 
 # Single iteration (current behavior)
-/randroid-loop research
+/randroid:loop research
 
 # Loop mode
-/randroid-loop research --loop                 # Loop until complete
-/randroid-loop implement --iterations 20       # Max 20 iterations
+/randroid:loop research --loop                 # Loop until complete
+/randroid:loop implement --iterations 20       # Max 20 iterations
 
 # Git workflow options
-/randroid-loop implement --commit-only         # Local commits only
-/randroid-loop implement --open-pr             # Open PR, wait for CI
-/randroid-loop implement --pr-and-merge        # Open PR, wait for CI, merge
-/randroid-loop implement --git-workflow pr     # Explicit workflow
+/randroid:loop implement --commit-only         # Local commits only
+/randroid:loop implement --open-pr             # Open PR, wait for CI
+/randroid:loop implement --pr-and-merge        # Open PR, wait for CI, merge
+/randroid:loop implement --git-workflow pr     # Explicit workflow
 ```
 
 ### Codex

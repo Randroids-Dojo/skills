@@ -115,5 +115,5 @@ cat <<EOF
 Next steps:
   1. Draft the first GDD section under docs/gdd/01-vision-and-pillars.md.
   2. Replace the example rows in docs/GDD_COVERAGE.json with real atomic requirements.
-  3. Start the loop: /randroid-loop implement
+  3. Start the loop: /randroid:loop implement
 EOF

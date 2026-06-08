@@ -26,7 +26,7 @@ After the script completes:
 
 1. Print the list of written files.
 2. Tell the user the next step is to draft the first GDD section under `docs/gdd/<n>-<title>.md`.
-3. Suggest `/randroid-loop implement` once the first GDD section exists.
+3. Suggest `/randroid:loop implement` once the first GDD section exists.
 
 ## Output
 

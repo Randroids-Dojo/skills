@@ -149,5 +149,5 @@ Next steps:
   2. Replace the example rows in docs/GDD_COVERAGE.json with real atomic requirements.
   3. Track work with the HTML Dots fork (dot-html CLI, skill task-tracking-dots-html),
      NOT the Markdown dot CLI. Install it first if only the Markdown variant is present.
-  4. Start the loop: /randroid-loop implement
+  4. Start the loop: /randroid:loop implement
 EOF

@@ -5,6 +5,24 @@ description: "Randroid command namespace. Use when the user asks for available R
 
 # Randroid Commands
 
+## loop
+
+Run the autonomous research/implementation loop. In Claude Code, use `/randroid:loop`.
+
+The loop supports either task tracker:
+- `dot-html` for HTML-backed tasks under `.dots/`
+- `dot` for Markdown-backed tasks under `.dots/`
+
+Each iteration detects the project tracker and uses the selected command as `$DOT`. Do not mix `dot` and `dot-html` in one project.
+
+Bundled loop resources:
+- `commands/loop.md`: Claude Code slash command instructions
+- `research-loop.md` and `implement-loop.md`: mode-specific prompts
+- `loop-shared.md`: shared task tracker, git workflow, iteration, and completion rules
+- `scripts/setup-loop.sh`: initializes loop state
+- `scripts/randroid-loop.sh`: external loop wrapper for Codex
+- `hooks/stop-hook.sh`: Claude Code keep-context loop hook
+
 ## address-pr-comments
 
 Address every actionable PR review comment end to end: inspect the feedback, update the code, verify the change, and reply clearly.

@@ -11,9 +11,9 @@ You are an **Implementor**. Your job is to execute on specs, write code, and shi
 
 ### 1. Assess Current State
 ```bash
-dot tree
-dot ready
-dot find "implement:"
+$DOT tree
+$DOT ready
+$DOT find "implement:"
 ```
 
 ### 2. If Implementation Dots Exist → Work On Them
@@ -21,8 +21,8 @@ dot find "implement:"
 Pick an `implement:` task, claim it, and execute:
 
 ```bash
-dot on <task-id>
-dot show <task-id>
+$DOT on <task-id>
+$DOT show <task-id>
 ```
 
 Read the spec carefully. Plan 2-5 concrete steps. Then:
@@ -36,9 +36,9 @@ Read the spec carefully. Plan 2-5 concrete steps. Then:
 
 Run verification steps from two sources:
 
-**1. Task-specific verification**: Check the dot spec for a `## Verify` section:
+**1. Task-specific verification**: Check the task spec for a `## Verify` section:
 ```bash
-dot show <task-id>  # Look for ## Verify section with checklist items
+$DOT show <task-id>  # Look for ## Verify section with checklist items
 ```
 
 If the spec includes verification steps (e.g., "build succeeds", "tests pass", "behavior X works"), execute each one.
@@ -62,7 +62,7 @@ If verification fails:
 
 Complete the task:
 ```bash
-dot off <task-id> -r "brief summary"
+$DOT off <task-id> -r "brief summary"
 ```
 
 Then proceed to **step 4** for commit and git workflow.
@@ -102,18 +102,18 @@ Then proceed to **step 4** for commit and git workflow.
 - Performance improvements possible
 
 #### Validate Dot Dependencies
-- Run `dot tree` to see the dependency graph
-- Check `blocks:` and `after:` in each `.dots/*.md` file
+- Run `$DOT tree` to see the dependency graph
+- Check `blocks:` and `after:` in each `.dots/` task file
 - Are dependencies still accurate?
 - Are there missing dependencies (tasks that should wait for others)?
 - Are there stale dependencies pointing to completed/archived dots?
-- Update dot files to fix any issues found
+- Update task files to fix any issues found
 
 #### Create New Work
 Based on your review, create dots:
 ```bash
-dot add "implement: <improvement>" -d "Details..."
-dot add "research: <question>" -d "Need to investigate..."
+$DOT add "implement: <improvement>" -d "Details..."
+$DOT add "research: <question>" -d "Need to investigate..."
 ```
 
 ### 4. Git Workflow
@@ -185,7 +185,7 @@ Before writing ANY code, complete these steps:
 
 When closing a task, include verification evidence:
 ```bash
-dot off <task-id> -r "Build passes, tests pass, verified feature X works manually"
+$DOT off <task-id> -r "Build passes, tests pass, verified feature X works manually"
 ```
 
 ### If Verification Fails

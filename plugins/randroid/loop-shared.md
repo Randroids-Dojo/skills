@@ -21,11 +21,38 @@ You are running **autonomously** without user interaction.
 
 You may be running in a continuous loop with fresh context each iteration. Only the filesystem persists between iterations:
 - Modified files and git history
-- `.dots/` task state
+- `.dots/` task state (`dot` Markdown files or `dot-html` HTML files)
 - Your artifacts (research docs, implementation code, etc.)
 - Loop state in `state/loop.local.md` (relative to the skill root; use `$CLAUDE_PLUGIN_ROOT/state/loop.local.md` in Claude Code)
 
-Start by checking `dot ready` and `dot tree` to see the current state.
+## Task Tracker Selection
+
+Projects use exactly one task tracker:
+- `dot-html`: HTML-backed dots stored as `.html` under `.dots/`
+- `dot`: Markdown-backed dots stored as `.md` under `.dots/`
+
+At the start of every iteration, select the command and use it for all task operations:
+```bash
+if command -v dot-html >/dev/null 2>&1 && find .dots -name '*.html' -print -quit 2>/dev/null | grep -q .; then
+  DOT=dot-html
+elif command -v dot >/dev/null 2>&1 && find .dots -name '*.md' -print -quit 2>/dev/null | grep -q .; then
+  DOT=dot
+elif command -v dot-html >/dev/null 2>&1; then
+  DOT=dot-html
+elif command -v dot >/dev/null 2>&1; then
+  DOT=dot
+else
+  echo "No dot or dot-html CLI found"
+fi
+```
+
+Do not mix trackers in a project. If `.dots/` already contains `.html`, use `dot-html`; if it already contains `.md`, use `dot`. Prefer the CLI for task changes instead of hand-editing `.dots/` files.
+
+Start by checking task state:
+```bash
+$DOT ready
+$DOT tree
+```
 
 Check loop state for git workflow configuration:
 ```bash
@@ -39,7 +66,7 @@ Check the `git_workflow` setting in `state/loop.local.md`.
 **IMPORTANT:** Only stage files YOU modified this iteration. Ignore unrelated changes.
 ```bash
 # Stage only your changes (list specific files or use patterns)
-git add .dots/<files-you-modified>.md
+git add .dots/<files-you-modified>
 git add <other-files-you-created-or-modified>
 # Do NOT use "git add -A" as it may include unrelated changes
 ```

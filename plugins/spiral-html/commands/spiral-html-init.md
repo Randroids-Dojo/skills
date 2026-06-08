@@ -27,7 +27,7 @@
 <ol>
   <li>Print the list of written files.</li>
   <li>Tell the user the next step is to draft the first GDD section under <code>docs/gdd/&lt;n&gt;-&lt;title&gt;.html</code>.</li>
-  <li>Suggest <code>/randroid-loop implement</code> once the first GDD section exists.</li>
+  <li>Suggest <code>/randroid:loop implement</code> once the first GDD section exists.</li>
 </ol>
 
 <h2>Output</h2>

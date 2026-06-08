@@ -6,9 +6,9 @@ Bootstrap-and-cookbook layer for [`@randroids-dojo/vibekit`](https://github.com/
 
 The `spiral` skill defines methodology (gates, ledgers, loop). It is intentionally library-agnostic.
 
-The `randroid-loop` skill executes slices (research / implement modes).
+The `randroid:loop` skill executes slices (research / implement modes).
 
-This skill, `vibekit`, supplies the worked-example layer for one specific shared library. A project that prefers a different shared library swaps this skill out without touching spiral's gate or randroid-loop's executor.
+This skill, `vibekit`, supplies the worked-example layer for one specific shared library. A project that prefers a different shared library swaps this skill out without touching spiral's gate or randroid:loop's executor.
 
 ## Install
 

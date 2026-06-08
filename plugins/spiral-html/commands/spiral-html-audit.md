@@ -9,7 +9,7 @@
 <p>Run this:</p>
 
 <ul>
-  <li>After <code>randroid-loop</code> completes a long run, to surface stale ledgers.</li>
+  <li>After <code>randroid:loop</code> completes a long run, to surface stale ledgers.</li>
   <li>Before assuming a project is "done." Catches the Flatline failure mode (chapter-granular coverage + missing qualitative gate = early termination).</li>
   <li>When inheriting a project that was set up without <code>spiral-html init</code>, to see how much retrofit is needed.</li>
 </ul>

@@ -85,7 +85,7 @@ Plus the constraint: prefer the smallest slice that creates a useful PR. Avoid m
 
 The continuous operation. Read context, pick slice, branch, implement, test, update ledgers, PR, handle review, wait for bot + CI, merge, pull main, smoke prod, close item, start next.
 
-Never voluntarily idles. Executed by `randroid-loop`.
+Never voluntarily idles. Executed by `randroid:loop`.
 
 ## The compounding effect
 

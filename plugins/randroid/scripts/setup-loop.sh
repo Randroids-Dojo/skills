@@ -42,6 +42,20 @@ GIT_WORKFLOW="push"  # Default: commit and push
 FRESH_CONTEXT="false"  # Default: keep context (Claude Code stop hook)
 DIRECTIONS=""  # Optional user guidance
 
+detect_task_tracker() {
+    if [[ -d ".dots" ]] && find .dots -name '*.html' -print -quit 2>/dev/null | grep -q . && command -v dot-html >/dev/null 2>&1; then
+        echo "dot-html"
+    elif [[ -d ".dots" ]] && find .dots -name '*.md' -print -quit 2>/dev/null | grep -q . && command -v dot >/dev/null 2>&1; then
+        echo "dot"
+    elif command -v dot-html >/dev/null 2>&1; then
+        echo "dot-html"
+    elif command -v dot >/dev/null 2>&1; then
+        echo "dot"
+    else
+        echo "missing"
+    fi
+}
+
 while [[ $# -gt 0 ]]; do
     case "$1" in
         research|implement)
@@ -98,6 +112,7 @@ fi
 
 # Ensure state directory exists
 mkdir -p "$STATE_DIR"
+TASK_TRACKER="$(detect_task_tracker)"
 
 # Validate git_workflow
 case "$GIT_WORKFLOW" in
@@ -117,6 +132,7 @@ mode: ${MODE}
 iteration: 0
 iterations: ${ITERATIONS}
 git_workflow: ${GIT_WORKFLOW}
+task_tracker: ${TASK_TRACKER}
 fresh_context: ${FRESH_CONTEXT}
 completion_promise: RANDROID_LOOP_COMPLETE
 backoff_delay: 5
@@ -146,6 +162,7 @@ else
     echo "  Completion promise: IGNORED"
 fi
 echo "  Git workflow: $GIT_WORKFLOW"
+echo "  Task tracker: $TASK_TRACKER"
 echo "  Fresh context: $FRESH_CONTEXT"
 if [[ -n "$DIRECTIONS" ]]; then
     echo "  Directions: (provided)"

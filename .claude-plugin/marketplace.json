@@ -5,14 +5,9 @@
   },
   "plugins": [
     {
-      "name": "randroid-loop",
-      "source": "./plugins/randroid-loop",
-      "description": "Autonomous development loop with research and implementation modes. Self-sustaining agentic workflow that uses a dots system for task tracking, supports multiple git workflows, and can run infinitely or until completion."
-    },
-    {
       "name": "task-tracking-dots",
       "source": "./plugins/task-tracking-dots",
-      "description": "Task management with Dots. Track work items across sessions with the dot-html CLI, dependencies, and completion reasons."
+      "description": "Task management with Dots. Track work items across sessions with the dot CLI, dependencies, and completion reasons."
     },
     {
       "name": "task-tracking-dots-html",
@@ -37,7 +32,7 @@
     {
       "name": "spiral",
       "source": "./plugins/spiral",
-      "description": "Bootstrap and audit the structural-discipline scaffold (GDD tree, coverage ledger, progress log, open questions, followups, playtest gate) that takes a vision into a delivered system through small iterations whose state lives in git, not the agent's head. Pairs with randroid-loop and task-tracking-dots. Cross-tool: works with Claude Code via .claude/rules/ and Codex via per-directory AGENTS.md symlinks."
+      "description": "Bootstrap and audit the structural-discipline scaffold (GDD tree, coverage ledger, progress log, open questions, followups, playtest gate) that takes a vision into a delivered system through small iterations whose state lives in git, not the agent's head. Pairs with /randroid:loop and task-tracking-dots. Cross-tool: works with Claude Code via .claude/rules/ and Codex via per-directory AGENTS.md symlinks."
     },
     {
       "name": "spiral-html",
@@ -47,7 +42,7 @@
     {
       "name": "randroid",
       "source": "./plugins/randroid",
-      "description": "Randroid workflow commands. Includes /randroid:address-pr-comments for inspecting PR review threads and requested changes, implementing fixes, running focused verification, and replying with signed GitHub comments."
+      "description": "Randroid workflow commands. Includes /randroid:loop for autonomous research/implementation loops and /randroid:address-pr-comments for handling PR review feedback."
     }
   ]
 }
