@@ -30,7 +30,13 @@ If you edit `~/.claude/skills/slipbox/SKILL.md` instead of `plugins/slipbox/SKIL
 ```
 plugins/
 ├── godot/
-├── randroid-loop/
+├── randroid/
+│   ├── SKILL.md          # Randroid command namespace
+│   ├── commands/
+│   │   ├── loop.md       # /randroid:loop
+│   │   └── address-pr-comments.md
+│   ├── hooks/
+│   └── scripts/
 ├── slipbox/
 │   ├── SKILL.md          # Full skill documentation and agent instructions
 │   └── commands/
