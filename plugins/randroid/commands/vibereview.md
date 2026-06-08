@@ -1,4 +1,9 @@
-# VibeReview
+---
+description: "Run VibeReview browser-game playtest sessions and feed captured evidence into Spiral-HTML ledgers."
+argument-hint: "[start|capture|end|status|list] [project path or notes]"
+---
+
+# /randroid:vibereview
 
 Use the `vibereview` CLI to run browser-game playtest sessions, capture screenshot/browser-state evidence, and feed findings into Spiral-HTML review ledgers.
 
