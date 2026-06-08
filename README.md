@@ -13,6 +13,7 @@ A dual-format skills repository for **Claude Code**, **Codex CLI**, and **OpenCo
 | **slipbox** | Interact with the SlipBox semantic knowledge engine and read notes from PrivateBox |
 | **spiral** | Bootstrap and audit the structural-discipline scaffold (Markdown ledgers) used by long-running autonomous PR loops |
 | **spiral-html** | HTML-first variant of spiral. Same scaffold and audit checks, ledgers authored as semantic HTML with `data-*` ids |
+| **vibereview** | Run browser-game playtest review sessions with the VibeReview CLI and feed evidence into Spiral-HTML ledgers |
 | **randroid** | Randroid workflow commands, including autonomous loops and PR review comment handling |
 
 ## Installation
@@ -41,6 +42,7 @@ $skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/unre
 $skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/slipbox
 $skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/spiral
 $skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/spiral-html
+$skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/vibereview
 $skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/randroid
 ```
 
@@ -60,6 +62,7 @@ ln -s ~/.agents/skills/randroids-dojo/plugins/unreal ~/.agents/skills/unreal
 ln -s ~/.agents/skills/randroids-dojo/plugins/slipbox ~/.agents/skills/slipbox
 ln -s ~/.agents/skills/randroids-dojo/plugins/spiral ~/.agents/skills/spiral
 ln -s ~/.agents/skills/randroids-dojo/plugins/spiral-html ~/.agents/skills/spiral-html
+ln -s ~/.agents/skills/randroids-dojo/plugins/vibereview ~/.agents/skills/vibereview
 ln -s ~/.agents/skills/randroids-dojo/plugins/randroid ~/.agents/skills/randroid
 ```
 
@@ -78,6 +81,7 @@ Install from the marketplace:
 /plugin install slipbox
 /plugin install spiral
 /plugin install spiral-html
+/plugin install vibereview
 /plugin install randroid
 ```
 
@@ -106,6 +110,7 @@ $unreal             # Invoke unreal skill
 $slipbox            # Invoke slipbox skill
 $spiral             # Bootstrap or audit a project scaffold
 $spiral-html        # HTML-first variant of spiral
+$vibereview         # Use VibeReview CLI for playtest review captures
 ```
 
 ### Claude Code
@@ -119,6 +124,7 @@ $spiral-html        # HTML-first variant of spiral
 /slipbox:slipbox    # SlipBox knowledge engine
 /spiral             # Bootstrap or audit a project scaffold (/spiral init, /spiral audit)
 /spiral-html        # HTML-first variant (/spiral-html init, /spiral-html audit)
+/vibereview         # VibeReview CLI playtest capture quick reference
 /randroid:address-pr-comments # Address all actionable PR review comments
 ```
 
@@ -166,6 +172,9 @@ $spiral-html        # HTML-first variant of spiral
 │   │   ├── templates/       # HTML scaffold written into target repos
 │   │   ├── scripts/         # init.sh and audit.sh (HTML-aware)
 │   │   └── docs/            # methodology.html and case-studies.html
+│   ├── vibereview/
+│   │   ├── SKILL.md         # Skill definition (VibeReview CLI + Spiral-HTML playtest capture workflow)
+│   │   └── commands/        # /vibereview quick reference
 │   └── randroid/
 │       ├── SKILL.md         # Skill definition (Codex + Claude)
 │       ├── commands/        # /randroid:loop and /randroid:address-pr-comments

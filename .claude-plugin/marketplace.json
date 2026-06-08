@@ -40,6 +40,11 @@
       "description": "HTML-first variant of the spiral skill. Same structural-discipline scaffold (GDD tree, coverage ledger, progress log, open questions, followups, playtest gate) authored in HTML rather than Markdown. Ledgers use semantic data-* attributes for unambiguous agent reads. Ships AGENTS.md / CLAUDE.md shims pointing at AGENTS.html so Codex and Claude Code still land on the contract."
     },
     {
+      "name": "vibereview",
+      "source": "./plugins/vibereview",
+      "description": "Use the VibeReview macOS CLI to run browser-game playtest review sessions, capture screenshot and browser-state evidence, and feed findings into Spiral-HTML ledgers such as PLAYTEST.html, FOLLOWUPS.html, OPEN_QUESTIONS.html, and FUN_FACTOR_AUDIT.html."
+    },
+    {
       "name": "randroid",
       "source": "./plugins/randroid",
       "description": "Randroid workflow commands. Includes /randroid:loop for autonomous research/implementation loops and /randroid:address-pr-comments for handling PR review feedback."
