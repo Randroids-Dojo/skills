@@ -45,9 +45,9 @@
       "description": "HTML-first variant of the spiral skill. Same structural-discipline scaffold (GDD tree, coverage ledger, progress log, open questions, followups, playtest gate) authored in HTML rather than Markdown. Ledgers use semantic data-* attributes for unambiguous agent reads. Ships AGENTS.md / CLAUDE.md shims pointing at AGENTS.html so Codex and Claude Code still land on the contract."
     },
     {
-      "name": "address-pr-comments",
-      "source": "./plugins/address-pr-comments",
-      "description": "Address all actionable pull request review comments end to end. Inspect review threads and requested changes, implement fixes, run focused verification, and reply with signed GitHub comments."
+      "name": "randroid",
+      "source": "./plugins/randroid",
+      "description": "Randroid workflow commands. Includes /randroid:address-pr-comments for inspecting PR review threads and requested changes, implementing fixes, running focused verification, and replying with signed GitHub comments."
     }
   ]
 }

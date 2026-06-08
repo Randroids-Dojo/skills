@@ -1,4 +1,4 @@
-# /address-pr-comments
+# /randroid:address-pr-comments
 
 Address all actionable PR review comments on the current branch or a specified pull request.
 

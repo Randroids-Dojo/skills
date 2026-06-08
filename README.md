@@ -14,7 +14,7 @@ A dual-format skills repository for **Claude Code**, **Codex CLI**, and **OpenCo
 | **slipbox** | Interact with the SlipBox semantic knowledge engine and read notes from PrivateBox |
 | **spiral** | Bootstrap and audit the structural-discipline scaffold (Markdown ledgers) used by long-running autonomous PR loops |
 | **spiral-html** | HTML-first variant of spiral. Same scaffold and audit checks, ledgers authored as semantic HTML with `data-*` ids |
-| **address-pr-comments** | Address actionable PR review comments, implement fixes, verify changes, and reply with signed GitHub comments |
+| **randroid** | Randroid workflow commands, including addressing PR review comments with signed GitHub replies |
 
 ## Installation
 
@@ -58,10 +58,10 @@ To install the SlipBox skill:
 npx skills add https://github.com/Randroids-Dojo/skills --skill slipbox
 ```
 
-To install the address-pr-comments skill:
+To install the Randroid command skill:
 
 ```bash
-npx skills add https://github.com/Randroids-Dojo/skills --skill address-pr-comments
+npx skills add https://github.com/Randroids-Dojo/skills --skill randroid
 ```
 
 ### Manual installs
@@ -79,7 +79,7 @@ $skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/unre
 $skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/slipbox
 $skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/spiral
 $skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/spiral-html
-$skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/address-pr-comments
+$skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/randroid
 ```
 
 Or clone for all skills at once:
@@ -99,7 +99,7 @@ ln -s ~/.agents/skills/randroids-dojo/plugins/unreal ~/.agents/skills/unreal
 ln -s ~/.agents/skills/randroids-dojo/plugins/slipbox ~/.agents/skills/slipbox
 ln -s ~/.agents/skills/randroids-dojo/plugins/spiral ~/.agents/skills/spiral
 ln -s ~/.agents/skills/randroids-dojo/plugins/spiral-html ~/.agents/skills/spiral-html
-ln -s ~/.agents/skills/randroids-dojo/plugins/address-pr-comments ~/.agents/skills/address-pr-comments
+ln -s ~/.agents/skills/randroids-dojo/plugins/randroid ~/.agents/skills/randroid
 ```
 
 Note: Codex 2026 reads skills from `~/.agents/skills/` (the universal "Agent Skills" path), not `~/.codex/skills/`. The `npx skills` CLI also targets `~/.agents/skills/` for Codex.
@@ -118,7 +118,7 @@ Install from the marketplace:
 /plugin install slipbox
 /plugin install spiral
 /plugin install spiral-html
-/plugin install address-pr-comments
+/plugin install randroid
 ```
 
 ### Install locations (Skills CLI)
@@ -146,7 +146,7 @@ $unreal             # Invoke unreal skill
 $slipbox            # Invoke slipbox skill
 $spiral             # Bootstrap or audit a project scaffold
 $spiral-html        # HTML-first variant of spiral
-$address-pr-comments # Address all actionable PR review comments
+$randroid           # Randroid workflow commands, including PR review comment handling
 ```
 
 ### Claude Code
@@ -160,7 +160,7 @@ $address-pr-comments # Address all actionable PR review comments
 /slipbox:slipbox    # SlipBox knowledge engine
 /spiral             # Bootstrap or audit a project scaffold (/spiral init, /spiral audit)
 /spiral-html        # HTML-first variant (/spiral-html init, /spiral-html audit)
-/address-pr-comments # Address all actionable PR review comments
+/randroid:address-pr-comments # Address all actionable PR review comments
 ```
 
 ## Repository Structure
@@ -212,7 +212,7 @@ $address-pr-comments # Address all actionable PR review comments
 │   │   ├── templates/       # HTML scaffold written into target repos
 │   │   ├── scripts/         # init.sh and audit.sh (HTML-aware)
 │   │   └── docs/            # methodology.html and case-studies.html
-│   └── address-pr-comments/
+│   └── randroid/
 │       ├── SKILL.md         # Skill definition (Codex + Claude)
 │       └── commands/        # Claude Code slash command
 └── README.md

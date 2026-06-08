@@ -1,9 +1,11 @@
 ---
-name: address-pr-comments
-description: "Address all actionable pull request review comments. Use when the user asks to handle PR feedback, requested changes, unresolved review threads, or review comments on the current branch or a specified PR."
+name: randroid
+description: "Randroid workflow commands. Use /randroid:address-pr-comments when the user asks to handle PR feedback, requested changes, unresolved review threads, or review comments on the current branch or a specified PR."
 ---
 
-# Address PR Comments
+# Randroid Commands
+
+## address-pr-comments
 
 Address every actionable PR review comment end to end: inspect the feedback, update the code, verify the change, and reply clearly.
 
