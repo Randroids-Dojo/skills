@@ -202,7 +202,7 @@ Do this instead:
 - Raise the camera `near` plane to the closest the player can actually get (often 0.1, not 0.01). Halving depth waste is free precision.
 - Reach for `polygonOffset` / depth bias only when geometry truly must stay coplanar (decals you cannot lift). It masks, it does not cure; prefer separation.
 
-Verify in **motion**, per RULE 10: pan or orbit the camera past every seam and watch it, or diff consecutive frames *while the camera moves slightly*. A frozen-camera frame diff will show nothing even when the scene is full of z-fighting.
+Verify in **motion**, per RULE 10: pan or orbit the camera past every seam and watch it, or diff consecutive frames *while the camera moves slightly*. A frozen-camera frame diff will show nothing even when the scene is full of z-fighting. Verify from **several angles too**, not just head-on: a coplanar *side* seam (an accent box modeled at the parent's full width, so its side faces share the parent's side plane) is edge-on and invisible from the front, and only shows obliquely, exactly where a passer-by sees it.
 
 ---
 
