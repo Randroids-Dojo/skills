@@ -181,6 +181,31 @@ If you find yourself about to run `vercel env add KV_REST_API_URL` with a value 
 
 ---
 
+## RULE 12: 3D scene depth hygiene (z-fighting)
+
+Applies to any 3D scene (three.js / WebGL / WebGPU / R3F / Babylon / Unreal / Godot). Two opaque surfaces that share a plane, or that cross at a shallow grazing angle, cannot be ordered reliably by the depth buffer. They shimmer along the seam. This is z-fighting, and it is the single most common "looks broken" artifact in vibe-coded 3D.
+
+The trap that makes it slip through review:
+
+- **z-fighting is invisible in a still frame.** When the camera is parked, the depth ties resolve to one stable answer and the seam looks clean. It only flickers while the camera (or the geometry) moves, because sub-pixel coverage at the seam flips frame to frame. A static screenshot is not evidence; agents repeatedly "verify" a fix with one screenshot and ship the bug.
+
+Never create these:
+
+- **Coplanar faces.** A decal/sign/billboard face placed at exactly the depth of the panel behind it; a trim strip whose top sits exactly on the surface it trims; two walls at the same coordinate. Any two faces at the same depth fight.
+- **Buried accent boxes.** A bezel, marquee, header, plinth, or badge modeled as a small box that pokes *into* a larger body box. Where the small box's face is nearly parallel to and nearly the same depth as the body's face (a few degrees off), it fights; where it grazes a perpendicular face at a shallow angle, the intersection line shimmers.
+- **A near plane too small for the scene.** A camera `near` of `0.01` across a 50m+ scene throws away depth precision everywhere. Depth resolution scales with `d² / (near · (far − near))`, so a gap that is safe at 1m fights at 40m.
+
+Do this instead:
+
+- Mount accent geometry **clearly proud of** the parent surface (a few cm in front), or **fully enclosed inside** it (no emergent coplanar face), never flush and never grazing. "Flush" is the bug, not the goal.
+- Separate intentionally-stacked planes (billboard over frame, label over wall) by a real epsilon **sized to the scene and camera**, not a token `0.001`. At hall/room scale with a 90m far plane, ~2-3cm clears the noise floor; pick the gap from the actual viewing distance, do not guess small.
+- Raise the camera `near` plane to the closest the player can actually get (often 0.1, not 0.01). Halving depth waste is free precision.
+- Reach for `polygonOffset` / depth bias only when geometry truly must stay coplanar (decals you cannot lift). It masks, it does not cure; prefer separation.
+
+Verify in **motion**, per RULE 10: pan or orbit the camera past every seam and watch it, or diff consecutive frames *while the camera moves slightly*. A frozen-camera frame diff will show nothing even when the scene is full of z-fighting.
+
+---
+
 ## Quick pre-commit checklist
 
 1. No em-dashes. Run `grep -rnP '[\x{2014}\x{2013}]' .` (checks for U+2014 em-dash and U+2013 en-dash). Must return nothing.
@@ -188,3 +213,4 @@ If you find yourself about to run `vercel env add KV_REST_API_URL` with a value 
 3. Tests pass locally.
 4. GDD is still accurate, or updated.
 5. No secrets in the diff.
+6. For 3D changes (RULE 12): no new coplanar/flush/grazing surfaces, and any depth fix was verified with the camera in motion, not a single still frame.
