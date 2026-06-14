@@ -1,6 +1,6 @@
 ---
 name: randroid
-description: "Randroid command namespace. Use when the user asks for available Randroid slash commands or invokes /randroid directly. Includes /randroid:loop, /randroid:address-pr-comments, and /randroid:vibereview."
+description: "Randroid command namespace. Use when the user asks for available Randroid slash commands or invokes /randroid directly. Includes /randroid:loop, /randroid:address-pr-comments, /randroid:vibereview, and /randroid:clean-slop."
 ---
 
 # Randroid Commands
@@ -208,3 +208,15 @@ VibeReview's current artifact behavior:
 - Full or partial Spiral-HTML projects: writes media under `docs/reviews/<session-id>/`, appends playtest evidence to `docs/PLAYTEST.html`, and creates followups for severe captures.
 - Legacy Markdown docs: writes review artifacts under `docs/reviews/<session-id>/` or `Docs/reviews/<session-id>/` but does not mutate Markdown ledgers.
 - No docs: creates minimal Spiral-HTML review ledgers and a session review folder.
+
+## clean-slop
+
+Detect and fix AI "slop" in vibe-coded UIs, and prevent it from coming back. In Claude Code, use `/randroid:clean-slop`.
+
+Use this command when a design "smells like AI" (generic one-shot LLM look), when the user asks to "de-slop" or clean up a frontend, or as a final polish pass before shipping a vibe-coded UI.
+
+It names the telltale slop signs — random glows, purple gradients, Inter, harsh white borders, lazy selected states, cramped all-caps eyebrows, pointless status pills, uneven spacing, inconsistent section shapes, two-line button text, Unsplash photos, illustrations-instead-of-photos, Lucide icons — and gives a concrete fix-prompt for each, plus a prevention workflow (design systems, references, palettes, fonts, icons, sections, animations, polish). Slop is removed iteratively: scan a screenshot, fix the exact element, re-screenshot, repeat.
+
+Bundled resources:
+- `commands/clean-slop.md`: Claude Code slash command instructions and quick-scan checklist
+- `clean-slop-rules.md`: the full ruleset (named fix per sign + prevention workflow), loaded via `${CLAUDE_PLUGIN_ROOT}`

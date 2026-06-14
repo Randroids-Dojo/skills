@@ -13,7 +13,7 @@ A dual-format skills repository for **Claude Code**, **Codex CLI**, and **OpenCo
 | **slipbox** | Interact with the SlipBox semantic knowledge engine and read notes from PrivateBox |
 | **spiral** | Bootstrap and audit the structural-discipline scaffold (Markdown ledgers) used by long-running autonomous PR loops |
 | **spiral-html** | HTML-first variant of spiral. Same scaffold and audit checks, ledgers authored as semantic HTML with `data-*` ids |
-| **randroid** | Randroid workflow commands, including autonomous loops, PR review comment handling, and VibeReview playtest capture |
+| **randroid** | Randroid workflow commands, including autonomous loops, PR review comment handling, VibeReview playtest capture, and AI-slop cleanup |
 
 ## Installation
 
@@ -121,6 +121,7 @@ $spiral-html        # HTML-first variant of spiral
 /spiral             # Bootstrap or audit a project scaffold (/spiral init, /spiral audit)
 /spiral-html        # HTML-first variant (/spiral-html init, /spiral-html audit)
 /randroid:address-pr-comments # Address all actionable PR review comments
+/randroid:clean-slop # Detect and fix AI "slop" in vibe-coded UIs
 ```
 
 ## Repository Structure
