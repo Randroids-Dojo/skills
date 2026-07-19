@@ -43,6 +43,11 @@
       "name": "randroid",
       "source": "./plugins/randroid",
       "description": "Randroid workflow commands. Includes /randroid:loop for autonomous research/implementation loops, /randroid:address-pr-comments for handling PR review feedback, and /randroid:vibereview for VibeReview playtest capture with Spiral-HTML evidence."
+    },
+    {
+      "name": "decision",
+      "source": "./plugins/decision",
+      "description": "Ask structured multiple-choice decision questions in batches of two, with pros/cons and a recommended option for each."
     }
   ]
 }

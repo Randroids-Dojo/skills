@@ -13,7 +13,8 @@ A dual-format skills repository for **Claude Code**, **Codex CLI**, and **OpenCo
 | **slipbox** | Interact with the SlipBox semantic knowledge engine and read notes from PrivateBox |
 | **spiral** | Bootstrap and audit the structural-discipline scaffold (Markdown ledgers) used by long-running autonomous PR loops |
 | **spiral-html** | HTML-first variant of spiral. Same scaffold and audit checks, ledgers authored as semantic HTML with `data-*` ids |
-| **randroid** | Randroid workflow commands, including autonomous loops, PR review comment handling, VibeReview playtest capture, and AI-slop cleanup |
+| **randroid** | Randroid workflow commands, including autonomous loops, PR review comment handling, and VibeReview playtest capture |
+| **decision** | Run structured two-question decision sessions with multiple-choice options, pros/cons, and recommendations |
 
 ## Installation
 
@@ -42,6 +43,7 @@ $skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/slip
 $skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/spiral
 $skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/spiral-html
 $skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/randroid
+$skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/decision
 ```
 
 Or clone for all skills at once:
@@ -61,6 +63,7 @@ ln -s ~/.agents/skills/randroids-dojo/plugins/slipbox ~/.agents/skills/slipbox
 ln -s ~/.agents/skills/randroids-dojo/plugins/spiral ~/.agents/skills/spiral
 ln -s ~/.agents/skills/randroids-dojo/plugins/spiral-html ~/.agents/skills/spiral-html
 ln -s ~/.agents/skills/randroids-dojo/plugins/randroid ~/.agents/skills/randroid
+ln -s ~/.agents/skills/randroids-dojo/plugins/decision ~/.agents/skills/decision
 ```
 
 Note: Codex 2026 reads skills from `~/.agents/skills/` (the universal "Agent Skills" path), not `~/.codex/skills/`. The `npx skills` CLI also targets `~/.agents/skills/` for Codex.
@@ -79,6 +82,7 @@ Install from the marketplace:
 /plugin install spiral
 /plugin install spiral-html
 /plugin install randroid
+/plugin install decision
 ```
 
 ### Install locations (Skills CLI)
@@ -101,6 +105,7 @@ Skills are triggered automatically based on context, or explicitly:
 $randroid           # Randroid workflow commands, including loop, PR review handling, and VibeReview
 $task-tracking-dots # Task management with Dots
 $task-tracking-dots-html # Task management with HTML-backed Dots
+$decision             # Ask structured multiple-choice decision questions (2 at a time)
 $godot              # Invoke godot skill
 $unreal             # Invoke unreal skill
 $slipbox            # Invoke slipbox skill
@@ -115,6 +120,7 @@ $spiral-html        # HTML-first variant of spiral
 /randroid:vibereview # VibeReview CLI playtest capture and Spiral-HTML evidence
 /task-tracking-dots # Task management with Dots
 /task-tracking-dots-html # Task management with HTML-backed Dots
+/decision      # Run structured decision sessions with pros/cons and recommendations
 /godot:godot        # Godot development assistance
 /unreal:unreal      # Unreal development assistance
 /slipbox:slipbox    # SlipBox knowledge engine
