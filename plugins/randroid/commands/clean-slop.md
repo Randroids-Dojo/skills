@@ -1,6 +1,6 @@
 # Randroid Clean Slop
 
-Detect and fix AI "slop" in a vibe-coded UI, and prevent it from coming back.
+Detect and fix AI "slop" in a vibe-coded UI — visuals and copy, first-generation tells and the "anti-slop" second generation — and prevent it from coming back.
 
 ## When to use
 
@@ -30,6 +30,14 @@ When this command is invoked:
 - **Inconsistent section shapes**, **button text wrapping** to two lines
 - **Unsplash/stock photos**, **illustrations** where photos belong
 - **Lucide** (or default) icons
+- **Unmodified shadcn/Tailwind defaults**, **gradient hero text**
+- **Centered hero + three identical feature cards** / default bento grid, badge above the H1
+- **Stat banners**, numbered **step strips**, **colored left borders**, cards nested in cards
+- **Emoji as icons**
+- **Warm-editorial default** (cream + serif + coral/sage) — the new purple
+- **Escape-combo fonts** (Space Grotesk + Instrument Serif)
+- **CSS-faked imperfection** (rotated stickers, fake tape, stamps, marker underlines)
+- **Copy slop**: LLM vocabulary ("seamless", "elevate"), "It's not X, it's Y", slogan stacks, em-dash density
 
 ## Full ruleset
 
