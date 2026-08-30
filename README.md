@@ -20,6 +20,7 @@ Portable Agent Skills for Codex, Claude Code, and other compatible clients. Each
 | `task-tracking-dots-html` | Durable HTML-backed work tracking with the Dots fork |
 | `unreal` | Unreal Engine 5.x automation and end-to-end verification |
 | `vibekit` | Install and integrate tag-pinned VibeKit modules |
+| `youtube-title-thumbnail-packaging` | Truthful double-barrel YouTube title-and-thumbnail pairs |
 
 ## Install for Codex and other Agent Skills clients
 

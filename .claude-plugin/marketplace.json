@@ -51,6 +51,11 @@
       "description": "Ask structured multiple-choice decision questions in batches of two, with pros/cons and a recommended option for each."
     },
     {
+      "name": "youtube-title-thumbnail-packaging",
+      "source": "./plugins/youtube-title-thumbnail-packaging",
+      "description": "Develop truthful, high-curiosity YouTube title-and-thumbnail packages as inseparable double-barrel pairs (Veritasium method), for briefs, edits, existing videos, and early concepts."
+    },
+    {
       "name": "vibekit",
       "source": "./plugins/vibekit",
       "description": "Install @randroids-dojo/vibekit as a tag-pinned dependency and apply focused client and server module integration patterns."

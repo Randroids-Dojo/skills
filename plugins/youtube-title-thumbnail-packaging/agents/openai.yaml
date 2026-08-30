@@ -1,0 +1,4 @@
+interface:
+  display_name: "YouTube Title + Thumbnail Packaging"
+  short_description: "Double-barrel YouTube title and thumbnail pairs"
+  default_prompt: "Use $youtube-title-thumbnail-packaging to propose title-and-thumbnail pairs for this video."

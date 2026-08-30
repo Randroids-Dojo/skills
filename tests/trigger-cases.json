@@ -250,5 +250,23 @@
       "prompt": "Design a generic component library from scratch.",
       "shouldTrigger": false
     }
+  ],
+  "youtube-title-thumbnail-packaging": [
+    {
+      "prompt": "Come up with a YouTube title and thumbnail for my devlog about porting my game to the Steam Deck.",
+      "shouldTrigger": true
+    },
+    {
+      "prompt": "Review the packaging section of this video production brief and propose stronger title-thumbnail pairs.",
+      "shouldTrigger": true
+    },
+    {
+      "prompt": "Write a video script about how Google Maps routing works.",
+      "shouldTrigger": false
+    },
+    {
+      "prompt": "Design a logo and banner for my YouTube channel page.",
+      "shouldTrigger": false
+    }
   ]
 }
