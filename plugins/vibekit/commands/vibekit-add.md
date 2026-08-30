@@ -1,3 +1,9 @@
+---
+description: Add a tag-pinned VibeKit dependency to the current project.
+argument-hint: "[release tag] [--no-install]"
+disable-model-invocation: true
+---
+
 # /vibekit add
 
 Add `@randroids-dojo/vibekit` as a `github:` tag-pinned dependency in the current repo's `package.json`, and print the matching `docs/DEPENDENCY_LEDGER.md` entry.

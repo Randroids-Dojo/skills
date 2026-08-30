@@ -1,0 +1,4 @@
+interface:
+  display_name: "Randroid Loop"
+  short_description: "Run bounded research or implementation loops"
+  default_prompt: "Use $randroid-loop to run this work as a verified multi-iteration loop."

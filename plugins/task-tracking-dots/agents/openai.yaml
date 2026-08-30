@@ -1,0 +1,4 @@
+interface:
+  display_name: "Dots Task Tracking"
+  short_description: "Track durable tasks and dependencies with Dots"
+  default_prompt: "Use $task-tracking-dots to manage this project work."

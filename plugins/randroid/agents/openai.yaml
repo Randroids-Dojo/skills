@@ -1,0 +1,4 @@
+interface:
+  display_name: "Randroid Workflows"
+  short_description: "Route work to focused Randroid workflows"
+  default_prompt: "Use $randroid to select the right Randroid workflow."

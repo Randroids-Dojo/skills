@@ -1,0 +1,4 @@
+interface:
+  display_name: "VibeReview Playtest"
+  short_description: "Capture browser-game playtest evidence"
+  default_prompt: "Use $randroid-vibereview to run and document this browser-game playtest."

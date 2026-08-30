@@ -1,0 +1,4 @@
+interface:
+  display_name: "Unreal Development"
+  short_description: "Develop and automate Unreal Engine projects"
+  default_prompt: "Use $unreal to develop or automate this Unreal Engine project."

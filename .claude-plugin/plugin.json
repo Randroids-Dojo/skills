@@ -1,8 +1,10 @@
 {
   "name": "skills",
-  "version": "1.1.0",
-  "description": "A collection of Claude Code skills by Randroids Dojo. Includes autonomous development loops, specialized workflows, and productivity tools.",
-  "author": "Randroids Dojo",
+  "version": "2.0.0",
+  "description": "Portable Agent Skills with Codex metadata and Claude Code plugin packaging.",
+  "author": {
+    "name": "Randroids Dojo"
+  },
   "homepage": "https://github.com/Randroids-Dojo/skills",
   "repository": "https://github.com/Randroids-Dojo/skills",
   "license": "MIT",

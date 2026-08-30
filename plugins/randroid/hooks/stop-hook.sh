@@ -10,13 +10,13 @@
 #    0 = Until complete (stop when completion promise found)
 #   >0 = Exact count (ignore completion promise, run exactly N times)
 #
-# State is tracked in: state/loop.local.md
+# State is tracked in: skills/randroid-loop/state/loop.local.md
 #
 
 set -e
 
-SKILL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-STATE_FILE="${SKILL_DIR}/state/loop.local.md"
+PLUGIN_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+STATE_FILE="${PLUGIN_DIR}/skills/randroid-loop/state/loop.local.md"
 
 # If no state file, allow exit (not in loop mode)
 if [[ ! -f "$STATE_FILE" ]]; then
@@ -40,7 +40,7 @@ BACKOFF_DELAY=$(read_state "backoff_delay")
 # Default values
 ITERATION=${ITERATION:-0}
 ITERATIONS=${ITERATIONS:-0}
-GIT_WORKFLOW=${GIT_WORKFLOW:-push}
+GIT_WORKFLOW=${GIT_WORKFLOW:-commit}
 FRESH_CONTEXT=${FRESH_CONTEXT:-false}
 COMPLETION_PROMISE=${COMPLETION_PROMISE:-RANDROID_LOOP_COMPLETE}
 

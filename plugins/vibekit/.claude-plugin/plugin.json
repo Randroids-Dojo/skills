@@ -1,5 +1,8 @@
 {
   "name": "vibekit",
   "description": "Add @randroids-dojo/vibekit (https://github.com/Randroids-Dojo/VibeKit) as a dependency and look up per-module usage patterns. Optional companion to spiral; replaceable with a different shared-library skill if a project prefers another component source.",
-  "version": "1.0.0"
+  "version": "1.1.0",
+  "author": {
+    "name": "Randroids Dojo"
+  }
 }

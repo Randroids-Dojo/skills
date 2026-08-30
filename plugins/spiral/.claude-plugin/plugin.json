@@ -1,5 +1,8 @@
 {
   "name": "spiral",
   "description": "Bootstrap and audit the structural-discipline scaffold (GDD tree, coverage ledger, progress log, open questions, followups, playtest gate) that takes a vision into a delivered system through small iterations whose state lives in git, not the agent's head.",
-  "version": "1.0.0"
+  "version": "1.1.0",
+  "author": {
+    "name": "Randroids Dojo"
+  }
 }

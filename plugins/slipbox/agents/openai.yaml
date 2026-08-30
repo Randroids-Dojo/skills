@@ -1,0 +1,4 @@
+interface:
+  display_name: "SlipBox Knowledge"
+  short_description: "Capture and query semantic knowledge notes"
+  default_prompt: "Use $slipbox to work with my SlipBox knowledge base."

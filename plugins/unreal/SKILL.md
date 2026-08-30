@@ -1,6 +1,6 @@
 ---
 name: unreal
-description: Develop, test, and automate Unreal Engine 5.x projects (WIP). Covers PlayUnreal automation, Remote Control API, Automation Driver, and CI-friendly E2E flows.
+description: Develop, test, and automate Unreal Engine 5.x projects with PlayUnreal, Remote Control, Automation Driver, and end-to-end flows. Use when working on Unreal automation, stable UMG selectors, externally driven tests, or CI-friendly packaged-build verification.
 ---
 
 # Unreal Skill (WIP)
@@ -18,8 +18,9 @@ UnrealEditor "/path/MyGame.uproject" -ExecCmds="WebControl.StartServer"
 # Packaged build (enable Remote Control)
 MyGame.exe -RCWebControlEnable -RCWebInterfaceEnable -ExecCmds="WebControl.StartServer"
 
-# Wait for Remote Control and ping a PlayUnreal automation actor
-python plugins/unreal/scripts/rc_wait_ready.py \
+# Wait for Remote Control and ping a PlayUnreal automation actor.
+# Resolve scripts/rc_wait_ready.py relative to this skill directory.
+python <skill-dir>/scripts/rc_wait_ready.py \
   --host 127.0.0.1 --port 30010 \
   --object-path "/Game/Maps/Main.Main:PersistentLevel.PlayUnrealDriver_1"
 ```
@@ -61,7 +62,7 @@ async with Unreal.launch(
 
 ## References
 
-- `references/remote-control.md`
-- `references/automation-driver.md`
-- `references/umg-automation.md`
-- `references/playunreal.md`
+- Read [references/remote-control.md](references/remote-control.md) when configuring or diagnosing the external transport.
+- Read [references/automation-driver.md](references/automation-driver.md) when implementing input or locator behavior.
+- Read [references/umg-automation.md](references/umg-automation.md) when adding stable widget selectors.
+- Read [references/playunreal.md](references/playunreal.md) when working on the PlayUnreal client or launch lifecycle.

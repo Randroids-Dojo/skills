@@ -1,0 +1,8 @@
+{
+  "name": "randroid",
+  "description": "Focused Randroid workflows for iterative development, PR feedback, VibeReview, and UI cleanup.",
+  "version": "2.0.0",
+  "author": {
+    "name": "Randroids Dojo"
+  }
+}

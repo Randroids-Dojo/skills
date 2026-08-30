@@ -1,5 +1,8 @@
 {
   "name": "task-tracking-dots-html",
   "description": "Task management with the HTML-backed Dots fork. Track work items across sessions with dot CLI files stored as .html documents.",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "author": {
+    "name": "Randroids Dojo"
+  }
 }

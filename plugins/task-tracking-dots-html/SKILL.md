@@ -19,10 +19,10 @@ command -v dot-html >/dev/null 2>&1 && dot-html --version
 If `dot-html` is missing, install this fork:
 
 ```bash
-plugins/task-tracking-dots-html/scripts/install-html-dots.sh
+scripts/install-html-dots.sh
 ```
 
-When installed from a global skill, run the script from the installed skill directory. If the release has no matching binary asset for the current OS/architecture, the script clones `https://github.com/Randroids-Dojo/dots-html` and builds with Zig.
+Resolve that path from the directory containing this `SKILL.md`; do not assume the target project's working directory contains the script. If the release has no matching binary asset for the current OS/architecture, the script clones `https://github.com/Randroids-Dojo/dots-html` and builds with Zig.
 
 ## Session Workflow
 

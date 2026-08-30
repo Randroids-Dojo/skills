@@ -1,3 +1,9 @@
+---
+description: Audit a repository against the HTML-first Spiral scaffold.
+argument-hint: "[repository path]"
+disable-model-invocation: true
+---
+
 <h1>/spiral-html audit</h1>
 
 <p>Diff the current repo against the canonical HTML-first spiral scaffold and print a remediation checklist.</p>

@@ -16,9 +16,10 @@ If you edit `~/.claude/skills/slipbox/SKILL.md` instead of `plugins/slipbox/SKIL
 
 ## Workflow for Skill Changes
 
-1. Edit files under `plugins/<skill>/`
-2. Commit and push to `main`
-3. Reinstall on each machine (always use `-g` for global install):
+1. Edit files under `plugins/<skill>/`.
+2. Run `./scripts/validate-skills.sh`.
+3. Commit and push to `main` when the requested workflow authorizes it.
+4. Reinstall on each machine (always use `-g` for global install):
    ```bash
    npx skills add randroids-dojo/skills --skill <name> -y -g
    ```
@@ -31,34 +32,48 @@ If you edit `~/.claude/skills/slipbox/SKILL.md` instead of `plugins/slipbox/SKIL
 plugins/
 ├── godot/
 ├── randroid/
-│   ├── SKILL.md          # Randroid command namespace
-│   ├── commands/
-│   │   ├── loop.md       # /randroid:loop
-│   │   └── address-pr-comments.md
+│   ├── SKILL.md          # Thin workflow router
+│   ├── skills/           # Focused portable workflows
+│   │   ├── randroid-loop/
+│   │   ├── randroid-address-pr-comments/
+│   │   ├── randroid-vibereview/
+│   │   └── randroid-clean-slop/
+│   ├── commands/         # Legacy Claude aliases
 │   ├── hooks/
-│   └── scripts/
+│   └── .claude-plugin/
 ├── slipbox/
-│   ├── SKILL.md          # Full skill documentation and agent instructions
-│   └── commands/
-│       └── slipbox.md    # Slash command quick reference
+│   ├── SKILL.md          # Concise portable entrypoint
+│   └── references/       # Conditional detail
 ├── spiral/
 ├── task-tracking-dots/
 └── unreal/
 ```
 
 Each skill has:
-- `SKILL.md`: loaded when the skill is invoked; contains full docs and behavioral instructions for the agent
-- `commands/<name>.md`: loaded when the slash command is used; keep this concise
+- `SKILL.md`: portable entrypoint using only Agent Skills specification frontmatter
+- `agents/openai.yaml`: Codex display metadata and explicit default prompt
+- `.claude-plugin/plugin.json`: Claude Code package metadata for top-level plugins
+- optional `references/`, `scripts/`, and `assets/` loaded only when needed
+- optional `commands/` and `hooks/` as Claude-only adapters; keep them thin
+
+Install nested Randroid workflows with `--full-depth`, for example:
+
+```bash
+npx skills add randroids-dojo/skills --skill randroid-loop --full-depth -y -g
+```
 
 ## Adding a New Skill
 
-1. Create `plugins/<skill-name>/SKILL.md` with YAML frontmatter:
+1. Create `plugins/<skill-name>/SKILL.md` with portable YAML frontmatter:
    ```yaml
    ---
    name: skill-name
-   description: "One-line description used for skill discovery."
+   description: Performs a focused workflow. Use when the user asks for its concrete outcome.
    ---
    ```
-2. Optionally add `commands/<skill-name>.md` for a slash command entry point
-3. Update `README.md` skills table and `.claude-plugin/marketplace.json`
-4. Commit and push
+2. Add `agents/openai.yaml` and `.claude-plugin/plugin.json`.
+3. Add at least two positive and two negative routing cases to `tests/trigger-cases.json`.
+4. Put detailed conditional material in `references/` and deterministic helpers in `scripts/`.
+5. Update `README.md` and `.claude-plugin/marketplace.json`.
+6. Add the catalog symlink: `ln -s ../../plugins/<skill-name> .agents/skills/<skill-name>` (the validator requires it).
+7. Run `./scripts/validate-skills.sh` before committing.

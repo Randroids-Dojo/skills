@@ -1,0 +1,4 @@
+interface:
+  display_name: "Spiral HTML Scaffold"
+  short_description: "Initialize and audit HTML project ledgers"
+  default_prompt: "Use $spiral-html to initialize or audit the HTML-first scaffold."

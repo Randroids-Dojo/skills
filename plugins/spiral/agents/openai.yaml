@@ -1,0 +1,4 @@
+interface:
+  display_name: "Spiral Scaffold"
+  short_description: "Initialize and audit Markdown project ledgers"
+  default_prompt: "Use $spiral to initialize or audit the project scaffold."

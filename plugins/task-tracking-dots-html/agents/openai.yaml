@@ -1,0 +1,4 @@
+interface:
+  display_name: "HTML Dots Task Tracking"
+  short_description: "Track durable tasks with HTML-backed Dots"
+  default_prompt: "Use $task-tracking-dots-html to manage this project work."

@@ -1,3 +1,9 @@
+---
+description: Initialize the HTML-first Spiral scaffold in a new repository.
+argument-hint: "[project name, pitch, and stack]"
+disable-model-invocation: true
+---
+
 <h1>/spiral-html init</h1>
 
 <p>Bootstrap the HTML-first structural-discipline scaffold into the current repo.</p>

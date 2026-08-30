@@ -1,205 +1,112 @@
-# skills
+# Randroids Dojo skills
 
-A dual-format skills repository for **Claude Code**, **Codex CLI**, and **OpenCode** by Randroids Dojo.
+Portable Agent Skills for Codex, Claude Code, and other compatible clients. Each workflow has one standards-compliant `SKILL.md` core, optional resources and scripts, Codex UI metadata, and Claude plugin packaging.
 
-## Available Skills
+## Skills
 
-| Skill | Description |
-|-------|-------------|
-| **task-tracking-dots** | Task management with Dots using the dot CLI for tracking work items |
-| **task-tracking-dots-html** | Task management with the HTML-backed Dots fork |
-| **godot** | Develop, test, build, and deploy Godot 4.x games |
-| **unreal** | Develop, test, and automate Unreal Engine 5.x projects (WIP). PlayUnreal: https://github.com/Randroids-Dojo/PlayUnreal |
-| **slipbox** | Interact with the SlipBox semantic knowledge engine and read notes from PrivateBox |
-| **spiral** | Bootstrap and audit the structural-discipline scaffold (Markdown ledgers) used by long-running autonomous PR loops |
-| **spiral-html** | HTML-first variant of spiral. Same scaffold and audit checks, ledgers authored as semantic HTML with `data-*` ids |
-| **randroid** | Randroid workflow commands, including autonomous loops, PR review comment handling, and VibeReview playtest capture |
-| **decision** | Run structured two-question decision sessions with multiple-choice options, pros/cons, and recommendations |
+| Skill | Purpose |
+| --- | --- |
+| `decision` | Guided decisions with concise tradeoffs and recommendations |
+| `godot` | Godot 4.x development, testing, automation, export, and deployment |
+| `randroid` | Catalog and router for the focused Randroid workflows |
+| `randroid-loop` | Bounded research or implementation loops with durable task state |
+| `randroid-address-pr-comments` | Resolve current PR feedback, verify fixes, and reply with evidence |
+| `randroid-vibereview` | Browser-game playtests with VibeReview evidence and ledgers |
+| `randroid-clean-slop` | Screenshot-led removal of generic AI visual and copy patterns |
+| `slipbox` | SlipBox capture, search, graph browsing, and semantic passes |
+| `spiral` | Initialize or audit a Markdown structural-discipline scaffold |
+| `spiral-html` | Initialize or audit an HTML-first Spiral scaffold |
+| `task-tracking-dots` | Durable Markdown-backed work tracking with Dots |
+| `task-tracking-dots-html` | Durable HTML-backed work tracking with the Dots fork |
+| `unreal` | Unreal Engine 5.x automation and end-to-end verification |
+| `vibekit` | Install and integrate tag-pinned VibeKit modules |
 
-## Installation
+## Install for Codex and other Agent Skills clients
 
-### Recommended (all agents)
-
-Install the Randroid command skill via the Skills CLI:
-
-```bash
-npx skills add https://github.com/Randroids-Dojo/skills --skill randroid
-```
-
-Works with Codex CLI, Claude Code, OpenCode, Gemini CLI, and other Agent Skills-compatible tools. Replace `randroid` with another skill name from the table to install that skill instead.
-
-### Manual installs
-
-#### Codex CLI
-
-Install individual skills using the built-in skill installer:
-
-```
-$skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/task-tracking-dots
-$skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/task-tracking-dots-html
-$skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/godot
-$skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/unreal
-$skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/slipbox
-$skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/spiral
-$skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/spiral-html
-$skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/randroid
-$skill-installer https://github.com/Randroids-Dojo/skills/tree/main/plugins/decision
-```
-
-Or clone for all skills at once:
+Install one skill globally through the universal Skills CLI:
 
 ```bash
-git clone https://github.com/Randroids-Dojo/skills.git ~/.agents/skills/randroids-dojo
+npx skills add Randroids-Dojo/skills --skill godot -y -g
 ```
 
-Then symlink individual skills you want:
+The focused Randroid skills are nested in the Claude plugin, so include full-depth discovery:
 
 ```bash
-ln -s ~/.agents/skills/randroids-dojo/plugins/task-tracking-dots ~/.agents/skills/task-tracking-dots
-ln -s ~/.agents/skills/randroids-dojo/plugins/task-tracking-dots-html ~/.agents/skills/task-tracking-dots-html
-ln -s ~/.agents/skills/randroids-dojo/plugins/godot ~/.agents/skills/godot
-ln -s ~/.agents/skills/randroids-dojo/plugins/unreal ~/.agents/skills/unreal
-ln -s ~/.agents/skills/randroids-dojo/plugins/slipbox ~/.agents/skills/slipbox
-ln -s ~/.agents/skills/randroids-dojo/plugins/spiral ~/.agents/skills/spiral
-ln -s ~/.agents/skills/randroids-dojo/plugins/spiral-html ~/.agents/skills/spiral-html
-ln -s ~/.agents/skills/randroids-dojo/plugins/randroid ~/.agents/skills/randroid
-ln -s ~/.agents/skills/randroids-dojo/plugins/decision ~/.agents/skills/decision
+npx skills add Randroids-Dojo/skills --skill randroid-loop --full-depth -y -g
+npx skills add Randroids-Dojo/skills --skill randroid-address-pr-comments --full-depth -y -g
 ```
 
-Note: Codex 2026 reads skills from `~/.agents/skills/` (the universal "Agent Skills" path), not `~/.codex/skills/`. The `npx skills` CLI also targets `~/.agents/skills/` for Codex.
+Always use `npx skills add ... -g` again to reinstall an updated skill. Do not edit installed copies under `~/.agents/skills/` or symlinks under `~/.claude/skills/`.
 
-#### Claude Code
+Codex discovers global skills from `~/.agents/skills/`. Explicit invocation uses the portable skill name, for example:
 
-Install from the marketplace:
+```text
+$randroid-loop run five implementation iterations and commit locally
+$godot add and verify this GdUnit4 test
+```
 
-```bash
+## Install for Claude Code
+
+Add the marketplace and install the desired plugin:
+
+```text
 /plugin marketplace add Randroids-Dojo/skills
-/plugin install task-tracking-dots
-/plugin install task-tracking-dots-html
 /plugin install godot
-/plugin install unreal
-/plugin install slipbox
-/plugin install spiral
-/plugin install spiral-html
 /plugin install randroid
-/plugin install decision
 ```
 
-### Install locations (Skills CLI)
+Claude Code namespaces plugin skills. The Randroid plugin exposes the focused skills directly:
 
-The `skills` CLI installs into a canonical directory and then symlinks to agent-specific paths by default. Canonical paths are `./.agents/skills/<skill>` (project) or `~/.agents/skills/<skill>` (global). Copy mode writes directly to each agent directory.
-
-| Agent | Project install | Global install | Notes |
-| --- | --- | --- | --- |
-| Claude Code | `./.claude/skills/<skill>` (symlink to `./.agents/skills/<skill>`) | `~/.claude/skills/<skill>` (symlink to `~/.agents/skills/<skill>`) | Symlinked client. Uses `CLAUDE_CONFIG_DIR` when set. |
-| Codex CLI | `./.agents/skills/<skill>` | `~/.agents/skills/<skill>` | Universal client. Reads canonical path directly, no symlink needed. |
-| OpenCode | `./.opencode/skills/<skill>` | `${XDG_CONFIG_HOME:-~/.config}/opencode/skills/<skill>` | Symlinked client. Uses XDG config home. |
-
-## Usage
-
-### Codex CLI
-
-Skills are triggered automatically based on context, or explicitly:
-
-```
-$randroid           # Randroid workflow commands, including loop, PR review handling, and VibeReview
-$task-tracking-dots # Task management with Dots
-$task-tracking-dots-html # Task management with HTML-backed Dots
-$decision             # Ask structured multiple-choice decision questions (2 at a time)
-$godot              # Invoke godot skill
-$unreal             # Invoke unreal skill
-$slipbox            # Invoke slipbox skill
-$spiral             # Bootstrap or audit a project scaffold
-$spiral-html        # HTML-first variant of spiral
+```text
+/randroid:randroid-loop
+/randroid:randroid-address-pr-comments
+/randroid:randroid-vibereview
+/randroid:randroid-clean-slop
 ```
 
-### Claude Code
+The previous `/randroid:loop`, `/randroid:address-pr-comments`, `/randroid:vibereview`, and `/randroid:clean-slop` commands remain as user-invoked compatibility aliases.
 
-```
-/randroid:loop      # Autonomous research/implementation loop
-/randroid:vibereview # VibeReview CLI playtest capture and Spiral-HTML evidence
-/task-tracking-dots # Task management with Dots
-/task-tracking-dots-html # Task management with HTML-backed Dots
-/decision      # Run structured decision sessions with pros/cons and recommendations
-/godot:godot        # Godot development assistance
-/unreal:unreal      # Unreal development assistance
-/slipbox:slipbox    # SlipBox knowledge engine
-/spiral             # Bootstrap or audit a project scaffold (/spiral init, /spiral audit)
-/spiral-html        # HTML-first variant (/spiral-html init, /spiral-html audit)
-/randroid:address-pr-comments # Address all actionable PR review comments
-/randroid:clean-slop # Detect and fix AI "slop" in vibe-coded UIs
-```
+## Authoring architecture
 
-## Repository Structure
-
-```
-.
+```text
+plugins/<plugin>/
+├── SKILL.md                 # Portable core: specification frontmatter + workflow
+├── agents/openai.yaml       # Codex display metadata and default prompt
+├── references/              # Detailed guidance loaded only when needed
+├── scripts/                 # Deterministic helpers
 ├── .claude-plugin/
-│   ├── marketplace.json     # Claude Code marketplace manifest
-│   └── plugin.json          # Collection metadata
-├── .agents/
-│   └── skills -> ../plugins # Symlink for local Codex (and any universal-path client) development
-├── .codex/
-│   └── skills -> ../plugins # Legacy alias for older Codex versions
-├── plugins/
-│   ├── task-tracking-dots/
-│   │   ├── SKILL.md         # Skill definition (Codex + Claude)
-│   │   └── commands/        # Claude Code slash commands
-│   ├── task-tracking-dots-html/
-│   │   ├── SKILL.md         # Skill definition (Codex + Claude)
-│   │   ├── commands/        # Claude Code slash commands
-│   │   └── scripts/         # Installer for Randroids-Dojo/dots-html
-│   ├── godot/
-│   │   ├── SKILL.md         # Skill definition (Codex + Claude)
-│   │   ├── commands/        # Claude Code slash commands
-│   │   ├── scripts/         # Helper scripts
-│   │   └── references/      # Documentation
-│   ├── unreal/
-│   │   ├── SKILL.md         # Skill definition (Codex + Claude)
-│   │   ├── commands/        # Claude Code slash commands
-│   │   ├── scripts/         # Helper scripts
-│   │   └── references/      # Documentation
-│   ├── slipbox/
-│   │   ├── SKILL.md         # Skill definition (Codex + Claude)
-│   │   └── commands/        # Claude Code slash commands
-│   ├── spiral/
-│   │   ├── SKILL.md         # Skill definition (Codex + Claude)
-│   │   ├── commands/        # Claude Code slash commands (init, audit)
-│   │   ├── templates/       # Files written into target repos by /spiral init
-│   │   ├── scripts/         # init.sh and audit.sh
-│   │   └── docs/            # methodology and case studies
-│   ├── spiral-html/
-│   │   ├── SKILL.md         # Skill definition (YAML frontmatter + HTML body)
-│   │   ├── commands/        # /spiral-html init, /spiral-html audit
-│   │   ├── templates/       # HTML scaffold written into target repos
-│   │   ├── scripts/         # init.sh and audit.sh (HTML-aware)
-│   │   └── docs/            # methodology.html and case-studies.html
-│   └── randroid/
-│       ├── SKILL.md         # Skill definition (Codex + Claude)
-│       ├── commands/        # /randroid:loop, /randroid:vibereview, and /randroid:address-pr-comments
-│       ├── hooks/           # Stop hook for keep-context loop mode
-│       └── scripts/         # Loop setup and external Codex loop wrapper
-└── README.md
+│   └── plugin.json          # Claude plugin package metadata
+└── commands/                # Optional Claude-only compatibility adapters
 ```
 
-## Dual-Format Compatibility
+The Randroid plugin contains four focused skills under `plugins/randroid/skills/`. This keeps each activation narrow while allowing one Claude marketplace install. The repository-local `.agents/skills/` directory exposes every portable skill as a direct symlink for Codex development; `.codex/skills` points to that universal catalog.
 
-This repository is structured to work with Claude Code, Codex CLI, and OpenCode:
+Portable `SKILL.md` files follow these rules:
 
-| Feature | Codex CLI | Claude Code | OpenCode |
-|---------|-----------|-------------|----------|
-| Skill definition | `SKILL.md` | `SKILL.md` + `plugin.json` | `SKILL.md` |
-| Discovery | Skills CLI or `$skill-installer` | Marketplace or Skills CLI | Skills CLI or `.opencode/skills` |
-| Invocation | `$skill-name` | `/command-name` | Automatic via `skill` tool |
-| Global install (Skills CLI) | `~/.agents/skills/` | `~/.claude/skills/` (symlink to `~/.agents/skills/`) | `~/.config/opencode/skills/` |
+- Use only Agent Skills specification frontmatter fields. `name` and `description` are required; optional fields are used only when they add portable information.
+- Put both capability and trigger conditions in the description.
+- Resolve scripts and references relative to the skill directory.
+- Keep platform variables, slash-command arguments, and plugin-root paths in client adapters, not in the portable core.
+- Keep the entrypoint concise and route detailed or conditional material to one-level-deep references.
+- Require explicit authorization for push, PR, merge, deployment, publication, and other external mutations.
 
-OpenCode loads skills on demand via the native `skill` tool; users typically invoke them by describing the desired behavior rather than using a slash command.
+## Validation
 
-The `SKILL.md` files use YAML frontmatter with `name` and `description` fields that all tools understand. Additional metadata is ignored by tools that don't recognize it.
+Run the same checks used by CI:
 
-## Documentation Notes
+```bash
+./scripts/validate-skills.sh
+```
 
-See `docs/agent-skills-learnings.md` for key takeaways from agentskills.io and skills.sh docs.
+The suite checks portable frontmatter, name-directory alignment, trigger descriptions, entrypoint budgets, relative links, Codex metadata, Claude manifests, positive and negative trigger fixtures, shell/Python syntax, the official `skills-ref` validator, Skills CLI discovery, and Claude plugin validation when the `claude` CLI is installed.
+
+For fast offline structural checks:
+
+```bash
+VALIDATE_EXTERNAL=0 ./scripts/validate-skills.sh
+```
+
+See [Cross-client skill authoring](docs/agent-skills-learnings.md) for the research-backed design rules and verification matrix.
 
 ## License
 

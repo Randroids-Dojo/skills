@@ -1,0 +1,4 @@
+interface:
+  display_name: "Decision Assistant"
+  short_description: "Compare choices with structured tradeoffs"
+  default_prompt: "Use $decision to help me choose between these options."

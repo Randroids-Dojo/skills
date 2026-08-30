@@ -1,3 +1,9 @@
+---
+description: Initialize the Markdown Spiral scaffold in a new repository.
+argument-hint: "[project name, pitch, and stack]"
+disable-model-invocation: true
+---
+
 # /spiral init
 
 Bootstrap the structural-discipline scaffold into the current repo.

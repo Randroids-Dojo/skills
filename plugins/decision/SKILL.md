@@ -1,16 +1,11 @@
 ---
 name: decision
-description: "Run an interactive decision assistant that asks two multiple-choice questions at a time, with pros and cons and a recommendation for each."
+description: Structure a decision as one or two multiple-choice questions at a time, with tradeoffs and a recommendation for every question. Use when the user wants guided help choosing among alternatives or explicitly asks for a decision session.
 ---
 
 # Decision Assistant
 
 Use this skill when the user wants help choosing between alternatives and asks for structured guidance.
-
-## Invocation
-
-- **Codex CLI**: invoke with `$decision`.
-- **Claude Code**: invoke with `/decision`.
 
 ## Core behavior (required)
 

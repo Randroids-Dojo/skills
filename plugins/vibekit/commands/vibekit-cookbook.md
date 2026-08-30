@@ -1,3 +1,9 @@
+---
+description: Show VibeKit integration guidance for one module.
+argument-hint: "[module name]"
+disable-model-invocation: true
+---
+
 # /vibekit cookbook
 
 Surface the per-module usage cookbook for `@randroids-dojo/vibekit`.

@@ -1,0 +1,4 @@
+interface:
+  display_name: "VibeKit Integration"
+  short_description: "Install and integrate VibeKit modules"
+  default_prompt: "Use $vibekit to add or integrate a VibeKit module."

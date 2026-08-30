@@ -1,3 +1,9 @@
+---
+description: Audit a repository against the Markdown Spiral scaffold.
+argument-hint: "[repository path]"
+disable-model-invocation: true
+---
+
 # /spiral audit
 
 Diff the current repo against the canonical spiral scaffold and print a remediation checklist.

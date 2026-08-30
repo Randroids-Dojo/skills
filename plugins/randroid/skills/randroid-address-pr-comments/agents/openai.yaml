@@ -1,0 +1,4 @@
+interface:
+  display_name: "Address PR Comments"
+  short_description: "Resolve and verify actionable PR feedback"
+  default_prompt: "Use $randroid-address-pr-comments to resolve the actionable feedback on this pull request."

@@ -1,6 +1,6 @@
 ---
 name: spiral-html
-description: "HTML-first bootstrap and audit of the structural-discipline scaffold (GDD tree, coverage ledger, progress log, open questions, followups, playtest gate) that takes a vision into a delivered system through small iterations whose state lives in git, not the agent's head. Same methodology as spiral; ledgers, rules, and contracts are written in HTML rather than Markdown. Slash commands /spiral-html-init and /spiral-html-audit live under commands/."
+description: Bootstrap or audit an HTML-first structural-discipline scaffold for long-running product work, with semantic ledgers for GDD coverage, progress, questions, follow-ups, dependencies, and playtest gates. Use when a project wants Spiral's durable agent state in HTML rather than Markdown.
 ---
 
 <h1>Spiral (HTML edition)</h1>
@@ -20,11 +20,11 @@ description: "HTML-first bootstrap and audit of the structural-discipline scaffo
 <h2>When to invoke</h2>
 
 <ul>
-  <li><code>/spiral-html init</code>: at the start of a fresh project. Writes the canonical HTML scaffold (rules, plan, agreement, GDD tree, coverage ledger, progress log, open questions, followups, playtest, fun-factor audit) into the current repo.</li>
-  <li><code>/spiral-html audit</code>: on an existing project. Diffs the repo against the canonical HTML structure and prints a remediation checklist. Catches the three known failure modes (monolith GDD, chapter-granular coverage, missing qualitative gate) plus generic drift.</li>
+  <li><strong>Initialize:</strong> at the start of a fresh project, write the canonical HTML scaffold into the current repository.</li>
+  <li><strong>Audit:</strong> on an existing project, diff the repository against the canonical HTML structure and print a remediation checklist.</li>
 </ul>
 
-<p>Per-slice execution (read context, branch, implement, PR, merge, repeat) is the job of <code>randroid:loop</code>. Per-task tracking is the job of <code>task-tracking-dots-html</code> (the HTML-backed <code>dot-html</code> fork, NOT the Markdown <code>task-tracking-dots</code>). This skill is the substrate those two run against.</p>
+<p>Per-slice execution is the job of <code>randroid-loop</code>. Per-task tracking is the job of <code>task-tracking-dots-html</code> (the HTML-backed <code>dot-html</code> fork, not the Markdown <code>task-tracking-dots</code>). This skill is the substrate those two run against.</p>
 
 <h2>Why this exists: the three case studies</h2>
 
@@ -85,12 +85,12 @@ description: "HTML-first bootstrap and audit of the structural-discipline scaffo
   <li><strong>Ledgers</strong>: externalized memory (progress log, open questions, followups, coverage) as append-only HTML elements with <code>data-*</code> ids.</li>
   <li><strong>Gates</strong>: what blocks merge AND what triggers a slice. Mechanical (CI green, type-check, tests, no em-dash, bot-review settled). Qualitative (playtest, fun-factor audit). Dependency Upgrade Gate (see <code>docs/DEPENDENCY_LEDGER.html</code>): a watched-dep release is the same kind of fresh state as a new commit on <code>main</code>; the agent observes and acts at every loop boundary that touches <code>main</code>. The qualitative gate is the second gate that prevents Flatline-style early termination.</li>
   <li><strong>Selection rule</strong>: what to work on next: red CI &gt; pending dep upgrade &gt; P0/P1 dot &gt; answered open question &gt; high-priority followup &gt; coverage gap &gt; partial GDD section &gt; cleanup.</li>
-  <li><strong>Loop</strong>: the continuous operation. Read context, pick slice, branch, implement, test, update ledgers, PR, handle review, wait for bot + CI, merge, pull main, smoke prod, close item, start next. Never voluntarily idles. Executed by <code>randroid:loop</code>.</li>
+  <li><strong>Loop</strong>: the continuous operation. Read context, pick slice, branch, implement, test, update ledgers, PR, handle review, wait for bot + CI, merge, pull main, smoke prod, close item, start next. Never voluntarily idles. Executed by <code>randroid-loop</code>.</li>
 </ol>
 
 <h2>How <code>init</code> works</h2>
 
-<p>Invocation: <code>/spiral-html init</code> from inside a target git repo, or <code>bash ${CLAUDE_PLUGIN_ROOT}/scripts/init.sh "&lt;ProjectName&gt;" "&lt;one-line-pitch&gt;" "&lt;stack&gt;"</code>.</p>
+<p>Resolve <code>scripts/init.sh</code> relative to this skill directory and run it from inside the target repository with <code>"&lt;ProjectName&gt;" "&lt;one-line-pitch&gt;" "&lt;stack&gt;"</code>.</p>
 
 <p>The script:</p>
 
@@ -101,12 +101,12 @@ description: "HTML-first bootstrap and audit of the structural-discipline scaffo
   <li>Creates <code>docs/gdd/</code> for the GDD tree and <code>.claude/rules/</code> for the path-scoped Rules.</li>
   <li>Writes <code>AGENTS.md</code> (the full Markdown contract) and <code>CLAUDE.md</code> (one-line <code>@AGENTS.md</code> import).</li>
   <li>Verifies em-dash cleanliness on every written file.</li>
-  <li>Prints a next-steps note: draft the first GDD section under <code>docs/gdd/</code>, then run <code>/randroid:loop implement</code> to start the spiral.</li>
+  <li>Prints a next-steps note: draft the first GDD section under <code>docs/gdd/</code>, then use <code>randroid-loop</code> in implementation mode to start the spiral.</li>
 </ol>
 
 <h2>How <code>audit</code> works</h2>
 
-<p>Invocation: <code>/spiral-html audit</code> from inside any git repo, or <code>bash ${CLAUDE_PLUGIN_ROOT}/scripts/audit.sh</code>.</p>
+<p>Resolve <code>scripts/audit.sh</code> relative to this skill directory and run it from inside the repository to audit.</p>
 
 <p>The script runs nine checks and prints a remediation checklist:</p>
 
@@ -127,7 +127,7 @@ description: "HTML-first bootstrap and audit of the structural-discipline scaffo
 <h2>Composition</h2>
 
 <ul>
-  <li><code>randroid:loop</code> reads the ledgers this skill writes. The loop's research and implement modes both name <code>OPEN_QUESTIONS</code> and <code>FOLLOWUPS</code> as required reads. With this skill, those references resolve to the <code>.html</code> files.</li>
+  <li><code>randroid-loop</code> reads the ledgers this skill writes. The loop's research and implement modes both name <code>OPEN_QUESTIONS</code> and <code>FOLLOWUPS</code> as required reads. With this skill, those references resolve to the <code>.html</code> files.</li>
   <li><code>task-tracking-dots-html</code> (the <code>dot-html</code> CLI, HTML dots under <code>.dots/</code>) is the work-item tracker, NOT the Markdown <code>task-tracking-dots</code>. <code>Q-NNN</code> entries that resolve into work become Dots. <code>F-NNN</code> entries with <code>data-priority="blocks-release"</code> become Dots.</li>
   <li>This skill is stateless. All state lives in the target repo's ledger files.</li>
 </ul>

@@ -1,0 +1,254 @@
+{
+  "decision": [
+    {
+      "prompt": "Help me choose between renting and buying; ask structured questions.",
+      "shouldTrigger": true
+    },
+    {
+      "prompt": "Walk me through a decision between these three job offers.",
+      "shouldTrigger": true
+    },
+    {
+      "prompt": "Fix the failing unit test in this repository.",
+      "shouldTrigger": false
+    },
+    {
+      "prompt": "Summarize this meeting transcript.",
+      "shouldTrigger": false
+    }
+  ],
+  "godot": [
+    {
+      "prompt": "Add a GdUnit4 test and export this Godot 4 game for web.",
+      "shouldTrigger": true
+    },
+    {
+      "prompt": "Debug this GDScript scene transition and verify it in Godot.",
+      "shouldTrigger": true
+    },
+    {
+      "prompt": "Write an Unreal Automation Driver test.",
+      "shouldTrigger": false
+    },
+    {
+      "prompt": "Optimize this Next.js route handler.",
+      "shouldTrigger": false
+    }
+  ],
+  "randroid": [
+    {
+      "prompt": "What Randroid workflows are available for this project?",
+      "shouldTrigger": true
+    },
+    {
+      "prompt": "Which Randroid skill should I use for a game playtest?",
+      "shouldTrigger": true
+    },
+    {
+      "prompt": "Run a five-iteration implementation loop.",
+      "shouldTrigger": false
+    },
+    {
+      "prompt": "Refactor this Python function.",
+      "shouldTrigger": false
+    }
+  ],
+  "randroid-address-pr-comments": [
+    {
+      "prompt": "Address every actionable review comment on PR 42 and reply with verification.",
+      "shouldTrigger": true
+    },
+    {
+      "prompt": "Resolve the unresolved reviewer threads on my current branch.",
+      "shouldTrigger": true
+    },
+    {
+      "prompt": "Open a new pull request for this feature.",
+      "shouldTrigger": false
+    },
+    {
+      "prompt": "Perform a general codebase refactor.",
+      "shouldTrigger": false
+    }
+  ],
+  "randroid-clean-slop": [
+    {
+      "prompt": "This landing page looks AI-generated; de-slop it and visually verify the result.",
+      "shouldTrigger": true
+    },
+    {
+      "prompt": "Remove the generic purple-gradient and card-grid feel from this UI.",
+      "shouldTrigger": true
+    },
+    {
+      "prompt": "Implement the missing checkout backend.",
+      "shouldTrigger": false
+    },
+    {
+      "prompt": "Create a database migration for users.",
+      "shouldTrigger": false
+    }
+  ],
+  "randroid-loop": [
+    {
+      "prompt": "Run a bounded research loop until the ready research tasks are complete.",
+      "shouldTrigger": true
+    },
+    {
+      "prompt": "Work through five implementation iterations using Dots and commit locally.",
+      "shouldTrigger": true
+    },
+    {
+      "prompt": "Fix this one failing test.",
+      "shouldTrigger": false
+    },
+    {
+      "prompt": "Explain how this module works.",
+      "shouldTrigger": false
+    }
+  ],
+  "randroid-vibereview": [
+    {
+      "prompt": "Playtest this browser game with VibeReview and capture evidence.",
+      "shouldTrigger": true
+    },
+    {
+      "prompt": "Inspect the current VibeReview session and turn findings into follow-ups.",
+      "shouldTrigger": true
+    },
+    {
+      "prompt": "Run ordinary Playwright unit tests.",
+      "shouldTrigger": false
+    },
+    {
+      "prompt": "Review this server API without launching a browser game.",
+      "shouldTrigger": false
+    }
+  ],
+  "slipbox": [
+    {
+      "prompt": "Capture this idea as an atomic SlipBox note.",
+      "shouldTrigger": true
+    },
+    {
+      "prompt": "Search PrivateBox and run a tension pass across related notes.",
+      "shouldTrigger": true
+    },
+    {
+      "prompt": "Create a local Markdown file for these meeting notes.",
+      "shouldTrigger": false
+    },
+    {
+      "prompt": "Query a Postgres production database.",
+      "shouldTrigger": false
+    }
+  ],
+  "spiral": [
+    {
+      "prompt": "Initialize the Markdown Spiral scaffold for this new project.",
+      "shouldTrigger": true
+    },
+    {
+      "prompt": "Audit this repository for Spiral ledger drift.",
+      "shouldTrigger": true
+    },
+    {
+      "prompt": "Use HTML files for all durable project ledgers.",
+      "shouldTrigger": false
+    },
+    {
+      "prompt": "Fix a single CSS alignment bug.",
+      "shouldTrigger": false
+    }
+  ],
+  "spiral-html": [
+    {
+      "prompt": "Bootstrap an HTML-first Spiral scaffold with semantic ledgers.",
+      "shouldTrigger": true
+    },
+    {
+      "prompt": "Audit the existing HTML project ledgers for scaffold drift.",
+      "shouldTrigger": true
+    },
+    {
+      "prompt": "Create the standard Markdown Spiral scaffold.",
+      "shouldTrigger": false
+    },
+    {
+      "prompt": "Add an HTML component to this web page.",
+      "shouldTrigger": false
+    }
+  ],
+  "task-tracking-dots": [
+    {
+      "prompt": "Use the dot CLI to create tasks and link their dependencies.",
+      "shouldTrigger": true
+    },
+    {
+      "prompt": "Show the ready Markdown-backed Dots work and close the finished item.",
+      "shouldTrigger": true
+    },
+    {
+      "prompt": "Manage the HTML-backed dot-html task files.",
+      "shouldTrigger": false
+    },
+    {
+      "prompt": "Create a Todoist reminder.",
+      "shouldTrigger": false
+    }
+  ],
+  "task-tracking-dots-html": [
+    {
+      "prompt": "Install dot-html and track this work in HTML-backed Dots.",
+      "shouldTrigger": true
+    },
+    {
+      "prompt": "Show ready tasks from the .html Dots files and close one.",
+      "shouldTrigger": true
+    },
+    {
+      "prompt": "Use the Markdown dot CLI for this repository.",
+      "shouldTrigger": false
+    },
+    {
+      "prompt": "Write a static HTML task list by hand.",
+      "shouldTrigger": false
+    }
+  ],
+  "unreal": [
+    {
+      "prompt": "Build a PlayUnreal automation flow for this Unreal Engine project.",
+      "shouldTrigger": true
+    },
+    {
+      "prompt": "Add stable UMG selectors and verify the packaged build externally.",
+      "shouldTrigger": true
+    },
+    {
+      "prompt": "Create a Godot GDScript unit test.",
+      "shouldTrigger": false
+    },
+    {
+      "prompt": "Build a React dashboard.",
+      "shouldTrigger": false
+    }
+  ],
+  "vibekit": [
+    {
+      "prompt": "Add a tag-pinned VibeKit dependency and update the dependency ledger.",
+      "shouldTrigger": true
+    },
+    {
+      "prompt": "Show the VibeKit cookbook pattern for the joystick module.",
+      "shouldTrigger": true
+    },
+    {
+      "prompt": "Install an unrelated npm package.",
+      "shouldTrigger": false
+    },
+    {
+      "prompt": "Design a generic component library from scratch.",
+      "shouldTrigger": false
+    }
+  ]
+}

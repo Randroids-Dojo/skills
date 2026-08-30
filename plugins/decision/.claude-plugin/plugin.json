@@ -1,0 +1,8 @@
+{
+  "name": "decision",
+  "description": "Compare choices through concise, structured tradeoff questions with an explicit recommendation.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Randroids Dojo"
+  }
+}
