@@ -43,7 +43,7 @@
     {
       "name": "randroid",
       "source": "./plugins/randroid",
-      "description": "Focused Randroid skills for bounded research and implementation loops, PR feedback, VibeReview evidence, and UI cleanup. Legacy slash-command aliases remain available."
+      "description": "Focused Randroid skills for bounded development loops, PR feedback, VibeReview evidence, visual cleanup, and gameplay interaction and feedback. Legacy slash-command aliases remain available."
     },
     {
       "name": "decision",
@@ -59,6 +59,11 @@
       "name": "vibekit",
       "source": "./plugins/vibekit",
       "description": "Install @randroids-dojo/vibekit as a tag-pinned dependency and apply focused client and server module integration patterns."
+    },
+    {
+      "name": "blender-production",
+      "source": "./plugins/blender-production",
+      "description": "Editable Blender work with visual, assembly, export, and render verification; adapted from per-simmons/blender-production under MIT."
     }
   ]
 }

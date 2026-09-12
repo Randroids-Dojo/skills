@@ -6,13 +6,15 @@ Portable Agent Skills for Codex, Claude Code, and other compatible clients. Each
 
 | Skill | Purpose |
 | --- | --- |
+| `blender-production` | Editable Blender assets with visual, assembly, export, and render verification |
 | `decision` | Guided decisions with concise tradeoffs and recommendations |
 | `godot` | Godot 4.x development, testing, automation, export, and deployment |
 | `randroid` | Catalog and router for the focused Randroid workflows |
 | `randroid-loop` | Bounded research or implementation loops with durable task state |
 | `randroid-address-pr-comments` | Resolve current PR feedback, verify fixes, and reply with evidence |
 | `randroid-vibereview` | Browser-game playtests with VibeReview evidence and ledgers |
-| `randroid-clean-slop` | Screenshot-led removal of generic AI visual and copy patterns |
+| `randroid-clean-slop` | Remove generic visual patterns in interfaces, games, and 3D assets using actual captures |
+| `randroid-game-feel` | Improve the chosen gameplay interaction, responsiveness, feedback, and play evidence |
 | `slipbox` | SlipBox capture, search, graph browsing, and semantic passes |
 | `spiral` | Initialize or audit a Markdown structural-discipline scaffold |
 | `spiral-html` | Initialize or audit an HTML-first Spiral scaffold |
@@ -35,6 +37,7 @@ The focused Randroid skills are nested in the Claude plugin, so include full-dep
 ```bash
 npx skills add Randroids-Dojo/skills --skill randroid-loop --full-depth -y -g
 npx skills add Randroids-Dojo/skills --skill randroid-address-pr-comments --full-depth -y -g
+npx skills add Randroids-Dojo/skills --skill randroid-game-feel --full-depth -y -g
 ```
 
 Always use `npx skills add ... -g` again to reinstall an updated skill. Do not edit installed copies under `~/.agents/skills/` or symlinks under `~/.claude/skills/`.
@@ -63,6 +66,7 @@ Claude Code namespaces plugin skills. The Randroid plugin exposes the focused sk
 /randroid:randroid-address-pr-comments
 /randroid:randroid-vibereview
 /randroid:randroid-clean-slop
+/randroid:randroid-game-feel
 ```
 
 The previous `/randroid:loop`, `/randroid:address-pr-comments`, `/randroid:vibereview`, and `/randroid:clean-slop` commands remain as user-invoked compatibility aliases.
@@ -80,7 +84,7 @@ plugins/<plugin>/
 └── commands/                # Optional Claude-only compatibility adapters
 ```
 
-The Randroid plugin contains four focused skills under `plugins/randroid/skills/`. This keeps each activation narrow while allowing one Claude marketplace install. The repository-local `.agents/skills/` directory exposes every portable skill as a direct symlink for Codex development; `.codex/skills` points to that universal catalog.
+The Randroid plugin contains five focused skills under `plugins/randroid/skills/`. This keeps each activation narrow while allowing one Claude marketplace install. The repository-local `.agents/skills/` directory exposes every portable skill as a direct symlink for Codex development; `.codex/skills` points to that universal catalog.
 
 Portable `SKILL.md` files follow these rules:
 
@@ -99,7 +103,9 @@ Run the same checks used by CI:
 ./scripts/validate-skills.sh
 ```
 
-The suite checks portable frontmatter, name-directory alignment, trigger descriptions, entrypoint budgets, relative links, Codex metadata, Claude manifests, positive and negative trigger fixtures, shell/Python syntax, the official `skills-ref` validator, Skills CLI discovery, and Claude plugin validation when the `claude` CLI is installed.
+The suite checks portable frontmatter, name-directory alignment, trigger descriptions, entrypoint budgets, relative links, Codex metadata, Claude manifests, positive and negative trigger fixtures, shell/Python/JavaScript syntax, game-probe report behavior, the official `skills-ref` validator, Skills CLI discovery, and Claude plugin validation when the `claude` CLI is installed. CI also tests the native probe's report logic, C# compilation, and bitmap comparisons with Windows PowerShell 5.1. These checks do not launch a game or certify subjective quality.
+
+The Blender skill is adapted from [per-simmons/blender-production](https://github.com/per-simmons/blender-production) under its preserved MIT license. See its [package README](plugins/blender-production/README.md) for the upstream revision and local additions.
 
 For fast offline structural checks:
 

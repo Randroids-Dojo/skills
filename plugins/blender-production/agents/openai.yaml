@@ -1,0 +1,4 @@
+interface:
+  display_name: "Blender Production"
+  short_description: "Build, inspect, render, and QA Blender projects"
+  default_prompt: "Use $blender-production to build or refine this Blender project with API/MCP control, tested rendering, and visual QA."

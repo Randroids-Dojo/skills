@@ -1,0 +1,9 @@
+{
+  "name": "blender-production",
+  "description": "Build and verify editable Blender work with visual, assembly, export, and render checkpoints.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Pat Simmons; Randroids Dojo adaptations"
+  },
+  "license": "MIT"
+}

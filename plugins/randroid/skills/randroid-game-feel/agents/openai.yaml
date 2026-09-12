@@ -1,0 +1,4 @@
+interface:
+  display_name: "Game Feel"
+  short_description: "Improve core interaction, feedback, and play evidence"
+  default_prompt: "Use $randroid-game-feel to improve this game's interaction and feedback while preserving its chosen genre."

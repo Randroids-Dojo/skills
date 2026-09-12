@@ -1,4 +1,4 @@
 interface:
-  display_name: "Clean UI Slop"
+  display_name: "Clean Visual Slop"
   short_description: "Detect and remove generic AI design patterns"
-  default_prompt: "Use $randroid-clean-slop to audit and refine this interface."
+  default_prompt: "Use $randroid-clean-slop to inspect and refine the generic visual patterns in this interface, game, or 3D asset."

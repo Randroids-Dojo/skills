@@ -87,6 +87,72 @@
     {
       "prompt": "Create a database migration for users.",
       "shouldTrigger": false
+    },
+    {
+      "prompt": "This modeled sedan still looks like boxes despite detailed wheels. Inspect the actual renders and remove the generic asset design.",
+      "shouldTrigger": true
+    },
+    {
+      "prompt": "Make this existing game environment feel specific to its setting instead of cookie-cutter, using actual gameplay captures.",
+      "shouldTrigger": true
+    },
+    {
+      "prompt": "Fix the steering input deadzone without changing any visuals.",
+      "shouldTrigger": false
+    },
+    {
+      "prompt": "Export the accepted Blender scene to GLB without redesigning it.",
+      "shouldTrigger": false
+    }
+  ],
+  "randroid-game-feel": [
+    {
+      "prompt": "This game came out like a website with buttons. Make it play like an actual game.",
+      "shouldTrigger": true
+    },
+    {
+      "prompt": "Add juice and game feel to the jump, hits, and pickups in this browser game.",
+      "shouldTrigger": true
+    },
+    {
+      "prompt": "Start a new browser game prototype with a playable real-time loop, not menus.",
+      "shouldTrigger": true
+    },
+    {
+      "prompt": "Audit this game for app-shaped UI and install the game-not-app rules in the repo.",
+      "shouldTrigger": true
+    },
+    {
+      "prompt": "Remove the purple gradient and Inter font from this landing page.",
+      "shouldTrigger": false
+    },
+    {
+      "prompt": "Capture VibeReview evidence for the current build and update the ledgers.",
+      "shouldTrigger": false
+    },
+    {
+      "prompt": "Export this Godot project for web and add a GdUnit4 test.",
+      "shouldTrigger": false
+    },
+    {
+      "prompt": "Fix the failing unit test in this repository.",
+      "shouldTrigger": false
+    },
+    {
+      "prompt": "The car viewer spins when I press a key, but I asked for a driving game. Build and verify the actual driving loop.",
+      "shouldTrigger": true
+    },
+    {
+      "prompt": "Improve the action feedback in this intentional turn-based card game while keeping discrete card selection.",
+      "shouldTrigger": true
+    },
+    {
+      "prompt": "Repair the roof mesh normals and inspect the neutral renders; the driving controls already work.",
+      "shouldTrigger": false
+    },
+    {
+      "prompt": "Change only the typography in this product pricing page.",
+      "shouldTrigger": false
     }
   ],
   "randroid-loop": [
@@ -266,6 +332,28 @@
     },
     {
       "prompt": "Design a logo and banner for my YouTube channel page.",
+      "shouldTrigger": false
+    }
+  ],
+  "blender-production": [
+    {
+      "prompt": "Build an original game car in Blender and verify its silhouette, opening doors, and GLB export.",
+      "shouldTrigger": true
+    },
+    {
+      "prompt": "The roof and pillars still intersect after repeated patches. Rework the shared Blender surfaces and inspect matched neutral renders.",
+      "shouldTrigger": true
+    },
+    {
+      "prompt": "Model a small stylized prop without adding photoreal detail.",
+      "shouldTrigger": true
+    },
+    {
+      "prompt": "Fix steering input in Godot without changing the car model.",
+      "shouldTrigger": false
+    },
+    {
+      "prompt": "Rewrite the pricing-page copy and typography.",
       "shouldTrigger": false
     }
   ]

@@ -30,6 +30,7 @@ If you edit `~/.claude/skills/slipbox/SKILL.md` instead of `plugins/slipbox/SKIL
 
 ```
 plugins/
+├── blender-production/
 ├── godot/
 ├── randroid/
 │   ├── SKILL.md          # Thin workflow router
@@ -37,7 +38,8 @@ plugins/
 │   │   ├── randroid-loop/
 │   │   ├── randroid-address-pr-comments/
 │   │   ├── randroid-vibereview/
-│   │   └── randroid-clean-slop/
+│   │   ├── randroid-clean-slop/
+│   │   └── randroid-game-feel/
 │   ├── commands/         # Legacy Claude aliases
 │   ├── hooks/
 │   └── .claude-plugin/

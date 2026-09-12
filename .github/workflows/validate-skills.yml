@@ -21,3 +21,11 @@ jobs:
           python-version: "3.12"
       - uses: astral-sh/setup-uv@v6
       - run: ./scripts/validate-skills.sh
+
+  native-probe:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test native observations without desktop interaction
+        shell: powershell
+        run: ./tests/native-probe.test.ps1

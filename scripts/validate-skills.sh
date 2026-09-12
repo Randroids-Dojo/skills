@@ -6,6 +6,11 @@ repo_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$repo_dir"
 
 node scripts/validate-portability.mjs
+node --test tests/game-probe.test.mjs
+
+while IFS= read -r -d '' script; do
+  node --check "$script"
+done < <(find plugins -type f -name '*.mjs' -print0)
 
 while IFS= read -r -d '' script; do
   bash -n "$script"
