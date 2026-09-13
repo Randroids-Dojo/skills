@@ -24,6 +24,10 @@ Before a costly capture batch, render a cheap pilot of every distinct camera pat
 
 Reopen the accepted file from its final location with intended engine/camera/view. Check images, tiled textures/sequences, libraries, fonts, audio, simulation/probe caches, add-ons and required scripts. `probe_scene.py` detects basic missing files and unresolved sequence/tiled resources; it does not prove every cache is portable.
 
+Record the initial reopened state before attempting recovery. A hidden driven object can expose a dependency-graph or control-lifecycle problem that an in-memory check missed. Diagnose the actual driver and normal application lifecycle, preserve the failed observation, and verify any required initialization in the delivered experience. Assigning expected transforms or silently warming controls in a verifier does not repair that experience.
+
+Exercise persisted validation records through their real write/read path. JSON converts tuples to lists; use explicit JSON-native capture values when exact inventory comparison is required. Preserve values, ordering and membership checks, with representative corruptions that must still reject. An in-memory equality check alone cannot prove the saved record will replay correctly.
+
 Choose packed/relative assets for the format and preserve licenses. External-drive absolute paths are not portable. Exported GLB/USD/FBX/web viewers need separate inspection because materials, procedures, rigs and instances may translate differently. Do not silently replace editable scenes or full navigation with movies/panoramas.
 
 ## Remote delivery

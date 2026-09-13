@@ -21,6 +21,8 @@ For a suitable curved assembly, try this small construction experiment:
 
 Shrinkwrap changes vertex positions. Its target, projection direction/distance, offset and vertex-group influence determine what follows the guide; verify those controls in the installed Blender version. See the [Blender Shrinkwrap reference](https://docs.blender.org/UATEST/manual/en/dev/modeling/modifiers/deform/shrinkwrap.html). This is not a remedy for a poorly shaped guide. Use separate guides or another surface method when one projection cannot represent the assembly.
 
+When an existing guide is inferred from geometry, retain the actual pre-cut or pre-replacement inputs. Reconstructing it from the revised panel can silently change the reference. Compare the intended guide, evaluated physical sections, and rendered response separately. Exact agreement at control knots does not establish conformity between them or a convincing shape. Check the sampled spans and the transition into neighboring surfaces; different interpolation rules on adjacent rows can introduce a bend that neither endpoint checks nor smoothly interpolated normals reveal.
+
 ## Judge curvature as well as edge closure
 
 Connected edges establish positional continuity (G0). Matching tangent direction (G1) removes a sharp directional break, but the rate of bending can still change abruptly. Curvature continuity (G2) addresses that transition. Both the interiors of surfaces and their boundaries matter. Autodesk's [curvature tutorial](https://help.autodesk.com/cloudhelp/2014/CHS/Alias/files/GUID-9DD73E22-A5EF-4952-BB84-2CEE2109993C.htm) explains why a green continuity check or smooth-looking diagnostic image alone is insufficient. Its CAD tolerances and control-vertex rules are not automatic requirements for a polygon game asset.
@@ -28,6 +30,8 @@ Connected edges establish positional continuity (G0). Matching tangent direction
 A practical Blender adaptation of [zebra diagnostics](https://help.autodesk.com/cloudhelp/2022/ENU/Alias-Reference/files/Menus/Object-Display-menu/ObjectDisplay-Diagnostic-Shading/GUID-10E80531-E391-4A1F-BF55-946E441204FF.html) is a plain reflective material and broad strip lights or a striped reflection environment. Sweep the reflected pattern across the surface and inspect multiple directions. Look for unexpected kinks, pinching, waviness, and abrupt changes in band width. Preserve designed creases. Use these images to locate defects, then inspect sections/control geometry; they do not certify formal Class-A, G2, or G3 quality.
 
 Compare with custom-normal effects disabled when shading may be concealing the cause. Blender's [Weighted Normal modifier](https://docs.blender.org/manual/en/5.0/modeling/modifiers/normals/weighted_normal.html) changes shading normals. It cannot repair a wrong silhouette, intersecting panels, or an incorrect physical cross-section.
+
+Make that diagnostic in a temporary copy and verify that the intended corner normals actually changed. Preserve the evaluated physical mesh, including thickness and other shape modifiers; clearing the entire modifier stack can invalidate the comparison. Keep camera transforms, lens, lights, exposure, material settings and control poses paired. Inspect the whole object alongside the close reflection sweep so a locally smoother joint does not hide a swollen silhouette or move the kink downstream.
 
 ## Resolve primary surfaces before edge blends
 

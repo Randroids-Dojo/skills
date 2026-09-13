@@ -42,4 +42,6 @@ Keep a small current-state record: accepted source, active candidate, major unre
 
 Test promised reproducible construction from a fresh scene early, then at coherent milestones. Reopening a saved blend and exporting it twice tests different guarantees. Preserve legitimate hand edits in the declared source; do not silently overwrite them with a generator. Reuse evidence only when its relevant source and configuration remain valid. Run focused checks during experiments and the complete required gates on the deliverable.
 
+Capture required intermediate references at their actual construction stage. A later artifact renamed as an earlier checkpoint can invalidate field or shape comparisons. If a checker itself needs repair, keep the locked construction inputs intact: bind the revised independent checker separately, record its actual dependencies, and rerun it against the saved source. Preserve the original failure and distinguish verifier recovery from an asset correction.
+
 When progress plateaus, compare the current whole asset with the previous accepted views. Prioritize the most consequential open form or interaction defect; do not start optional microdetail to stay busy. Once the requested acceptance is met, deliver it. Required human judgments remain open until a human supplies them.

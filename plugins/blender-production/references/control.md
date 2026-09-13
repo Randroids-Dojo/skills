@@ -31,6 +31,8 @@ Read evaluated transforms/modifier geometry after dependency-graph update. Use m
 
 Create owned collections and retain returned references because automatic name suffixes invalidate assumed lookups. Store parameters/seeds separately. Avoid whole-file reset and indiscriminate orphan purging in an existing project.
 
+Snapshot a collection traversal before changing membership or visibility during that traversal, especially with recursive collection iterators. Reacquire datablocks after loading another file; retained RNA references can be invalid even when the replacement has the same name.
+
 Read-only helper through MCP:
 
 ```python
