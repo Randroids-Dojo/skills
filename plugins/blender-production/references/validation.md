@@ -13,3 +13,5 @@ Passed observable checks:
 This validation establishes helper behavior, not photoreal quality on every subject or compatibility with every Blender/MCP version. The material, lighting, viewport and performance guidance combines observed production outcomes with renderer-specific techniques that require a task-specific pilot. New scripts are original helpers, not copied provider implementation.
 
 Use the installed-version API and test uncertain features in isolation. Web access to the primary Blender documentation returned fetch errors during skill creation; existing local research, installed source/API and actual Blender checks supported the version-specific guidance. No new remote MCP connection or installation was required for these tests.
+
+The reflective-surface reference added on 2026-09-13 was checked against public artist tutorials and primary Blender, Autodesk, Adobe, and Marmoset documentation. Its comparison exercise is an adaptation for production game assets, not a completed car-model experiment or a formal surface-quality certification. Older tutorials support modeling principles; inspect installed-version controls before reproducing their UI steps.

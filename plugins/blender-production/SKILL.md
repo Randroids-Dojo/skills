@@ -43,6 +43,8 @@ For production game assets or a model undergoing repeated structural rework, rea
 
 Read [realism.md](references/realism.md) for appearance methods and diagnostic vocabulary. Keep parameterized scripts, deterministic seeds, asset provenance, and checkpoints where useful. Regeneration replaces only owned components and preserves accepted hand edits.
 
+For realistic vehicles or other reflective manufactured assets, read [reflective-surfaces.md](references/reflective-surfaces.md). Use it when broad panels look flat or lumpy, cutouts disturb reflections, or repeated trim repairs suggest the underlying surface needs a different construction method.
+
 ## Benchmark delivery early
 
 Interactive navigation, a converged viewport, and a finished movie have different performance requirements. Determine what the user wants to see before changing engines or quality.
