@@ -26,6 +26,12 @@ Log JSONL such as:
 
 `python scripts/benchmark.py frames.jsonl --remaining 500` summarizes timings. It also accepts `title` and excludes reused `existing: true` frames. ETA only makes sense when the sample represents remaining work.
 
+## Verify inspection cameras
+
+For close assembly views, record the camera's clipping range as well as its transform and lens. A near plane can cut through a neighboring part even when the main subject looks correctly framed. Before classifying a missing or dark section as a mesh defect, inspect the actual geometry and recapture with a clipping range suited to the shot. Preserve the first image and record the camera change. Blender's [camera clipping reference](https://docs.blender.org/UATEST/manual/en/dev/render/cameras.html) distinguishes direct visibility from indirect lighting and explains the precision tradeoff for viewport clipping.
+
+An underlit or cropped detail is incomplete inspection evidence. Add a declared inspection light or isolated view when needed, keep the same settings in both versions, and retain an assembled context view. Label these diagnostics and leave asset materials unchanged during that comparison. Check actual output dimensions and visible coverage; a valid image file or requested resolution does not establish that the relevant feature was shown.
+
 ## Optimize the bottleneck
 
 | Dominant phase | Candidates to measure |
