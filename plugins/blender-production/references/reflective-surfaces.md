@@ -51,6 +51,8 @@ Test materials under more than one lighting environment while retaining paired c
 
 Use geometry for important silhouette and visible depth. Reserve normal maps for suitable surface detail; they encode direction rather than actual displacement. Give the runtime mesh enough curvature resolution and keep it close to the source shape. Hold triangulation, UVs, normals, and tangent interpretation consistent between baking and runtime. Inspect normal-map orientation, projection errors, seams, and the final texture at delivery resolution and mip levels. A good high-resolution bake does not establish the quality of its compressed or downsampled runtime form. [Marmoset's baking tutorial](https://marmoset.co/posts/toolbag-baking-tutorial/) explains these failure modes.
 
+After subdividing or retriangulating a reflective surface, compare the interpolated fields inside its triangles as well as the retained corners. Sampling and normalizing a new corner direction can change the field between vertices even when the physical surface is unchanged. Distinguish preservation of an accepted field from authoring a new target for an intentionally changed shape. If repeated refinement cannot meet the declared error and budget together, reconsider the topology or surface construction before adding more triangles.
+
 ## Run one representative comparison before expanding
 
 This is a proposed validation exercise, not a claim that the researched methods have already improved the current asset:

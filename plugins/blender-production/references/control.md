@@ -33,6 +33,8 @@ Create owned collections and retain returned references because automatic name s
 
 Snapshot a collection traversal before changing membership or visibility during that traversal, especially with recursive collection iterators. Reacquire datablocks after loading another file; retained RNA references can be invalid even when the replacement has the same name.
 
+If evaluated fields unexpectedly change, replay the relevant load, update and capture sequence without the proposed edit. Compare raw datablocks and evaluated fields separately. A no-edit control can distinguish existing evaluation drift from a candidate regression; record the measured difference and the control's coverage limits. A bounded difference is not exact equality, and it does not justify silently changing an acceptance tolerance.
+
 Read-only helper through MCP:
 
 ```python
