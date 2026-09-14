@@ -40,6 +40,10 @@ Allocate geometry, materials, and textures by visible contribution and required 
 
 Consider texture or normal-map detail for flat lettering and small surface features, instances for repetition, and geometry for silhouette, parallax, moving interfaces, and meaningful shadows. Inspection views can justify detail hidden during play. Check both use cases before removing it. Budget savings must survive fixed-camera comparison and runtime LOD transitions; a count alone does not accept the result.
 
+Measure actual native resources in reachable runtime states. Source material families can undercount animated copies, display and mirror overrides, damage highlights, or additional passes. Record active unique resources separately from retained allocations and their high-water mark. Include relevant LODs and state transitions. A test that requests mutually exclusive controls must follow the existing input policy; an unreachable request is a fixture defect, not evidence that the vehicle control is broken.
+
+Before consolidating materials, compare their native properties, shader behavior, texture dependencies and independent control channels. Matching names or colors does not prove that passive trim and an animated lamp can share one material. Preserve the measured overage while investigating; source counts or a proposed cache are not proof that the runtime budget passes.
+
 ## Keep iteration coherent
 
 One writer owns each canonical asset and its generated outputs. If specialists are already part of the task, give them a frozen input revision, disjoint outputs, a bounded question, and a receipt: observed result, exact artifact, proposed change, affected interfaces. Combine interacting changes into a coherent candidate before spending on final acceptance. This workflow does not itself authorize delegation.
