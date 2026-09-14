@@ -28,6 +28,12 @@ Closed edge incidence does not prove that a mesh has no self-intersections. A va
 
 Choose physical tolerances from the asset contract and intended use. Keep reference uncertainty, geometric fit, floating-point/encoding tolerances, and visual judgment separate. Numerical precision is useful for reproducibility; it cannot establish realism. A new detector needs representative known failures and valid cases so it does not become another source of rework.
 
+## Verify material meaning through the runtime pipeline
+
+Follow representative materials from the authored shader through exported metadata, native engine import, project-owned adaptation and actual rendering. A successful import can silently ignore an optional material extension. Query support in the pinned engine and inspect the imported values. Trace every use of a shared material through all LODs: replacing a dynamic instrument surface does not prove that a separate static screen received the same correction.
+
+Similar parameter names do not guarantee the same physical meaning. Derive conversions from the pinned shader or primary documentation, then verify actual native values and matched views. Matching normal-incidence reflectance alone does not establish the same grazing-angle response or complete BRDF equivalence. Preserve unsupported-response limits explicitly; do not hide them by loosening validation or inventing a universal conversion.
+
 ## Spend the budget on what the player can perceive
 
 Allocate geometry, materials, and textures by visible contribution and required interaction. Keep explicit headroom while major forms are unfinished; choose the reserve from measured needs instead of a universal percentage. Avoid consuming almost the entire ceiling on hidden hardware and then degrading the focal silhouette to recover a few triangles.
@@ -43,5 +49,7 @@ Keep a small current-state record: accepted source, active candidate, major unre
 Test promised reproducible construction from a fresh scene early, then at coherent milestones. Reopening a saved blend and exporting it twice tests different guarantees. Preserve legitimate hand edits in the declared source; do not silently overwrite them with a generator. Reuse evidence only when its relevant source and configuration remain valid. Run focused checks during experiments and the complete required gates on the deliverable.
 
 Capture required intermediate references at their actual construction stage. A later artifact renamed as an earlier checkpoint can invalidate field or shape comparisons. If a checker itself needs repair, keep the locked construction inputs intact: bind the revised independent checker separately, record its actual dependencies, and rerun it against the saved source. Preserve the original failure and distinguish verifier recovery from an asset correction.
+
+Keep source-construction and export-tool identities explicit. An updated exporter must validate the actual frozen construction package when its contract binds module paths and bytes, without rewriting the source's generation record. A separate directory argument alone may not select the intended code; verify which package actually ran.
 
 When progress plateaus, compare the current whole asset with the previous accepted views. Prioritize the most consequential open form or interaction defect; do not start optional microdetail to stay busy. Once the requested acceptance is met, deliver it. Required human judgments remain open until a human supplies them.
