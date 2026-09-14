@@ -34,6 +34,10 @@ Follow representative materials from the authored shader through exported metada
 
 Similar parameter names do not guarantee the same physical meaning. Derive conversions from the pinned shader or primary documentation, then verify actual native values and matched views. Matching normal-incidence reflectance alone does not establish the same grazing-angle response or complete BRDF equivalence. Preserve unsupported-response limits explicitly; do not hide them by loosening validation or inventing a universal conversion.
 
+For a dynamic material replacement, compare both implementations on the actual asset mesh with the same frozen native texture feed and render configuration. Include asymmetric midtones and representative scene feeds: black/white or saturated endpoint patterns can conceal color-space errors. Exercise the supported renderers, independently controlled instances and resource recreation where those behaviors matter. Preserve the declared pixel tolerance and include a deliberate wrong mapping to confirm that the comparison can detect a defect.
+
+Rendering equivalence can preserve an unusable view. Inspect mirrors, instruments and camera displays in their actual placement as well as in isolated material comparisons. A correct texture binding does not establish useful framing, visibility or readability.
+
 ## Spend the budget on what the player can perceive
 
 Allocate geometry, materials, and textures by visible contribution and required interaction. Keep explicit headroom while major forms are unfinished; choose the reserve from measured needs instead of a universal percentage. Avoid consuming almost the entire ceiling on hidden hardware and then degrading the focal silhouette to recover a few triangles.
