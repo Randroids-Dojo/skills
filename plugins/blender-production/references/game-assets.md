@@ -70,4 +70,6 @@ When a pipeline accepts verification reports, check measured bounds and complete
 
 Keep source-construction and export-tool identities explicit. An updated exporter must validate the actual frozen construction package when its contract binds module paths and bytes, without rewriting the source's generation record. A separate directory argument alone may not select the intended code; verify which package actually ran.
 
+Bind each recorded construction command to the artifacts its phase must produce. Check source, bundle and report destinations against their declared roles, and require the complete unique output inventory, including checkpoints enabled by the locked specification. Two matching command copies with recomputed hashes can still describe the wrong operation. Test coordinated edits to both copies as well as stale hashes. Keep command ancestry, actual native execution and final export acceptance as separate claims.
+
 When progress plateaus, compare the current whole asset with the previous accepted views. Prioritize the most consequential open form or interaction defect; do not start optional microdetail to stay busy. Once the requested acceptance is met, deliver it. Required human judgments remain open until a human supplies them.
