@@ -30,6 +30,8 @@ After reopening, distinguish a hidden object's unevaluated world matrix from cha
 
 Choose physical tolerances from the asset contract and intended use. Keep reference uncertainty, geometric fit, floating-point/encoding tolerances, and visual judgment separate. Numerical precision is useful for reproducibility; it cannot establish realism. A new detector needs representative known failures and valid cases so it does not become another source of rework.
 
+Before a long capture, exercise the actual native writer and independent reader together. Exact numeric comparisons need lossless serialization or explicit native bit patterns; shortened JSON decimals can reject unchanged runtime values. Compare authored local transforms and engine-evaluated global transforms according to the pinned engine's rules, including camera basis normalization. Preserve the failed observation when fixing its recorder or reader.
+
 ## Verify material meaning through the runtime pipeline
 
 Follow representative materials from the authored shader through exported metadata, native engine import, project-owned adaptation and actual rendering. A successful import can silently ignore an optional material extension. Query support in the pinned engine and inspect the imported values. Trace every use of a shared material through all LODs: replacing a dynamic instrument surface does not prove that a separate static screen received the same correction.
@@ -39,6 +41,10 @@ Similar parameter names do not guarantee the same physical meaning. Derive conve
 For a dynamic material replacement, compare both implementations on the actual asset mesh with the same frozen native texture feed and render configuration. Include asymmetric midtones and representative scene feeds: black/white or saturated endpoint patterns can conceal color-space errors. Exercise the supported renderers, independently controlled instances and resource recreation where those behaviors matter. Preserve the declared pixel tolerance and include a deliberate wrong mapping to confirm that the comparison can detect a defect.
 
 Rendering equivalence can preserve an unusable view. Inspect mirrors, instruments and camera displays in their actual placement as well as in isolated material comparisons. A correct texture binding does not establish useful framing, visibility or readability.
+
+Bind the quality settings actually used for visual review, including nested viewports and automation overrides. A requested quality tier is not a readback. Use a matched quality comparison before attributing speckled shadows or jagged edges to materials; keep invoked settings distinct from queried native values and do not infer which individual setting caused the improvement when several changed together.
+
+For open-panel framing, test each complete projected mesh envelope against the interface. One rectangle around the entire assembly can combine a raised hood with an outstretched door into an occupied area that contains no geometry. Retain whole-assembly window and clearance limits, require the complete visible mesh inventory, and include both that disjoint-envelope case and real overlap failures. Conservative projected bounds still need inspection of the actual image.
 
 ## Spend the budget on what the player can perceive
 
