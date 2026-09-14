@@ -58,6 +58,8 @@ Test promised reproducible construction from a fresh scene early, then at cohere
 
 Capture required intermediate references at their actual construction stage. A later artifact renamed as an earlier checkpoint can invalidate field or shape comparisons. If a checker itself needs repair, keep the locked construction inputs intact: bind the revised independent checker separately, record its actual dependencies, and rerun it against the saved source. Preserve the original failure and distinguish verifier recovery from an asset correction.
 
+When a pipeline accepts verification reports, check measured bounds and complete required domains as well as success labels. Derive component and moving-group membership from the current source and its driver ancestry. Match reported footprint coverage to every required face, and distinguish raw clearance from a bound that already subtracts a numerical margin. Include corruption cases with consistent recomputed hashes: deleting a required member or reporting an inadequate bound must still fail. A valid hash proves byte identity, not sufficient geometric coverage.
+
 Keep source-construction and export-tool identities explicit. An updated exporter must validate the actual frozen construction package when its contract binds module paths and bytes, without rewriting the source's generation record. A separate directory argument alone may not select the intended code; verify which package actually ran.
 
 When progress plateaus, compare the current whole asset with the previous accepted views. Prioritize the most consequential open form or interaction defect; do not start optional microdetail to stay busy. Once the requested acceptance is met, deliver it. Required human judgments remain open until a human supplies them.
