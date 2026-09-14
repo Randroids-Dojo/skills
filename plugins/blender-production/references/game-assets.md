@@ -32,6 +32,8 @@ Choose physical tolerances from the asset contract and intended use. Keep refere
 
 Before a long capture, exercise the actual native writer and independent reader together. Exact numeric comparisons need lossless serialization or explicit native bit patterns; shortened JSON decimals can reject unchanged runtime values. Compare authored local transforms and engine-evaluated global transforms according to the pinned engine's rules, including camera basis normalization. Preserve the failed observation when fixing its recorder or reader.
 
+Exercise preparation helpers through every delivery phase, including final sealing after a build. Syntax checks and a successful validate-only branch do not cover later control flow. Use an actual validated build or export as the fixture; check the emitted source identity, complete inputs, destinations and command arguments. Keep that fixture read-only and write each attempt to a fresh output directory. Correct preparation still does not establish a successful native run.
+
 ## Verify material meaning through the runtime pipeline
 
 Follow representative materials from the authored shader through exported metadata, native engine import, project-owned adaptation and actual rendering. A successful import can silently ignore an optional material extension. Query support in the pinned engine and inspect the imported values. Trace every use of a shared material through all LODs: replacing a dynamic instrument surface does not prove that a separate static screen received the same correction.
