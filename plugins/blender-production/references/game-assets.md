@@ -26,6 +26,8 @@ Use matched views to distinguish geometry, triangulation, custom normals, materi
 
 Closed edge incidence does not prove that a mesh has no self-intersections. A valid evaluated polygon does not prove its exported triangles are nondegenerate. Check the representation that will actually be delivered, including modified geometry and lower LODs. For assemblies, distinguish intended attachment contact from unintended penetration. Sample near contact events and intermediate poses; endpoint or coarse pose checks need explicit coverage limits.
 
+After reopening, distinguish a hidden object's unevaluated world matrix from changed stored geometry. If a geometry probe needs temporary visibility or driver changes to trigger native evaluation, scope and record them, verify that other raw fields remain exact, and restore every flag even when observation fails. This diagnostic recovery does not replace an unassisted cold-open interaction check.
+
 Choose physical tolerances from the asset contract and intended use. Keep reference uncertainty, geometric fit, floating-point/encoding tolerances, and visual judgment separate. Numerical precision is useful for reproducibility; it cannot establish realism. A new detector needs representative known failures and valid cases so it does not become another source of rework.
 
 ## Verify material meaning through the runtime pipeline
