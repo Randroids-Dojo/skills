@@ -18,6 +18,7 @@ These cost the most because the reader cannot find the point without reading eve
 | Abstraction before example | A general rule stated in full, followed by no instance | The reader has to invent the instance to check the rule | Give the concrete example first, or instead |
 | Reasoning narration | "I first considered X, then realized Y, so I went with Z" | The reader retraces a path they did not need to walk | State Z. Mention X only if a reviewer would propose it |
 | Summary after every section | Each heading ends by restating its own point; the document ends by restating all of them | Length grows with no new information | Delete the restatement. If the section's point was unclear, fix the section |
+| Hidden implication | The cause says "A causes X"; a later section says "the fallback uses A"; nothing connects them | The reader either misses that the fallback recreates X or has to derive it, and the clearer rewrite hides it just as well as the original did | State the relationship, at the source's own certainty, if it follows from the source's claims alone; otherwise flag it for the author. See "Derived consequences" in SKILL.md |
 
 ## 2. Over-completeness and defense
 
@@ -61,7 +62,7 @@ These cost the most because the reader cannot find the point without reading eve
 
 | Pattern | Cost | Fix | Leave it when |
 | --- | --- | --- | --- |
-| Heading per two sentences | The reader navigates a structure with nothing to navigate | Merge into paragraphs | The artifact's template requires the sections |
+| Heading that only labels the next paragraph | The reader stops for a signpost that points nowhere; a short artifact with a natural sequence gains no navigation from it | Ask whether the heading helps the reader find something. If it only labels, remove it and let the prose carry the structure | The reader will jump to or return to the section, the artifact has genuinely independent parts, or the template requires it |
 | Bullets replacing prose | Bullets drop "because", "so", and "unless", so the reader loses the causal chain | Write the paragraph when the items depend on each other | The items are genuinely parallel and independent |
 | Bold on random nouns | Emphasis with no hierarchy | Bold the one thing a skimmer must not miss, or nothing | Consistent use for a label pattern |
 | Em dash as universal joiner | Facts are chained without stating their relationship | Use the conjunction that names the relationship, or split the sentence | A single aside where an aside is the clearest form |

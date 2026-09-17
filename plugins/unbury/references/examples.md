@@ -2,6 +2,8 @@
 
 Each example names the artifact, the main failure mode, the rewrite, and what was cut or kept. The first is a real pull request; the rest are constructed to show different failure modes. In every case the test is the same: can an engineer who has never seen the situation understand what was broken, why, and what changed, substantially faster after the rewrite, with nothing they need removed?
 
+These examples teach the moves. They are not benchmarks. Once an artifact appears here with its rewrite, any agent that has loaded this skill has seen the answer, so running the skill against that artifact measures recall, not judgment. Evaluate the skill only on material that does not appear in this file or anywhere else in the skill, and do not tune the rules to reproduce these outputs more closely. The PR below was used for an evaluation after it was added here, and the result was contaminated in exactly this way.
+
 ## 1. Pull request description: implementation before behavior
 
 Source: [anthropics/anthropic-sdk-csharp #265](https://github.com/anthropics/anthropic-sdk-csharp/pull/265), reproduced verbatim.
@@ -117,7 +119,7 @@ Source: [anthropics/anthropic-sdk-csharp #265](https://github.com/anthropics/ant
 - **The test section names the test, what it asserts, and the before/after result as a list.** The handler's class name, the JSON comparison API, the exact failure counts, warning counts, and the 533 figure are all inspectable in the diff and CI, and none change what a reviewer does. The three results stayed as bullets because they are parallel and scan faster than a sentence.
 - **The behavior change stayed inside the change section.** A reader checking compatibility looks there, not in trailing notes.
 - **The alternatives section was removed.** Throwing instead of mapping is not an alternative a reviewer would propose when the SDK can honor the request.
-- **Section headings were kept.** This is a PR description; reviewers scan by section. The headings became plainer.
+- **Section headings were kept, and that was a marginal call.** The headings became plainer. A later 190-word draft dropped them entirely and read faster, because at that length the paragraphs already ran in the hierarchy's order and each heading only labeled the paragraph under it. Keep headings when a reviewer will jump to a section; drop them when they only announce what comes next.
 - **Metaphors and rhetorical constructions were replaced where they hid the literal fact.** "Dropped on the floor" became "never read the name". "Matching on the property rather than the type" was dropped because the code excerpt shows it.
 
 ### Deliberately removed
@@ -132,7 +134,7 @@ Source: [anthropics/anthropic-sdk-csharp #265](https://github.com/anthropics/ant
 ### Deliberately retained
 
 - Both adapters had the defect and both were fixed. Dropping this would make a reviewer wonder whether the beta surface is still broken.
-- `DisableParallelToolUse` uses the same derivation as the existing arm. This is the one implementation detail with a behavioral consequence a reviewer might probe.
+- `DisableParallelToolUse` uses the same derivation as the existing arm. This is the boundary case for the precedence rule. The diff shows the two arms side by side with the same expression, which argues for cutting it. It stayed because a reviewer might probe whether the `bool?` maps differently on the new path, and one sentence answers that. Either call is defensible; what is not defensible is cutting it because the diff contains it, or keeping it because the source did.
 - The behavior change for existing callers. It affects consumers, and it is the kind of note that belongs in a changelog.
 - The Windows-only targets were not run locally. Removing an unverified-environment statement would turn a partial verification into an implied full one.
 - The beta adapter's `BetaToolChoiceTool` type name and the null-stays-null clause. One code snippet stands for two changes, and without the name the snippet implies the copies are identical. The null clause is the one `bool?` subtlety a reviewer would pause on. Each costs a few words. A blind reader flagged both as the only substantive losses in an earlier draft.
@@ -142,6 +144,10 @@ Source: [anthropics/anthropic-sdk-csharp #265](https://github.com/anthropics/ant
 ### Result
 
 An engineer unfamiliar with the issue learns in the first sentence what was broken and what it caused, and in the next two sections why and what changed. In a blind comparison by a reader who had not seen the issue, the user-visible symptom arrived about three times sooner (roughly 35 words in versus 110), and no claim was strengthened or invented. The original required reading the whole first section to reach the same point, and the reader's model was of the type system, not of the wrong request.
+
+### What a shorter version taught
+
+A separate 95-word rewrite of the same PR reached the mental model fastest of any draft: symptom, cause, fix, and test in four short paragraphs with no headings. It also omitted the consumer-visible behavior change and the target frameworks that were not run locally. Both are on the keep list. A reader of that version would upgrade without knowing forced tool selection now takes effect, and would read "regression coverage added" as full verification. The best final draft was about 190 words: the short version's ordering and lack of headings, plus one sentence for each omitted fact. Shortest was not best, and the difference was two sentences the reader could not infer.
 
 ## 2. Code review comment: defended instead of stated
 
@@ -275,3 +281,46 @@ The finding is one sentence and the original took four to reach it. "Not merely 
 > Retries now use exponential backoff starting at 200 ms, capped at 5 s, with full jitter. The previous fixed 1 s delay caused thundering-herd reconnects after a broker restart; see the incident notes linked in the ticket.
 
 This paragraph leads with the change, gives the numbers a reader would verify, states the reason in one sentence, and points to the evidence. It contains a "now" contrast and a link, and it needs both. Do not edit text that already passes the test.
+
+## 9. Lesson: clear hierarchy can reveal relationships the original prose obscured
+
+This is a lesson, not a worked rewrite. The real PR that taught it is deliberately not reproduced here, so it stays usable as unseen evaluation material.
+
+When the source's claims are scattered across sections, two of them can compose into a consequence the author never wrote down, and a rewrite that only reorders and tightens will hide it exactly as well as the original did. The skill's causal-chain check (workflow step 5) exists for this. The constructed example below shows the check separating a consequence the rewrite may state from one it may only flag.
+
+### Source (constructed)
+
+> ## Problem
+>
+> Lookups for tenant B sometimes return tenant A's rows. The cache key is built from the query hash alone and omits the tenant id, so two tenants issuing the same query share one cache entry.
+>
+> ## Fix
+>
+> The cache key now includes the tenant id. On a cache miss, the service falls back to the legacy `LookupV1` path so that cold starts do not fail. `LookupV1` keys its own memo table by query hash.
+>
+> ## Tests
+>
+> Added `CacheKeyIncludesTenant`, which asserts that identical queries from two tenants produce two cache entries.
+
+### Walking the chain
+
+Claims the source establishes:
+
+1. A key built from the query hash alone, without the tenant id, causes cross-tenant rows (Problem).
+2. The fix adds the tenant id to the cache key (Fix).
+3. On a miss, the service falls back to `LookupV1` (Fix).
+4. `LookupV1` keys its memo table by query hash (Fix, last sentence).
+
+Check: does any later claim recreate, contradict, weaken, or qualify an earlier condition? Claim 4 recreates the condition in claim 1 on the path opened by claim 3. Nothing outside the source is needed to see it: the source itself says a query-hash-only key causes the leak, and the source itself says the fallback keys by query hash.
+
+That is a directly derived consequence. The rewrite states it, at the source's certainty. The source states the mechanism as fact, so "which means" is warranted; "appears to" would be the choice if the source had hedged the mechanism:
+
+> On a cache miss the service falls back to `LookupV1`, which keys its own memo table by query hash alone, which means the fallback path still shares entries across tenants.
+
+The rewrite does not go further. Whether `LookupV1`'s memo table is actually populated in production, how often misses occur, or whether the fallback should be removed are questions for the reviewer, not facts the source establishes.
+
+Now a second candidate. The rewriter, who knows this codebase, suspects that `LookupV1` is also slower and will cause timeouts under load. Nothing in the source says so. That is an externally inferred consequence. It does not go into the artifact. It goes in the delivery notes: "Not in the rewrite: I suspect the `LookupV1` fallback has a latency cost; the source does not address it."
+
+### What this is not
+
+The check is not a code review. It does not ask the rewriter to read the implementation looking for bugs. It asks one question of the fact list already extracted in step 1: once these claims are in causal order, do they compose into something the author did not say? If they do, the reader deserves to see it, because they would otherwise have to derive it or miss it.
