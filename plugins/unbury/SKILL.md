@@ -19,8 +19,9 @@ This is not "sound less like AI" and not "make it casual." The output should rea
 4. **Order the rest by the hierarchy.** Move context, evidence, alternatives, and edge cases below the point they support. Do not let them precede it. The rule applies inside each section too: a "Cause" section opens with the defect, not with the library background that explains it, and a "Change" section states its scope (which files, surfaces, or consumers) before the code that shows it.
 5. **Triage every sentence.** Ask: does the reader need this fact here to understand the idea, make a decision, or verify an important claim? Keep it, move it later, or cut it. Cut content the reader can inspect directly in the code, diff, or linked source.
 6. **Only then fix style.** Contrast constructions, triples, metaphors, fragments, em dashes, and parentheticals are edited where they slow comprehension, using [references/patterns.md](references/patterns.md) as a diagnostic list, not a ban list.
-7. **Check accuracy against the fact list.** Every claim in the rewrite must trace to the source. Every qualification that changes what is true must survive. No new confidence, no new claims, no softened warnings.
-8. **Deliver.** Provide the rewrite in the artifact's format. When the edit removed or relocated substantive content, add a short list of what was removed and what was deliberately kept, so the author can object.
+7. **Run the second-pass cut.** Once the rewrite lets the reader correctly explain what happened, why, and what changed, every remaining sentence must justify why it belongs in this artifact rather than in the diff, the tests, the CI output, or the review conversation. A sentence that only restates what one of those already shows goes. A sentence the reader needs in order to decide, act, or trust the claim stays, whatever its length. This pass usually removes the final fifth to third of the text without touching the explanation itself.
+8. **Check accuracy against the fact list.** Every claim in the rewrite must trace to the source. Every qualification that changes what is true must survive. No new confidence, no new claims, no softened warnings.
+9. **Deliver.** Provide the rewrite in the artifact's format. When the edit removed or relocated substantive content, add a short list of what was removed and what was deliberately kept, so the author can object.
 
 ## Information hierarchy for technical explanations
 
@@ -88,3 +89,5 @@ These are judgments, not prohibitions. Apply them when the construction costs th
 Read only the first two sentences of the rewrite. Can a reader who has never seen the issue say what was broken? If not, the lede is still buried.
 
 Then read the whole rewrite as the reviewer, decision-maker, or teammate it is for. Can they understand what was broken, why, and what changed substantially faster than from the original, with no loss of what they need to act? If not, iterate.
+
+Finally, for each sentence after the explanation is complete, name where else the reader could get it: diff, tests, CI, review thread, or nowhere. Only "nowhere" and "they need it here to decide" justify keeping it.
