@@ -20,6 +20,7 @@ Portable Agent Skills for Codex, Claude Code, and other compatible clients. Each
 | `spiral-html` | Initialize or audit an HTML-first Spiral scaffold |
 | `task-tracking-dots` | Durable Markdown-backed work tracking with Dots |
 | `task-tracking-dots-html` | Durable HTML-backed work tracking with the Dots fork |
+| `unbury` | Rewrite AI-style technical writing into clear, accurate engineering communication |
 | `unreal` | Unreal Engine 5.x automation and end-to-end verification |
 | `vibekit` | Install and integrate tag-pinned VibeKit modules |
 | `youtube-title-thumbnail-packaging` | Truthful double-barrel YouTube title-and-thumbnail pairs |

@@ -1,0 +1,8 @@
+{
+  "name": "unbury",
+  "description": "Rewrite AI-generated technical writing into clear, accurate engineering communication that leads with what happened and cuts what the reader does not need.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Randroids Dojo"
+  }
+}

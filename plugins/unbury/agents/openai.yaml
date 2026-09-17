@@ -1,0 +1,4 @@
+interface:
+  display_name: "Unbury the Lede"
+  short_description: "Turn AI-style technical prose into clear engineering writing"
+  default_prompt: "Use $unbury to rewrite this so an engineer unfamiliar with it understands what happened, why, and what changed as fast as possible."

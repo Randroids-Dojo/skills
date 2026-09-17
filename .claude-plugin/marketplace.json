@@ -64,6 +64,11 @@
       "name": "blender-production",
       "source": "./plugins/blender-production",
       "description": "Editable Blender work with visual, assembly, export, and render verification; adapted from per-simmons/blender-production under MIT."
+    },
+    {
+      "name": "unbury",
+      "source": "./plugins/unbury",
+      "description": "Rewrite AI-generated or AI-influenced technical writing (PR descriptions, review comments, design docs, issues, Slack updates, release notes, research summaries) so an engineer builds the correct mental model fast, without losing technical accuracy."
     }
   ]
 }

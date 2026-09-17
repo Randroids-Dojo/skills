@@ -103,6 +103,10 @@
     {
       "prompt": "Export the accepted Blender scene to GLB without redesigning it.",
       "shouldTrigger": false
+    },
+    {
+      "prompt": "Rewrite this AI-sounding PR description so reviewers understand it faster.",
+      "shouldTrigger": false
     }
   ],
   "randroid-game-feel": [
@@ -354,6 +358,40 @@
     },
     {
       "prompt": "Rewrite the pricing-page copy and typography.",
+      "shouldTrigger": false
+    }
+  ],
+  "unbury": [
+    {
+      "prompt": "This PR description reads like an AI wrote it. Rewrite it so a reviewer understands what broke and what changed quickly.",
+      "shouldTrigger": true
+    },
+    {
+      "prompt": "De-slop this design doc section without dumbing down the technical content.",
+      "shouldTrigger": true
+    },
+    {
+      "prompt": "Tighten this Slack update so it leads with the status and the ask.",
+      "shouldTrigger": true
+    },
+    {
+      "prompt": "Humanize this AI-generated research summary but keep every caveat that matters.",
+      "shouldTrigger": true
+    },
+    {
+      "prompt": "This landing page looks AI-generated; de-slop the UI and verify with screenshots.",
+      "shouldTrigger": false
+    },
+    {
+      "prompt": "Translate this README into Spanish.",
+      "shouldTrigger": false
+    },
+    {
+      "prompt": "Address the reviewer comments on PR 42 and push the fixes.",
+      "shouldTrigger": false
+    },
+    {
+      "prompt": "Propose title and thumbnail pairs for this video.",
       "shouldTrigger": false
     }
   ]
