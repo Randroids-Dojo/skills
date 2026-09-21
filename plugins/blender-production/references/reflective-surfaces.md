@@ -23,6 +23,8 @@ Shrinkwrap changes vertex positions. Its target, projection direction/distance, 
 
 When an existing guide is inferred from geometry, retain the actual pre-cut or pre-replacement inputs. Reconstructing it from the revised panel can silently change the reference. Compare the intended guide, evaluated physical sections, and rendered response separately. Exact agreement at control knots does not establish conformity between them or a convincing shape. Check the sampled spans and the transition into neighboring surfaces; different interpolation rules on adjacent rows can introduce a bend that neither endpoint checks nor smoothly interpolated normals reveal.
 
+Carry physical surface identity through cuts and subdivision. A new triangle cut from a curved skin still belongs to that skin; assigning it a flat-wall normal merely because it was generated can break reflections along an otherwise unchanged boundary. Distinguish retained skin fragments from actual new return walls, then compare the complete connected field and matched renders. Preserve deliberate material and manufacturing creases.
+
 ## Judge curvature as well as edge closure
 
 Connected edges establish positional continuity (G0). Matching tangent direction (G1) removes a sharp directional break, but the rate of bending can still change abruptly. Curvature continuity (G2) addresses that transition. Both the interiors of surfaces and their boundaries matter. Autodesk's [curvature tutorial](https://help.autodesk.com/cloudhelp/2014/CHS/Alias/files/GUID-9DD73E22-A5EF-4952-BB84-2CEE2109993C.htm) explains why a green continuity check or smooth-looking diagnostic image alone is insufficient. Its CAD tolerances and control-vertex rules are not automatic requirements for a polygon game asset.
