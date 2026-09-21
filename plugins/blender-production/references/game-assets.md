@@ -52,6 +52,8 @@ Bind the quality settings actually used for visual review, including nested view
 
 When judging destination appearance in an isolated runtime project, verify the environment actually loaded. Missing presets or imported sky assets can silently select a fallback even when the lighting label is correct. Bind relevant dependencies and read back the active panorama or sky, exposure and lights. If these differ from the destination, repair the fixture and repeat the unchanged asset before adjusting its geometry, materials or camera. Keep fallback captures distinct from production-environment evidence.
 
+When render size is part of acceptance, distinguish window pixels, logical content coordinates, stretched texture getters, render scale and actual output image dimensions. Inspect the pinned engine's getter semantics before inferring a framebuffer size from a texture property. A disposed output-image readback can verify delivered pixels, but may synchronize the GPU and allocate native memory: perform it outside the measured interval, record its cost and retain indirect-effect limits. Preserve supported headless paths without pretending that they produced an image. Correct settings do not override a failed contention or performance gate.
+
 For open-panel framing, test each complete projected mesh envelope against the interface. One rectangle around the entire assembly can combine a raised hood with an outstretched door into an occupied area that contains no geometry. Retain whole-assembly window and clearance limits, require the complete visible mesh inventory, and include both that disjoint-envelope case and real overlap failures. Conservative projected bounds still need inspection of the actual image.
 
 ## Spend the budget on what the player can perceive
