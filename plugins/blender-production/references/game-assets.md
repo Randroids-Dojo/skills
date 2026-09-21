@@ -18,6 +18,8 @@ Procedural Python is a construction method, not evidence of visual quality. Use 
 
 Prototype a difficult junction in isolation before multiplying it: roof/pillar/window, door/hinge/body, seat/piping, or wheel/arch. Derive mating boundaries and offsets from shared geometry instead of independently guessing each part's coordinates. Check both the assembled appearance and required movement before locking the interface. Preserve stable engineering hardpoints while allowing unaccepted styling to change coherently.
 
+Define an edit domain by the complete physical interface, then derive its face and vertex mask. Check adjacent walls and narrow corner strips before deforming the selected faces: moving one side of a shared edge while freezing its neighbour can fold an otherwise valid wall. If an unaccepted implementation mask excludes necessary geometry, record a broader connected domain while preserving the actual engineering boundaries, outside surfaces and clearance limits. Historical triangle IDs are not a reason to retain a contradictory assembly.
+
 When repairs alternate between gaps, intersections, ridges, and normal patches at the same junction, step back to its surface layout. Compare a simpler shared-surface alternative at the same camera and light. Preserve the last accepted checkpoint; replace only owned construction. A local repair should reduce the original defect without creating another one nearby.
 
 ## Diagnose the cause and validate the actual representation
