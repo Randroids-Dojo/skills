@@ -50,6 +50,8 @@ Rendering equivalence can preserve an unusable view. Inspect mirrors, instrument
 
 Bind the quality settings actually used for visual review, including nested viewports and automation overrides. A requested quality tier is not a readback. Use a matched quality comparison before attributing speckled shadows or jagged edges to materials; keep invoked settings distinct from queried native values and do not infer which individual setting caused the improvement when several changed together.
 
+When judging destination appearance in an isolated runtime project, verify the environment actually loaded. Missing presets or imported sky assets can silently select a fallback even when the lighting label is correct. Bind relevant dependencies and read back the active panorama or sky, exposure and lights. If these differ from the destination, repair the fixture and repeat the unchanged asset before adjusting its geometry, materials or camera. Keep fallback captures distinct from production-environment evidence.
+
 For open-panel framing, test each complete projected mesh envelope against the interface. One rectangle around the entire assembly can combine a raised hood with an outstretched door into an occupied area that contains no geometry. Retain whole-assembly window and clearance limits, require the complete visible mesh inventory, and include both that disjoint-envelope case and real overlap failures. Conservative projected bounds still need inspection of the actual image.
 
 ## Spend the budget on what the player can perceive
