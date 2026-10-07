@@ -9,6 +9,7 @@ Portable Agent Skills for Codex, Claude Code, and other compatible clients. Each
 | `blender-production` | Editable Blender assets with visual, assembly, export, and render verification |
 | `decision` | Guided decisions with concise tradeoffs and recommendations |
 | `godot` | Godot 4.x development, testing, automation, export, and deployment |
+| `present` | Build clear decks, documents, and interactive HTML pitches using research, useful visuals, and inspectable evidence |
 | `randroid` | Catalog and router for the focused Randroid workflows |
 | `randroid-loop` | Bounded research or implementation loops with durable task state |
 | `randroid-address-pr-comments` | Resolve current PR feedback, verify fixes, and reply with evidence |

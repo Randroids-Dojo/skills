@@ -1,0 +1,4 @@
+interface:
+  display_name: "Present"
+  short_description: "Build clear decks, documents, and interactive HTML pitches"
+  default_prompt: "Use $present to turn this material into a clear deck or document with appropriate visuals, inspectable evidence, and interaction where it helps."

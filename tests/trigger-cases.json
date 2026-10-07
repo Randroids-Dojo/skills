@@ -394,5 +394,47 @@
       "prompt": "Propose title and thumbnail pairs for this video.",
       "shouldTrigger": false
     }
+  ],
+  "present": [
+    {
+      "prompt": "Turn these research notes into a presentation for engineers deciding whether to adopt the proposal.",
+      "shouldTrigger": true
+    },
+    {
+      "prompt": "Redesign this deck so its evidence and tradeoffs are easier to understand.",
+      "shouldTrigger": true
+    },
+    {
+      "prompt": "Build an interactive HTML pitch where readers can compare the same workflow under different assumptions.",
+      "shouldTrigger": true
+    },
+    {
+      "prompt": "Help me outline an explanatory document people can read without a presenter.",
+      "shouldTrigger": true
+    },
+    {
+      "prompt": "Summarize the presentation research into instructions another agent can apply to my actual deck.",
+      "shouldTrigger": true
+    },
+    {
+      "prompt": "Rewrite this PR description to sound less AI-generated without changing the layout.",
+      "shouldTrigger": false
+    },
+    {
+      "prompt": "Build a landing page for my restaurant with a menu and booking form.",
+      "shouldTrigger": false
+    },
+    {
+      "prompt": "Convert this PowerPoint to PDF without changing its content or design.",
+      "shouldTrigger": false
+    },
+    {
+      "prompt": "Explain what a hash table is.",
+      "shouldTrigger": false
+    },
+    {
+      "prompt": "Build a monitoring dashboard for weekly support ticket counts.",
+      "shouldTrigger": false
+    }
   ]
 }
