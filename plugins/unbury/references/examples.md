@@ -324,3 +324,27 @@ Now a second candidate. The rewriter, who knows this codebase, suspects that `Lo
 ### What this is not
 
 The check is not a code review. It does not ask the rewriter to read the implementation looking for bugs. It asks one question of the fact list already extracted in step 1: once these claims are in causal order, do they compose into something the author did not say? If they do, the reader deserves to see it, because they would otherwise have to derive it or miss it.
+
+## 10. Proposal section: a staccato tagline hides the relationship
+
+Failure mode: short fragments create promotional rhythm without identifying the behavior or choice. The heading comes from a pitch; the supporting scenario below is constructed.
+
+### Before
+
+> ### One budget. Two apps. A choice you can examine.
+>
+> Both apps draw from the same 20-credit AI allowance. Routine drafting in one app uses 16 credits before an urgent analysis in the other app that needs 6 credits. The urgent task is blocked because only 4 credits remain.
+
+### After
+
+> ### How a shared AI allowance can block urgent work
+>
+> Routine drafting in one app can block urgent analysis in the other because both draw from the same 20-credit allowance. After drafting uses 16 credits, only 4 remain for the 6-credit analysis.
+
+### Notes
+
+The original heading counts things without explaining their relationship, then promises an unspecified choice. The replacement names the consequence established by the source. The body still explains the mechanism and keeps every number. "One budget, two apps, a choice you can examine" would preserve the defect despite changing the punctuation.
+
+If only the original tagline were supplied, use a factual heading such as "A budget for two apps" and flag the unspecified relationship and choice in delivery notes. Do not invent the shared allowance or blocked work to improve the writing.
+
+Preserve useful short labels such as "Request timeout: 30 s" and distinct facts such as "The request timed out. The client retried." A genuine three-item list can also stay. Judge whether the wording communicates the needed facts and relationships, not its sentence length or item count.
