@@ -8,72 +8,114 @@
     {
       "name": "task-tracking-dots",
       "source": "./plugins/task-tracking-dots",
-      "description": "Task management with Dots. Track work items across sessions with the dot CLI, dependencies, and completion reasons."
+      "description": "Task management with Dots. Track work items across sessions with the dot CLI, dependencies, and completion reasons.",
+      "skills": [
+        "./"
+      ]
     },
     {
       "name": "task-tracking-dots-html",
       "source": "./plugins/task-tracking-dots-html",
-      "description": "Task management with the HTML-backed Dots fork. Track work items across sessions with dot-html CLI files stored as .html documents."
+      "description": "Task management with the HTML-backed Dots fork. Track work items across sessions with dot-html CLI files stored as .html documents.",
+      "skills": [
+        "./"
+      ]
     },
     {
       "name": "godot",
       "source": "./plugins/godot",
-      "description": "Develop, test, build, and deploy Godot 4.x games. Includes GdUnit4 testing, PlayGodot automation, web/desktop exports, CI/CD pipelines, and deployment to Vercel/GitHub Pages/itch.io."
+      "description": "Develop, test, build, and deploy Godot 4.x games. Includes GdUnit4 testing, PlayGodot automation, web/desktop exports, CI/CD pipelines, and deployment to Vercel/GitHub Pages/itch.io.",
+      "skills": [
+        "./"
+      ]
     },
     {
       "name": "unreal",
       "source": "./plugins/unreal",
-      "description": "Develop, test, and automate Unreal Engine 5.x projects (WIP). Covers PlayUnreal automation, Remote Control API, Automation Driver, and CI-friendly E2E workflows. PlayUnreal: https://github.com/Randroids-Dojo/PlayUnreal"
+      "description": "Develop, test, and automate Unreal Engine 5.x projects (WIP). Covers PlayUnreal automation, Remote Control API, Automation Driver, and CI-friendly E2E workflows. PlayUnreal: https://github.com/Randroids-Dojo/PlayUnreal",
+      "skills": [
+        "./"
+      ]
     },
     {
       "name": "slipbox",
       "source": "./plugins/slipbox",
-      "description": "Interact with the SlipBox semantic knowledge engine and read notes from PrivateBox. Capture atomic ideas, browse the knowledge graph, and run semantic analysis passes (link, cluster, tension). Service: /Users/randroid/Documents/Dev/SlipBox. Notes: https://github.com/Randroids-Dojo/PrivateBox"
+      "description": "Interact with the SlipBox semantic knowledge engine and read notes from PrivateBox. Capture atomic ideas, browse the knowledge graph, and run semantic analysis passes (link, cluster, tension). Service: /Users/randroid/Documents/Dev/SlipBox. Notes: https://github.com/Randroids-Dojo/PrivateBox",
+      "skills": [
+        "./"
+      ]
     },
     {
       "name": "spiral",
       "source": "./plugins/spiral",
-      "description": "Bootstrap and audit the structural-discipline scaffold (GDD tree, coverage ledger, progress log, open questions, followups, playtest gate) that takes a vision into a delivered system through small iterations whose state lives in git, not the agent's head. Pairs with /randroid:loop and task-tracking-dots. Cross-tool: works with Claude Code via .claude/rules/ and Codex via per-directory AGENTS.md symlinks."
+      "description": "Bootstrap and audit the structural-discipline scaffold (GDD tree, coverage ledger, progress log, open questions, followups, playtest gate) that takes a vision into a delivered system through small iterations whose state lives in git, not the agent's head. Pairs with /randroid:loop and task-tracking-dots. Cross-tool: works with Claude Code via .claude/rules/ and Codex via per-directory AGENTS.md symlinks.",
+      "skills": [
+        "./"
+      ]
     },
     {
       "name": "spiral-html",
       "source": "./plugins/spiral-html",
-      "description": "HTML-first variant of the spiral skill. Same structural-discipline scaffold (GDD tree, coverage ledger, progress log, open questions, followups, playtest gate) authored in HTML rather than Markdown. Ledgers use semantic data-* attributes for unambiguous agent reads. Ships AGENTS.md / CLAUDE.md shims pointing at AGENTS.html so Codex and Claude Code still land on the contract."
+      "description": "HTML-first variant of the spiral skill. Same structural-discipline scaffold (GDD tree, coverage ledger, progress log, open questions, followups, playtest gate) authored in HTML rather than Markdown. Ledgers use semantic data-* attributes for unambiguous agent reads. Ships AGENTS.md / CLAUDE.md shims pointing at AGENTS.html so Codex and Claude Code still land on the contract.",
+      "skills": [
+        "./"
+      ]
     },
     {
       "name": "randroid",
       "source": "./plugins/randroid",
-      "description": "Focused Randroid skills for bounded development loops, PR feedback, VibeReview evidence, visual cleanup, and gameplay interaction and feedback. Legacy slash-command aliases remain available."
+      "description": "Focused Randroid skills for bounded development loops, PR feedback, VibeReview evidence, visual cleanup, and gameplay interaction and feedback. Legacy slash-command aliases remain available.",
+      "skills": [
+        "./"
+      ]
     },
     {
       "name": "decision",
       "source": "./plugins/decision",
-      "description": "Ask structured multiple-choice decision questions in batches of two, with pros/cons and a recommended option for each."
+      "description": "Ask structured multiple-choice decision questions in batches of two, with pros/cons and a recommended option for each.",
+      "skills": [
+        "./"
+      ]
     },
     {
       "name": "youtube-title-thumbnail-packaging",
       "source": "./plugins/youtube-title-thumbnail-packaging",
-      "description": "Develop truthful, high-curiosity YouTube title-and-thumbnail packages as inseparable double-barrel pairs (Veritasium method), for briefs, edits, existing videos, and early concepts."
+      "description": "Develop truthful, high-curiosity YouTube title-and-thumbnail packages as inseparable double-barrel pairs (Veritasium method), for briefs, edits, existing videos, and early concepts.",
+      "skills": [
+        "./"
+      ]
     },
     {
       "name": "vibekit",
       "source": "./plugins/vibekit",
-      "description": "Install @randroids-dojo/vibekit as a tag-pinned dependency and apply focused client and server module integration patterns."
+      "description": "Install @randroids-dojo/vibekit as a tag-pinned dependency and apply focused client and server module integration patterns.",
+      "skills": [
+        "./"
+      ]
     },
     {
       "name": "blender-production",
       "source": "./plugins/blender-production",
-      "description": "Editable Blender work with visual, assembly, export, and render verification; adapted from per-simmons/blender-production under MIT."
+      "description": "Editable Blender work with visual, assembly, export, and render verification; adapted from per-simmons/blender-production under MIT.",
+      "skills": [
+        "./"
+      ]
     },
     {
       "name": "unbury",
       "source": "./plugins/unbury",
-      "description": "Rewrite AI-generated or AI-influenced technical writing (PR descriptions, review comments, design docs, issues, Slack updates, release notes, research summaries) so an engineer builds the correct mental model fast, without losing technical accuracy."
+      "description": "Rewrite AI-generated or AI-influenced technical writing (PR descriptions, review comments, design docs, issues, Slack updates, release notes, research summaries) so an engineer builds the correct mental model fast, without losing technical accuracy.",
+      "skills": [
+        "./"
+      ]
     },
     {
       "name": "present",
       "source": "./plugins/present",
-      "description": "Build clear presentations, explanatory documents, and interactive HTML pitches with useful visuals, inspectable evidence, and verified delivery."
+      "description": "Build clear presentations, explanatory documents, and interactive HTML pitches with useful visuals, inspectable evidence, and verified delivery.",
+      "skills": [
+        "./"
+      ]
     }
   ]
 }

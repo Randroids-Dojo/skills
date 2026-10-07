@@ -58,10 +58,10 @@ Each skill has:
 - optional `references/`, `scripts/`, and `assets/` loaded only when needed
 - optional `commands/` and `hooks/` as Claude-only adapters; keep them thin
 
-Install nested Randroid workflows with `--full-depth`, for example:
+The marketplace explicitly registers every plugin root with `"skills": ["./"]`. Default discovery includes root skills and nested Randroid workflows:
 
 ```bash
-npx skills add randroids-dojo/skills --skill randroid-loop --full-depth -y -g
+npx skills add randroids-dojo/skills --skill randroid-loop -y -g
 ```
 
 ## Adding a New Skill
@@ -76,6 +76,6 @@ npx skills add randroids-dojo/skills --skill randroid-loop --full-depth -y -g
 2. Add `agents/openai.yaml` and `.claude-plugin/plugin.json`.
 3. Add at least two positive and two negative routing cases to `tests/trigger-cases.json`.
 4. Put detailed conditional material in `references/` and deterministic helpers in `scripts/`.
-5. Update `README.md` and `.claude-plugin/marketplace.json`.
+5. Update `README.md` and `.claude-plugin/marketplace.json`. Include `"skills": ["./"]` in the marketplace entry so the plugin's root `SKILL.md` is discoverable. Use `./` rather than `.` for CLI compatibility; the path adds to the plugin's default nested `skills/` directory.
 6. Add the catalog symlink: `ln -s ../../plugins/<skill-name> .agents/skills/<skill-name>` (the validator requires it).
-7. Run `./scripts/validate-skills.sh` before committing.
+7. Run `./scripts/validate-skills.sh` before committing. Both default and full-depth CLI listings must contain all expected skills. `--list` returns before `--skill` filtering, so a successful exit from `--skill <name> --list` alone does not verify that the named skill is available.

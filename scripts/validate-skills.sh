@@ -32,7 +32,8 @@ if [[ "${VALIDATE_EXTERNAL:-1}" == "1" ]]; then
     uvx --from "$skills_ref_source" skills-ref validate "$(dirname "$skill_file")"
   done < <(find plugins -type f -name SKILL.md -print0)
 
-  npx --yes skills add . --list --full-depth >/dev/null
+  npx --yes skills add . --list | node scripts/check-skill-discovery.mjs default
+  npx --yes skills add . --list --full-depth | node scripts/check-skill-discovery.mjs full-depth
 
   if command -v claude >/dev/null 2>&1; then
     claude plugin validate .

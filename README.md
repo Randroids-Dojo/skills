@@ -32,17 +32,20 @@ Install one skill globally through the universal Skills CLI:
 
 ```bash
 npx skills add Randroids-Dojo/skills --skill godot -y -g
+npx skills add Randroids-Dojo/skills --skill present -y -g
 ```
 
-The focused Randroid skills are nested in the Claude plugin, so include full-depth discovery:
+The marketplace explicitly registers each plugin's root skill. Default discovery also includes the focused workflows nested in the Randroid plugin:
 
 ```bash
-npx skills add Randroids-Dojo/skills --skill randroid-loop --full-depth -y -g
-npx skills add Randroids-Dojo/skills --skill randroid-address-pr-comments --full-depth -y -g
-npx skills add Randroids-Dojo/skills --skill randroid-game-feel --full-depth -y -g
+npx skills add Randroids-Dojo/skills --skill randroid-loop -y -g
+npx skills add Randroids-Dojo/skills --skill randroid-address-pr-comments -y -g
+npx skills add Randroids-Dojo/skills --skill randroid-game-feel -y -g
 ```
 
 Always use `npx skills add ... -g` again to reinstall an updated skill. Do not edit installed copies under `~/.agents/skills/` or symlinks under `~/.claude/skills/`.
+
+If an older checkout reports only the five nested Randroid workflows, add `--full-depth` to search all source directories. Listing skills does not install them, and `--skill present --list` does not validate the name filter; check that the list actually contains the requested skill.
 
 Codex discovers global skills from `~/.agents/skills/`. Explicit invocation uses the portable skill name, for example:
 
@@ -105,7 +108,7 @@ Run the same checks used by CI:
 ./scripts/validate-skills.sh
 ```
 
-The suite checks portable frontmatter, name-directory alignment, trigger descriptions, entrypoint budgets, relative links, Codex metadata, Claude manifests, positive and negative trigger fixtures, shell/Python/JavaScript syntax, game-probe report behavior, the official `skills-ref` validator, Skills CLI discovery, and Claude plugin validation when the `claude` CLI is installed. CI also tests the native probe's report logic, C# compilation, and bitmap comparisons with Windows PowerShell 5.1. These checks do not launch a game or certify subjective quality.
+The suite checks portable frontmatter, name-directory alignment, trigger descriptions, entrypoint budgets, relative links, Codex metadata, Claude manifests, positive and negative trigger fixtures, shell/Python/JavaScript syntax, game-probe report behavior, the official `skills-ref` validator, and Claude plugin validation when the `claude` CLI is installed. It verifies that both default and full-depth Skills CLI discovery return every expected skill, rather than accepting a successful listing exit code. CI also tests the native probe's report logic, C# compilation, and bitmap comparisons with Windows PowerShell 5.1. These checks do not launch a game or certify subjective quality.
 
 The Blender skill is adapted from [per-simmons/blender-production](https://github.com/per-simmons/blender-production) under its preserved MIT license. See its [package README](plugins/blender-production/README.md) for the upstream revision and local additions.
 

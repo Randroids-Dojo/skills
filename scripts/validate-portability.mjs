@@ -177,6 +177,11 @@ const marketplaceNames = marketplace.plugins.map((plugin) => plugin.name).sort()
 if (JSON.stringify(marketplaceNames) !== JSON.stringify(pluginNames.sort())) {
   errors.push(".claude-plugin/marketplace.json: entries must exactly match top-level plugin directories");
 }
+for (const plugin of marketplace.plugins) {
+  if (!Array.isArray(plugin.skills) || !plugin.skills.includes("./")) {
+    errors.push(".claude-plugin/marketplace.json: " + plugin.name + ' must declare its root skill with skills: ["./"]');
+  }
+}
 
 const catalogDir = path.join(root, ".agents", "skills");
 const catalogNames = fs.readdirSync(catalogDir).sort();
