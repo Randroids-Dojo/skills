@@ -11,7 +11,10 @@ const list = value => Array.isArray(value) && value.length > 0;
 const unique = values => new Set(values).size === values.length;
 const slug = value => typeof value === 'string' && /^[a-z][a-z0-9-]{0,63}$/.test(value);
 const now = () => new Date().toISOString();
-export const readJson = file => JSON.parse(fs.readFileSync(file, 'utf8').replace(/^\uFEFF/, ''));
+export const readJson = file => {
+  try { return JSON.parse(fs.readFileSync(file, 'utf8').replace(/^\uFEFF/, '')); }
+  catch (error) { throw new Error(`Cannot read JSON from ${file}: ${error.message}`); }
+};
 export const acceptancePolicy = config => config.schemaVersion === 1 ? { mode: 'human' } : config.acceptance;
 
 export function validateConfig(config) {
@@ -51,8 +54,16 @@ export function validateConfig(config) {
   return config;
 }
 
+// The template validates on purpose; refuse to freeze a campaign that still carries its placeholders.
+const placeholder = /^(Replace with|Describe )/;
+function noPlaceholders(value, where = 'config') {
+  if (typeof value === 'string') requireThat(!placeholder.test(value.trim()), `Replace the template placeholder at ${where}.`);
+  else if (value && typeof value === 'object') for (const [key, inner] of Object.entries(value)) noPlaceholders(inner, `${where}.${key}`);
+}
+
 export function initialize(root, config) {
   validateConfig(config);
+  noPlaceholders(config);
   fs.mkdirSync(root, { recursive: true });
   requireThat(fs.readdirSync(root).length === 0, 'Campaign directory must be empty.');
   const state = { schemaVersion: 1, config, configDigest: digest(config), acceptedRevision: config.baselineRevision, experiments: [], events: [{ type: 'initialized', at: now() }] };
@@ -69,11 +80,14 @@ function inside(root, relative) {
 
 export function load(root) {
   const state = readJson(path.join(root, 'state.json'));
+  requireThat(state && typeof state === 'object' && !Array.isArray(state), 'state.json must contain a JSON object.');
   requireThat(state.schemaVersion === 1, 'Unsupported campaign schema.');
+  requireThat(Array.isArray(state.experiments) && Array.isArray(state.events), 'state.json must list experiments and events.');
   validateConfig(state.config);
   requireThat(digest(state.config) === state.configDigest, 'Campaign contract changed. Start a new campaign.');
   for (const e of state.experiments) {
     requireThat(digest(e.proposal) === e.proposalDigest, `Proposal changed: ${e.id}`);
+    requireThat(Array.isArray(e.reviews), `state.json experiment ${e.id} must list its reviews.`);
     if (!e.report) continue;
     requireThat(digest(e.report) === e.evidenceDigest, `Evidence changed: ${e.id}`);
     for (const a of e.report.artifacts) {
@@ -160,14 +174,15 @@ export function submit(root, id, report, sourceDir) {
       requireThat(['trace', 'video', 'screenshot', 'log'].includes(a.kind) && text(a.path), 'Artifact needs a supported kind and path.');
       const source = path.resolve(sourceDir, a.path), stat = fs.statSync(source);
       requireThat(stat.isFile() && stat.size > 0 && stat.size <= 100 * 1024 * 1024, 'Artifact must be a nonempty file of at most 100 MiB.');
-      return { source, sha256: hashFile(source) };
+      return source;
     });
     const artifactDir = path.join(root, 'artifacts', id, randomUUID());
     fs.mkdirSync(artifactDir, { recursive: true });
     copied.artifacts = report.artifacts.map((a, i) => {
-      const target = path.join(artifactDir, `${i}-${path.basename(sources[i].source)}`);
-      fs.copyFileSync(sources[i].source, target, fs.constants.COPYFILE_EXCL);
-      return { ...a, path: path.relative(root, target), sha256: sources[i].sha256 };
+      const target = path.join(artifactDir, `${i}-${path.basename(sources[i])}`);
+      fs.copyFileSync(sources[i], target, fs.constants.COPYFILE_EXCL);
+      // Hash the stored copy, so a source still being written cannot leave a hash the campaign can never match.
+      return { ...a, path: path.relative(root, target), sha256: hashFile(target) };
     });
     e.report = copied; e.evidenceDigest = digest(copied);
     state.events.push({ type: 'submitted', id, evidenceDigest: e.evidenceDigest, at: now() });

@@ -288,3 +288,21 @@ test('subscription execution profiles cannot request an API fallback or silently
   assert.throws(() => validateConfig(config), /exactly match the fixed panel/);
   assert.ok(f.root);
 });
+
+test('a campaign cannot be frozen while template placeholders remain', t => {
+  const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'funclimb-template-'));
+  t.after(() => fs.rmSync(temp, { recursive: true, force: true }));
+  const config = JSON.parse(fs.readFileSync(new URL('../plugins/funclimb/assets/campaign.template.json', import.meta.url), 'utf8'));
+  assert.throws(() => initialize(path.join(temp, 'campaign'), config), /template placeholder at config\.name/);
+  assert.equal(fs.existsSync(path.join(temp, 'campaign')), false);
+});
+
+test('a corrupt or wrongly shaped state.json fails with a clear message', t => {
+  const f = setup(t), file = path.join(f.root, 'state.json');
+  fs.writeFileSync(file, '{');
+  assert.throws(() => load(f.root), /Cannot read JSON from .*state\.json/);
+  fs.writeFileSync(file, 'null');
+  assert.throws(() => load(f.root), /must contain a JSON object/);
+  fs.writeFileSync(file, JSON.stringify({ schemaVersion: 1, config: f.config }));
+  assert.throws(() => load(f.root), /list experiments and events/);
+});

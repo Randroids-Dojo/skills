@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import path from 'node:path';
-import { initialize, load, readJson, propose, submit, review, decide, close, advance, accounting, acceptancePolicy } from './core.mjs';
+import { initialize, load, readJson, propose, submit, review, decide, assess, close, advance, accounting, acceptancePolicy } from './core.mjs';
 
 const usage = `FunClimb evidence coordinator
 
@@ -35,7 +35,7 @@ try {
     case 'reject': result = close(root, arg, 'rejected', extra); break;
     case 'status': {
       const state = load(root);
-      result = { name: state.config.name, mode: state.config.mode, acceptance: acceptancePolicy(state.config), execution: state.config.execution ?? null, acceptedRevision: state.acceptedRevision, budget: state.config.budget, usedAndReserved: accounting(state), experiments: state.experiments.map(e => ({ id: e.id, ...decide(root, e.id) })) };
+      result = { name: state.config.name, mode: state.config.mode, acceptance: acceptancePolicy(state.config), execution: state.config.execution ?? null, acceptedRevision: state.acceptedRevision, budget: state.config.budget, usedAndReserved: accounting(state), experiments: state.experiments.map(e => ({ id: e.id, ...assess(state, e.id) })) };
       break;
     }
   }
