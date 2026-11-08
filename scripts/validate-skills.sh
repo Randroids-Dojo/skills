@@ -7,6 +7,7 @@ cd "$repo_dir"
 
 node scripts/validate-portability.mjs
 node --test tests/game-probe.test.mjs
+node --test tests/funclimb.test.mjs
 
 while IFS= read -r -d '' script; do
   node --check "$script"

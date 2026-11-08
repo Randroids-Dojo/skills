@@ -36,7 +36,7 @@ npx skills add Randroids-Dojo/skills --skill godot -y -g
 npx skills add Randroids-Dojo/skills --skill present -y -g
 ```
 
-Install FunClimb with `npx skills add Randroids-Dojo/skills --skill funclimb -y -g`, then invoke `$funclimb` from a game project. It uses a separate existing FunClimb coordinator checkout and Node24 runtime; `FUNCLIMB_ROOT` can select the checkout. For example: "Use FunClimb on this game for 45 minutes, zero paid spend, preserving its core controls." The workflow preserves a baseline, captures paired evidence, uses independent Claude/Codex reviewers and keeps one progress owner.
+Install FunClimb with `npx skills add Randroids-Dojo/skills --skill funclimb -y -g`, then invoke `$funclimb` from a game project. The evidence coordinator ships inside the skill and needs only Node 22 or newer. For example: "Use FunClimb on this game for 45 minutes, zero paid spend, preserving its core controls." The workflow preserves a baseline, captures paired evidence, uses independent Claude/Codex reviewers and keeps one progress owner.
 
 The marketplace explicitly registers each plugin's root skill. Default discovery also includes the focused workflows nested in the Randroid plugin:
 
