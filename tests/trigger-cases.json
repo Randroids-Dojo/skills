@@ -436,5 +436,23 @@
       "prompt": "Build a monitoring dashboard for weekly support ticket counts.",
       "shouldTrigger": false
     }
+  ],
+  "funclimb": [
+    {
+      "prompt": "Use FunClimb on this game for 45 minutes with zero paid spend and independent council review.",
+      "shouldTrigger": true
+    },
+    {
+      "prompt": "Run bounded baseline-versus-candidate experiments to hill climb the intended fun in my game.",
+      "shouldTrigger": true
+    },
+    {
+      "prompt": "Fix the failing unit test without changing the gameplay.",
+      "shouldTrigger": false
+    },
+    {
+      "prompt": "Capture one VibeReview playtest and report its findings without changing the game.",
+      "shouldTrigger": false
+    }
   ]
 }

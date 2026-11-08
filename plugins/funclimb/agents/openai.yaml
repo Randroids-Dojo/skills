@@ -1,0 +1,4 @@
+interface:
+  display_name: "FunClimb"
+  short_description: "Improve a game's intended fun with bounded experiments"
+  default_prompt: "Use $funclimb on this game project within my stated budget, with one main progress thread and independent council review."
