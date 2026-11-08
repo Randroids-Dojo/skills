@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 2,
+  "name": "Replace with the game and intended experience",
+  "mode": "real",
+  "game": { "repo": null, "engine": "Replace with the game engine" },
+  "baselineRevision": "Replace with an immutable baseline build id",
+  "pillars": ["Replace with a specific intended player experience"],
+  "coreLoop": {
+    "input": "Describe the intended player input",
+    "action": "Describe what the player does",
+    "consequence": "Describe the authoritative state transition",
+    "resistance": "Describe the decision, constraint, uncertainty or challenge",
+    "feedback": "Describe what lets the player perceive the consequence",
+    "nextDecision": "Describe what the player chooses next"
+  },
+  "scenarios": [
+    { "id": "core-action", "group": "development", "procedure": "Replace with repeatable starting state, actions, expected result and recovery." },
+    { "id": "fresh-situation", "group": "validation", "procedure": "Replace with a different relevant situation. It is public validation, not a secret holdout." }
+  ],
+  "checks": ["core-action", "readable-feedback", "failure-recovery"],
+  "metrics": [],
+  "minTrials": 3,
+  "minModelProviders": 2,
+  "acceptance": { "mode": "council", "providers": ["claudeAgent", "codex"], "votesRequired": 2 },
+  "execution": {
+    "transport": "t3-code",
+    "billing": "existing-subscriptions",
+    "allowApiFallback": false,
+    "environment": { "hint": "Replace with the selected host name", "environmentId": "Replace with that host's T3 environment id" },
+    "implementer": { "provider": "claudeAgent", "model": "claude-opus-5-5" },
+    "reviewers": [
+      { "provider": "claudeAgent", "model": "claude-opus-5-5", "context": "fresh-read-only" },
+      { "provider": "codex", "model": "gpt-6.1-sol", "context": "fresh-read-only" }
+    ],
+    "onQuotaLimit": "pause-and-resume",
+    "onDisagreement": "retain-champion-and-revise"
+  },
+  "budget": { "maxCostUsd": 0, "maxMinutes": 60, "maxExperiments": 5, "stopAfterNoGain": 3 }
+}
