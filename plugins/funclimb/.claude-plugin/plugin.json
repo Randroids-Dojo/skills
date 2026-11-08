@@ -1,0 +1,8 @@
+{
+  "name": "funclimb",
+  "description": "Bounded game-quality experiments with preserved baselines, comparable gameplay evidence and independent council review.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Randroids Dojo"
+  }
+}

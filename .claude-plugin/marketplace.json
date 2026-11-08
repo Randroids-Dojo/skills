@@ -116,6 +116,14 @@
       "skills": [
         "./"
       ]
+    },
+    {
+      "name": "funclimb",
+      "source": "./plugins/funclimb",
+      "skills": [
+        "./"
+      ],
+      "description": "Bounded game-quality experiments with preserved baselines, comparable gameplay evidence and independent Claude/Codex council review."
     }
   ]
 }

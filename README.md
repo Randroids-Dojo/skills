@@ -8,6 +8,7 @@ Portable Agent Skills for Codex, Claude Code, and other compatible clients. Each
 | --- | --- |
 | `blender-production` | Editable Blender assets with visual, assembly, export, and render verification |
 | `decision` | Guided decisions with concise tradeoffs and recommendations |
+| `funclimb` | Bounded game-quality experiments with comparable gameplay evidence and independent council review |
 | `godot` | Godot 4.x development, testing, automation, export, and deployment |
 | `present` | Build clear decks, documents, and interactive HTML pitches using research, useful visuals, and inspectable evidence |
 | `randroid` | Catalog and router for the focused Randroid workflows |
@@ -34,6 +35,8 @@ Install one skill globally through the universal Skills CLI:
 npx skills add Randroids-Dojo/skills --skill godot -y -g
 npx skills add Randroids-Dojo/skills --skill present -y -g
 ```
+
+Install FunClimb with `npx skills add Randroids-Dojo/skills --skill funclimb -y -g`, then invoke `$funclimb` from a game project. It uses a separate existing FunClimb coordinator checkout and Node24 runtime; `FUNCLIMB_ROOT` can select the checkout. For example: "Use FunClimb on this game for 45 minutes, zero paid spend, preserving its core controls." The workflow preserves a baseline, captures paired evidence, uses independent Claude/Codex reviewers and keeps one progress owner.
 
 The marketplace explicitly registers each plugin's root skill. Default discovery also includes the focused workflows nested in the Randroid plugin:
 
