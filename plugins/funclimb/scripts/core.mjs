@@ -10,12 +10,16 @@ const number = value => Number.isFinite(value) && value >= 0;
 const list = value => Array.isArray(value) && value.length > 0;
 const unique = values => new Set(values).size === values.length;
 const slug = value => typeof value === 'string' && /^[a-z][a-z0-9-]{0,63}$/.test(value);
+const object = value => value !== null && typeof value === 'object' && !Array.isArray(value);
 const now = () => new Date().toISOString();
+const maxArtifactBytes = 100 * 1024 * 1024;
 export const readJson = file => {
   try { return JSON.parse(fs.readFileSync(file, 'utf8').replace(/^\uFEFF/, '')); }
   catch (error) { throw new Error(`Cannot read JSON from ${file}: ${error.message}`); }
 };
 export const acceptancePolicy = config => config.schemaVersion === 1 ? { mode: 'human' } : config.acceptance;
+// The checks a scenario's trials must verify. A scenario without its own list requires every global check.
+export const requiredChecks = (config, scenario) => Array.isArray(scenario.checks) ? config.checks.filter(c => scenario.checks.includes(c)) : config.checks;
 
 export function validateConfig(config) {
   requireThat([1, 2].includes(config?.schemaVersion), 'Config schemaVersion must be 1 or 2.');
@@ -27,6 +31,11 @@ export function validateConfig(config) {
   requireThat(unique(config.scenarios.map(s => s.id)), 'Scenario ids must be unique.');
   requireThat(['development', 'validation'].every(g => config.scenarios.some(s => s.group === g)), 'Include development and fresh validation scenarios.');
   requireThat(list(config.checks) && config.checks.every(slug) && unique(config.checks), 'Define unique required check ids.');
+  for (const s of config.scenarios) {
+    if (s.checks !== undefined) requireThat(list(s.checks) && unique(s.checks) && s.checks.every(c => config.checks.includes(c)), `Scenario ${s.id} checks must be a nonempty, unique subset of the global checks.`);
+  }
+  const uncovered = config.checks.filter(c => !config.scenarios.some(s => requiredChecks(config, s).includes(c)));
+  requireThat(!uncovered.length, `Every global check must be required by at least one scenario; none requires ${uncovered.join(', ')}.`);
   requireThat(Array.isArray(config.metrics) && config.metrics.every(m => slug(m.id) && text(m.unit) && ['lower', 'higher'].includes(m.better) && number(m.maxRegression)), 'Metrics need id, unit, better and maxRegression.');
   requireThat(unique(config.metrics.map(m => m.id)), 'Metric ids must be unique.');
   requireThat(Number.isInteger(config.minTrials) && config.minTrials >= 1, 'minTrials must be a positive integer.');
@@ -61,12 +70,85 @@ function noPlaceholders(value, where = 'config') {
   else if (value && typeof value === 'object') for (const [key, inner] of Object.entries(value)) noPlaceholders(inner, `${where}.${key}`);
 }
 
-export function initialize(root, config) {
+// Check a baseline-only capture against the contract the way assess checks completeness, before anything is frozen.
+// Artifact paths resolve against reportDir. Returns problems instead of throwing so every gap is listed at once.
+export function preflight(config, report, reportDir) {
+  const problems = [], warnings = [], scenarios = [];
+  const result = () => ({ ok: problems.length === 0, problems, warnings, scenarios });
+  try { validateConfig(config); noPlaceholders(config); }
+  catch (error) { problems.push(error.message); return result(); }
+  if (!object(report)) { problems.push('The baseline report must be a JSON object.'); return result(); }
+  if (report.schemaVersion !== 1) problems.push('Report schemaVersion must be 1.');
+  if (report.mode !== config.mode) problems.push(`Report mode must be ${config.mode}.`);
+  if (report.baselineRevision !== config.baselineRevision) problems.push(`Report baselineRevision must be the frozen baseline ${config.baselineRevision}.`);
+  if (!['platform', 'device', 'input', 'settings'].every(k => text(report.environment?.[k]))) problems.push('Record the capture environment: platform, device, input, settings.');
+  const trials = Array.isArray(report.trials) ? report.trials : [], artifacts = Array.isArray(report.artifacts) ? report.artifacts : [];
+  const seen = new Set();
+  for (const [i, t] of trials.entries()) {
+    const at = `trials[${i}]`;
+    if (!object(t)) { problems.push(`${at} must be an object.`); continue; }
+    if (t.variant !== 'baseline') problems.push(`${at} is variant ${t.variant}; preflight takes baseline trials only.`);
+    if (!config.scenarios.some(s => s.id === t.scenarioId)) problems.push(`${at} names no configured scenario.`);
+    const key = JSON.stringify([t.scenarioId, t.seed]);
+    if (!text(t.seed)) problems.push(`${at} needs a nonempty string seed.`);
+    else if (seen.has(key)) problems.push(`${at} repeats ${t.scenarioId} seed ${t.seed}.`);
+    seen.add(key);
+    if (!object(t.checks) || !Object.values(t.checks).every(v => ['pass', 'fail', 'not-tested'].includes(v))) problems.push(`${at} check results must be pass, fail or not-tested.`);
+    if (!object(t.metrics) || !Object.values(t.metrics).every(Number.isFinite)) problems.push(`${at} metrics must be finite numbers.`);
+  }
+  for (const [i, a] of artifacts.entries()) {
+    const at = `artifacts[${i}]`;
+    if (!object(a) || a.variant !== 'baseline' || !config.scenarios.some(s => s.id === a.scenarioId)) { problems.push(`${at} must name a configured scenario and variant baseline.`); continue; }
+    if (a.revision !== config.baselineRevision) problems.push(`${at} revision must be ${config.baselineRevision}.`);
+    if (!['trace', 'video', 'screenshot', 'log'].includes(a.kind) || !text(a.path)) { problems.push(`${at} needs a supported kind and path.`); continue; }
+    let stat = null;
+    try { stat = fs.statSync(path.resolve(reportDir, a.path)); } catch { /* reported below */ }
+    if (!stat?.isFile() || stat.size === 0 || stat.size > maxArtifactBytes) problems.push(`${at} ${a.path} must be a nonempty file of at most 100 MiB, relative to the report.`);
+  }
+  const seedList = seeds => `seed${seeds.length === 1 ? '' : 's'} ${seeds.join(', ')}`;
+  for (const s of config.scenarios) {
+    const runs = trials.filter(t => object(t) && t.variant === 'baseline' && t.scenarioId === s.id && text(t.seed));
+    const seeds = [...new Set(runs.map(t => t.seed))];
+    const required = requiredChecks(config, s), scopedOut = config.checks.filter(c => !required.includes(c));
+    if (seeds.length < config.minTrials) problems.push(`${s.id}: ${seeds.length} baseline seed${seeds.length === 1 ? '' : 's'}; minTrials is ${config.minTrials}.`);
+    if (!artifacts.some(a => object(a) && a.scenarioId === s.id && a.variant === 'baseline' && ['trace', 'video'].includes(a.kind))) problems.push(`${s.id}: needs a baseline trace or video; screenshots alone are insufficient.`);
+    const gaps = new Map(), fails = new Map(), extras = new Map();
+    const note = (map, key, seed) => map.set(key, [...(map.get(key) ?? []), seed]);
+    for (const t of runs) {
+      const checks = object(t.checks) ? t.checks : {}, metrics = object(t.metrics) ? t.metrics : {};
+      for (const check of required) {
+        if (checks[check] === 'fail') note(fails, check, t.seed);
+        else if (checks[check] !== 'pass') note(gaps, `${check} is ${checks[check] ?? 'missing'}`, t.seed);
+      }
+      for (const check of scopedOut) if (['pass', 'fail'].includes(checks[check])) note(extras, `${check}=${checks[check]}`, t.seed);
+      for (const m of config.metrics) if (!Number.isFinite(metrics[m.id])) note(gaps, `metric ${m.id} is missing or not finite`, t.seed);
+    }
+    for (const [gap, found] of gaps) problems.push(`${s.id}: ${gap} for ${seedList(found)}.`);
+    for (const [check, found] of fails) warnings.push(`${s.id}: ${check} failed on the baseline for ${seedList(found)}. Confirm it reproduces a real defect, not a check this environment cannot pass.`);
+    for (const [outcome, found] of extras) warnings.push(`${s.id}: reports ${outcome} for ${seedList(found)} although the scenario does not require it. Require it if the scenario exercises it.`);
+    scenarios.push({ id: s.id, group: s.group, seeds: seeds.length, checks: required });
+  }
+  return result();
+}
+
+// Freezing needs a passing baseline preflight, or an explicit reason to skip it that state.json keeps.
+export function initialize(root, config, { preflight: baseline, skipPreflight } = {}) {
   validateConfig(config);
   noPlaceholders(config);
+  requireThat(!(baseline && skipPreflight !== undefined), 'Pass a preflight report or a reason to skip it, not both.');
+  let event;
+  if (baseline) {
+    const check = preflight(config, baseline.report, baseline.reportDir);
+    requireThat(check.ok, `Preflight failed, so nothing was frozen:\n- ${check.problems.join('\n- ')}`);
+    event = { type: 'preflight', result: 'passed', reportDigest: digest(baseline.report), environment: baseline.report.environment, trials: baseline.report.trials.length, warnings: check.warnings, at: now() };
+  } else {
+    requireThat(skipPreflight !== undefined, 'Run preflight on a baseline capture of every scenario before freezing: init <dir> <config.json> --preflight <baseline-report.json>, or --skip-preflight "reason".');
+    requireThat(text(skipPreflight), 'Skipping preflight needs a reason.');
+    event = { type: 'preflight-skipped', reason: skipPreflight.trim(), at: now() };
+  }
   fs.mkdirSync(root, { recursive: true });
   requireThat(fs.readdirSync(root).length === 0, 'Campaign directory must be empty.');
-  const state = { schemaVersion: 1, config, configDigest: digest(config), acceptedRevision: config.baselineRevision, experiments: [], events: [{ type: 'initialized', at: now() }] };
+  const state = { schemaVersion: 1, config, configDigest: digest(config), acceptedRevision: config.baselineRevision, experiments: [], events: [event, { type: 'initialized', at: now() }] };
   fs.writeFileSync(path.join(root, 'state.json'), JSON.stringify(state, null, 2) + '\n', { flag: 'wx' });
   return state;
 }
@@ -173,7 +255,7 @@ export function submit(root, id, report, sourceDir) {
       requireThat(a.revision === report[a.variant + 'Revision'], 'Artifact revision mismatch.');
       requireThat(['trace', 'video', 'screenshot', 'log'].includes(a.kind) && text(a.path), 'Artifact needs a supported kind and path.');
       const source = path.resolve(sourceDir, a.path), stat = fs.statSync(source);
-      requireThat(stat.isFile() && stat.size > 0 && stat.size <= 100 * 1024 * 1024, 'Artifact must be a nonempty file of at most 100 MiB.');
+      requireThat(stat.isFile() && stat.size > 0 && stat.size <= maxArtifactBytes, 'Artifact must be a nonempty file of at most 100 MiB.');
       return source;
     });
     const artifactDir = path.join(root, 'artifacts', id, randomUUID());
@@ -234,10 +316,12 @@ export function assess(state, id) {
     for (const variant of ['baseline', 'candidate']) {
       if (!report.artifacts.some(a => a.scenarioId === s.id && a.variant === variant && ['trace', 'video'].includes(a.kind))) missing.push(`${s.id}/${variant}: needs trace or video; screenshots alone are insufficient.`);
     }
+    const required = requiredChecks(config, s);
     for (const t of [...base, ...candidate]) {
       for (const check of config.checks) {
+        // A reported candidate failure rejects even for a check this scenario does not require.
         if (t.checks[check] === 'fail' && t.variant === 'candidate') failed.push(`${s.id}/${t.variant}/${t.seed}: ${check} failed.`);
-        else if (!['pass', 'fail'].includes(t.checks[check])) missing.push(`${s.id}/${t.variant}/${t.seed}: ${check} not verified.`);
+        else if (required.includes(check) && !['pass', 'fail'].includes(t.checks[check])) missing.push(`${s.id}/${t.variant}/${t.seed}: ${check} not verified.`);
       }
     }
     for (const m of config.metrics) {

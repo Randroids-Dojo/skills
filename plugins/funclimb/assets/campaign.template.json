@@ -14,8 +14,8 @@
     "nextDecision": "Describe what the player chooses next"
   },
   "scenarios": [
-    { "id": "core-action", "group": "development", "procedure": "Replace with repeatable starting state, actions, expected result and recovery." },
-    { "id": "fresh-situation", "group": "validation", "procedure": "Replace with a different relevant situation. It is public validation, not a secret holdout." }
+    { "id": "core-action", "group": "development", "procedure": "Replace with repeatable starting state, actions, expected result and recovery. Run until the game reaches its end state, not for a fixed wait.", "checks": ["core-action", "readable-feedback", "failure-recovery"] },
+    { "id": "fresh-situation", "group": "validation", "procedure": "Replace with a different relevant situation. It is public validation, not a secret holdout. A scenario's optional checks list names the only global checks it must verify: drop any it cannot exercise, or omit the list to require them all." }
   ],
   "checks": ["core-action", "readable-feedback", "failure-recovery"],
   "metrics": [],
