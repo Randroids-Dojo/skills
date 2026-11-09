@@ -6,15 +6,16 @@ import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { syntheticFixture } from '../plugins/funclimb/scripts/synthetic.mjs';
-import { initialize, load, validateConfig, propose, submit, review, decide, close, advance, accounting } from '../plugins/funclimb/scripts/core.mjs';
+import { initialize, load, validateConfig, preflight, propose, submit, review, decide, close, advance, accounting } from '../plugins/funclimb/scripts/core.mjs';
 
-function setup(t, change = () => {}) {
+const passedPreflight = f => ({ preflight: { report: f.baselineReport, reportDir: f.source } });
+function setup(t, change = () => {}, freeze = passedPreflight) {
   const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'funclimb-test-'));
   t.after(() => fs.rmSync(temp, { recursive: true, force: true }));
   const source = path.join(temp, 'source'), root = path.join(temp, 'campaign');
-  const f = syntheticFixture(source); change(f);
-  initialize(root, f.config); propose(root, f.proposal);
-  return { ...f, root, source };
+  const f = { ...syntheticFixture(source), root, source }; change(f);
+  initialize(root, f.config, freeze(f)); propose(root, f.proposal);
+  return f;
 }
 function submitted(f) { return submit(f.root, f.proposal.id, f.report, f.source).evidenceDigest; }
 function reviewed(f, hash) {
@@ -98,7 +99,7 @@ test('evidence, reviews and proposals cannot silently change after submission', 
 });
 
 test('synthetic evidence cannot be imported into a real campaign', t => {
-  const f = setup(t, f => { f.config.mode = 'real'; });
+  const f = setup(t, f => { f.config.mode = 'real'; }, () => ({ skipPreflight: 'Synthetic fixture standing in for a real campaign.' }));
   assert.throws(() => submitted(f), /mode mismatch/);
 });
 
@@ -166,17 +167,32 @@ test('CLI supports paths with spaces, reports failure and never overwrites a cam
   const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'funclimb cli '));
   t.after(() => fs.rmSync(temp, { recursive: true, force: true }));
   const cli = fileURLToPath(new URL('../plugins/funclimb/scripts/funclimb.mjs', import.meta.url));
-  const config = syntheticFixture(path.join(temp, 'source')).config;
+  const f = syntheticFixture(path.join(temp, 'source'));
   const file = path.join(temp, 'config.json'), root = path.join(temp, 'campaign with spaces');
-  fs.writeFileSync(file, JSON.stringify(config));
+  const baseline = path.join(temp, 'source', 'baseline report.json');
+  fs.writeFileSync(file, JSON.stringify(f.config)); fs.writeFileSync(baseline, JSON.stringify(f.baselineReport));
   const run = (...args) => spawnSync(process.execPath, [cli, ...args], { encoding: 'utf8' });
-  assert.equal(run('init', root, file).status, 0);
+  const refused = run('init', root, file);
+  assert.equal(refused.status, 1);
+  assert.match(refused.stderr, /--preflight/);
+  assert.equal(fs.existsSync(root), false);
+  const checked = run('preflight', file, baseline);
+  assert.equal(checked.status, 0);
+  assert.match(checked.stdout, /preflight passed/);
+  assert.equal(run('init', root, file, '--preflight', baseline).status, 0);
   const status = run('status', root);
   assert.equal(status.status, 0);
   assert.equal(JSON.parse(status.stdout).acceptance.mode, 'council');
-  assert.equal(run('init', root, file).status, 1);
+  assert.equal(JSON.parse(status.stdout).preflight.result, 'passed');
+  assert.equal(run('init', root, file, '--preflight', baseline).status, 1);
+  assert.equal(run('init', path.join(temp, 'other'), file, '--preflight-ish', baseline).status, 1);
   assert.equal(run('decide', root, 'missing').status, 1);
   assert.equal(run('bogus').status, 1);
+  const unscoped = structuredClone(f.config); delete unscoped.scenarios[1].checks;
+  fs.writeFileSync(file, JSON.stringify(unscoped));
+  const failed = run('preflight', file, baseline);
+  assert.equal(failed.status, 1);
+  assert.match(failed.stdout, /variation: recovery is not-tested for seeds 1, 2, 3\./);
 });
 
 test('ties and low-confidence praise cause an automatic no-gain rejection, not a human wait', t => {
@@ -305,4 +321,67 @@ test('a corrupt or wrongly shaped state.json fails with a clear message', t => {
   assert.throws(() => load(f.root), /must contain a JSON object/);
   fs.writeFileSync(file, JSON.stringify({ schemaVersion: 1, config: f.config }));
   assert.throws(() => load(f.root), /list experiments and events/);
+});
+
+test('a scenario that cannot exercise a check scopes it out; an unscoped contract still blocks as before', t => {
+  const scoped = setup(t); reviewed(scoped, submitted(scoped));
+  assert.equal(scoped.report.trials.at(-1).checks.recovery, 'not-tested');
+  assert.equal(decide(scoped.root, scoped.proposal.id).status, 'eligible');
+  // The keepsies-2026-11-08-pack-open shape: every check required everywhere, frozen before preflight existed.
+  const legacy = setup(t, f => { delete f.config.scenarios[1].checks; }, () => ({ skipPreflight: 'Reproduce a contract frozen before preflight.' }));
+  const file = path.join(legacy.root, 'state.json'), state = load(legacy.root);
+  state.events = state.events.filter(e => e.type !== 'preflight-skipped'); fs.writeFileSync(file, JSON.stringify(state));
+  reviewed(legacy, submitted(legacy));
+  const decision = decide(legacy.root, legacy.proposal.id);
+  assert.equal(decision.status, 'needs-evidence');
+  assert.equal(decision.reasons.filter(r => /^variation\/.*: recovery not verified\.$/.test(r)).length, 6);
+});
+
+test('a candidate failure still rejects on a check its scenario does not require', t => {
+  const f = setup(t); f.report.trials.at(-1).checks.recovery = 'fail';
+  reviewed(f, submitted(f));
+  assert.equal(decide(f.root, f.proposal.id).status, 'reject');
+});
+
+test('scenario checks must be a nonempty subset and every global check must stay required somewhere', t => {
+  const f = setup(t), copy = () => structuredClone(f.config);
+  const unknown = copy(); unknown.scenarios[1].checks = ['core-action', 'unknown'];
+  assert.throws(() => validateConfig(unknown), /Scenario variation checks must be a nonempty, unique subset/);
+  const empty = copy(); empty.scenarios[1].checks = [];
+  assert.throws(() => validateConfig(empty), /nonempty, unique subset/);
+  const uncovered = copy(); uncovered.scenarios[0].checks = ['core-action', 'feedback'];
+  assert.throws(() => validateConfig(uncovered), /none requires recovery/);
+});
+
+test('preflight lists unexercisable checks and matrix gaps, and init freezes nothing without it', t => {
+  const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'funclimb-preflight-'));
+  t.after(() => fs.rmSync(temp, { recursive: true, force: true }));
+  const source = path.join(temp, 'source'), root = path.join(temp, 'campaign'), f = syntheticFixture(source);
+  assert.deepEqual(preflight(f.config, f.baselineReport, source).problems, []);
+  const unscoped = structuredClone(f.config); delete unscoped.scenarios[1].checks;
+  assert.deepEqual(preflight(unscoped, f.baselineReport, source).problems, ['variation: recovery is not-tested for seeds 1, 2, 3.']);
+  const gaps = structuredClone(f.baselineReport);
+  delete gaps.trials[0].metrics['frame-p95']; delete gaps.trials[1].checks.feedback;
+  gaps.trials = gaps.trials.filter(r => !(r.scenarioId === 'variation' && r.seed === '3'));
+  gaps.trials.push(structuredClone(f.report.trials.find(r => r.variant === 'candidate')));
+  gaps.artifacts[1].path = 'missing.txt';
+  const problems = preflight(f.config, gaps, source).problems.join('\n');
+  assert.match(problems, /core: feedback is missing for seed 2\./);
+  assert.match(problems, /core: metric frame-p95 is missing or not finite for seed 1\./);
+  assert.match(problems, /variation: 2 baseline seeds; minTrials is 3\./);
+  assert.match(problems, /baseline trials only/);
+  assert.match(problems, /missing\.txt must be a nonempty file/);
+  assert.match(preflight(f.config, { ...f.baselineReport, baselineRevision: 'other' }, source).problems.join(' '), /frozen baseline demo-base/);
+  const failing = structuredClone(f.baselineReport); failing.trials[0].checks.recovery = 'fail';
+  const warned = preflight(f.config, failing, source);
+  assert.equal(warned.ok, true);
+  assert.match(warned.warnings.join(' '), /core: recovery failed on the baseline for seed 1\./);
+  assert.throws(() => initialize(root, unscoped), /Run preflight on a baseline capture/);
+  assert.throws(() => initialize(root, unscoped, { preflight: { report: f.baselineReport, reportDir: source } }), /Preflight failed, so nothing was frozen:\n- variation: recovery is not-tested/);
+  assert.throws(() => initialize(root, unscoped, { skipPreflight: '  ' }), /needs a reason/);
+  assert.equal(fs.existsSync(root), false);
+  initialize(root, unscoped, { skipPreflight: 'No baseline capture is possible in this fixture.' });
+  const events = load(root).events;
+  assert.deepEqual(events.map(e => e.type), ['preflight-skipped', 'initialized']);
+  assert.equal(events[0].reason, 'No baseline capture is possible in this fixture.');
 });
